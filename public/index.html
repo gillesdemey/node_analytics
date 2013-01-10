@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="css/analytics.css">
+  <script type="text/javascript" src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
+  <script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>
+</head>
+<body>
+
+  <h1>Server Stats</h1>
+
+  <h2>General information</h2>
+  <span>Hostname:</span> <div id='hostname'></div><br>
+  <span>OS:</span> <div id='ostype'></div><br>
+  <span>Kernel:</span> <div id='oskernel'></div><br>
+  <span>Architecture:</span> <div id='osarchitecture'></div><br>
+  <span>Uptime:</span> <div id='osuptime'></div><br>
+  <span>Load average:</span> <div id='osloadavg'></div>
+
+  <h2>Memory</h2>
+  <div class="piechart memory"></div>
+  <span>Free Memory:</span> <div id='osfreememory'></div> MB<br>
+  <span>Used Memory:</span> <div id='osusedmemory'></div> MB<br>
+
+  <h2>Processor(s)</h2>
+  <div id="oscpus"></div>
+
+  <h3>CPU load</h3>
+  <div class="cpuload"></div>
+
+</body>
+<script type="text/javascript">
+/* EventSource events */
+var es = new EventSource("/analytics");
+es.onmessage = function (event) {
+  updateStats(JSON.parse(event.data));
+};
+</script>
+<script type="text/javascript" src="js/update.js"></script>
+<script type="text/javascript" src="js/helpers.js"></script>
+<script type="text/javascript" src="js/memory.js"></script>
+<script type="text/javascript" src="js/cpu.js"></script>
+</html>
