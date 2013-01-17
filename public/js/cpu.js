@@ -5,12 +5,10 @@
  /* Array with Cpu loads, 4 Cpu's = 4 indexes */
  function createCpuChart(dataset) {
 
-  var formatPercent = d3.format(".0%");
-
   width = 500, height = 100;
 
   x = d3.scale.linear()
-    .domain([0, d3.max(dataset) + 10]) /* 100% is the maximum I guess? Or d3.max(dataset). Nope Heroku CPU hyperthread all the time (+100% CPU load). +10 for some headroom. */
+    .domain([0, d3.max(dataset) + 10]) /* 100% is the maximum I guess? Or d3.max(dataset). Nope Heroku CPU Turbo Boost soms (+100% CPU load). +10 for some headroom. */
     .range([0, width]);
 
   y = d3.scale.ordinal()
