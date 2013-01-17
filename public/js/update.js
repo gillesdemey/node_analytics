@@ -35,6 +35,13 @@ function updateStats(analytics) {
     );
 
   //console.log(analytics.osCpuLoad);
-  $("div.cpuload").html(analytics.osCpuLoad);
+  // $("div.cpuload").html(analytics.osCpuLoad);
+
+  /* check if chart is already created */
+  if ($(".cpuload").children().length === 0) {
+    createCpuChart(analytics.osCpuLoad);
+  } else {
+    updateCpuChart(analytics.osCpuLoad);
+  }
 
 }

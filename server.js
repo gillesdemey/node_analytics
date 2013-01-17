@@ -22,7 +22,7 @@ var sseServer = new SSE(httpServer,
 });
 
 /* create the log file for every CPU */
-createCpuLogs(os.cpus());
+/* createCpuLogs(os.cpus()); */
 
 /* This block always gets executed, even with no active connection */
 var id = setInterval(function(){

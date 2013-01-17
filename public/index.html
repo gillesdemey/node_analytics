@@ -2,6 +2,8 @@
 <html>
 <head>
   <link rel="stylesheet" href="css/analytics.css">
+  <link rel="stylesheet" href="css/memory.css">
+  <link rel="stylesheet" href="css/cpu.css">
   <script type="text/javascript" src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
   <script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>
 </head>
@@ -30,6 +32,7 @@
 
 </body>
 <script type="text/javascript">
+
 /* EventSource events */
 var es = new EventSource("/analytics");
 es.onmessage = function (event) {

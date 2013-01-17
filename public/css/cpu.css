@@ -1,0 +1,14 @@
+.cpuload rect {
+  stroke: white;
+  fill: #3366FF;
+}
+
+.cpuload text {
+  fill: white;
+  font-size: 12px;
+}
+
+.cpuload text.rule {
+  fill: gray;
+  font-size: 11px;
+}

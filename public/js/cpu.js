@@ -1,97 +1,103 @@
 /**
  * Create the cpu Multi-Series Line Chart
  */
+
+ /* Array with Cpu loads, 4 Cpu's = 4 indexes */
  function createCpuChart(dataset) {
 
-  /**
-   * Multi-Series Line Chart variables
-   */
-  var margin = {top: 20, right: 80, bottom: 30, left: 50},
-  width = 960 - margin.left - margin.right,
-  height = 500 - margin.top - margin.bottom;
+  var formatPercent = d3.format(".0%");
 
-  var parseDate = d3.time.format("%Y%m%d").parse;
+  width = 400, height = 100;
 
-  var x = d3.time.scale()
-  .range([0, width]);
+  var x = d3.scale.linear()
+    .domain([0, 100]) /* 100% is the maximum I guess? Or d3.max(dataset) */
+    .range([0, width]);
 
-  var y = d3.scale.linear()
-  .range([height, 0]);
+  y = d3.scale.ordinal()
+    .domain(dataset)
+    .rangeBands([0, height]); /* Let's go this high */
 
-  var color = d3.scale.category10();
+  /* This is the chart SVG */
+  chart = d3.select(".cpuload").append("svg")
+      .attr("class", "cpuload")
+      .attr("width", width)
+      .attr("height", height + 15) /* adjust for translation */
+    .append("g")
+      .attr("transform", "translate(10,15)");
 
-  var xAxis = d3.svg.axis()
-  .scale(x)
-  .orient("bottom");
+  /* It's data rendering time! */
+  chart.selectAll("rect")
+    .data(dataset)
+  .enter().append("rect")
+    .attr("y", y)
+    .attr("width", x)
+    .attr("height", y.rangeBand());
 
-  var yAxis = d3.svg.axis()
-  .scale(y)
-  .orient("left");
+  /* Text rendering! */
+  chart.selectAll("text")
+    .data(dataset)
+      .enter().append("text")
+        .attr("x", x)
+        .attr("y", function(d) { return y(d) + y.rangeBand() / 2; })
+        .attr("dx", -3) // padding-right
+        .attr("dy", ".35em") // vertical-align: middle
+        .attr("text-anchor", "end") // text-align: right
+        .text( function(String) { return roundToTwo(parseFloat(String)) + "%"; } );
 
-  var line = d3.svg.line()
-  .interpolate("basis")
-  .x(function(d) { return x(d.date); })
-  .y(function(d) { return y(d.temperature); });
+  /* Adding some lines to improve readability */
+  chart.selectAll("line")
+    .data(x.ticks(10))
+  .enter().append("line")
+    .attr("x1", x)
+    .attr("x2", x)
+    .attr("y1", 0)
+    .attr("y2", 120)
+    .style("stroke", "#ccc");
 
-  var svg = d3.select(".cpuload").append("svg")
-  .attr("width", width + margin.left + margin.right)
-  .attr("height", height + margin.top + margin.bottom)
-  .append("g")
-  .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+  /* Rules for the lines */
+  chart.selectAll(".rule")
+       .data(x.ticks(10))
+     .enter().append("text")
+       .attr("class", "rule")
+       .attr("x", x)
+       .attr("y", 0)
+       .attr("dy", -3)
+       .attr("text-anchor", "middle")
+       .text(String);
 
-  d3.tsv("data.tsv", function(error, data) {
-    color.domain(d3.keys(data[0]).filter(function(key) { return key !== "date"; }));
+  /* Finally, appending them */
+  chart.append("line")
+       .attr("y1", 0)
+       .attr("y2", 120)
+       .style("stroke", "#000");
+  }
 
-    data.forEach(function(d) {
-      d.date = parseDate(d.date);
-    });
+function updateCpuChart(dataset) {
 
-    var cities = color.domain().map(function(name) {
-      return {
-        name: name,
-        values: data.map(function(d) {
-          return {date: d.date, temperature: +d[name]};
-        })
-      };
-    });
+  console.log(dataset);
 
-    x.domain(d3.extent(data, function(d) { return d.date; }));
+  var x = d3.scale.linear()
+    .domain([0, 100]) /* 100% is the maximum I guess? */
+    .range([0, width]);
 
-    y.domain([
-      d3.min(cities, function(c) { return d3.min(c.values, function(v) { return v.temperature; }); }),
-      d3.max(cities, function(c) { return d3.max(c.values, function(v) { return v.temperature; }); })
-      ]);
+  /* redraw, with transition! */
+  chart.selectAll("rect")
+    .data(dataset)
+  .transition()
+    .duration(10)
+    .attr("y", y)
+    .attr("width", x);
 
-    svg.append("g")
-    .attr("class", "x axis")
-    .attr("transform", "translate(0," + height + ")")
-    .call(xAxis);
+  /* Also redraw text */
+  $(".chart text").remove();
 
-    svg.append("g")
-    .attr("class", "y axis")
-    .call(yAxis)
-    .append("text")
-    .attr("transform", "rotate(-90)")
-    .attr("y", 6)
-    .attr("dy", ".71em")
-    .style("text-anchor", "end")
-    .text("Temperature (ºF)");
-
-    var city = svg.selectAll(".city")
-    .data(cities)
-    .enter().append("g")
-    .attr("class", "city");
-
-    city.append("path")
-    .attr("class", "line")
-    .attr("d", function(d) { return line(d.values); })
-    .style("stroke", function(d) { return color(d.name); });
-
-    city.append("text")
-    .datum(function(d) { return {name: d.name, value: d.values[d.values.length - 1]}; })
-    .attr("transform", function(d) { return "translate(" + x(d.value.date) + "," + y(d.value.temperature) + ")"; })
-    .attr("x", 3)
-    .attr("dy", ".35em")
-    .text(function(d) { return d.name; });
-  });
+  chart.selectAll("text")
+    .data(dataset)
+      .enter().append("text")
+        .attr("x", x)
+        .attr("y", function(d) { return y(d) + y.rangeBand() / 2; })
+        .attr("dx", -3) // padding-right
+        .attr("dy", ".35em") // vertical-align: middle
+        .attr("text-anchor", "end") // text-align: right
+        .text( function(String) { return roundToTwo(parseFloat(String)) + "%"; } );
 }
