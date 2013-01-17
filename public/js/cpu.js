@@ -7,10 +7,10 @@
 
   var formatPercent = d3.format(".0%");
 
-  width = 400, height = 100;
+  width = 500, height = 100;
 
-  var x = d3.scale.linear()
-    .domain([0, 100]) /* 100% is the maximum I guess? Or d3.max(dataset) */
+  x = d3.scale.linear()
+    .domain([0, d3.max(dataset) + 10]) /* 100% is the maximum I guess? Or d3.max(dataset). Nope Heroku CPU hyperthread all the time (+100% CPU load). +10 for some headroom. */
     .range([0, width]);
 
   y = d3.scale.ordinal()
@@ -25,8 +25,16 @@
     .append("g")
       .attr("transform", "translate(10,15)");
 
+  bars = chart
+    .append("g")
+      .attr("class", "bars");
+
+  lines = chart
+    .append("g")
+      .attr("class", "lines");
+
   /* It's data rendering time! */
-  chart.selectAll("rect")
+  bars.selectAll("rect")
     .data(dataset)
   .enter().append("rect")
     .attr("y", y)
@@ -34,7 +42,7 @@
     .attr("height", y.rangeBand());
 
   /* Text rendering! */
-  chart.selectAll("text")
+  bars.selectAll("text")
     .data(dataset)
       .enter().append("text")
         .attr("x", x)
@@ -45,17 +53,17 @@
         .text( function(String) { return roundToTwo(parseFloat(String)) + "%"; } );
 
   /* Adding some lines to improve readability */
-  chart.selectAll("line")
+  lines.selectAll("line")
     .data(x.ticks(10))
   .enter().append("line")
     .attr("x1", x)
     .attr("x2", x)
     .attr("y1", 0)
-    .attr("y2", 120)
+    .attr("y2", height)
     .style("stroke", "#ccc");
 
   /* Rules for the lines */
-  chart.selectAll(".rule")
+  lines.selectAll(".rule")
        .data(x.ticks(10))
      .enter().append("text")
        .attr("class", "rule")
@@ -66,7 +74,7 @@
        .text(String);
 
   /* Finally, appending them */
-  chart.append("line")
+  lines.append("line")
        .attr("y1", 0)
        .attr("y2", 120)
        .style("stroke", "#000");
@@ -74,14 +82,10 @@
 
 function updateCpuChart(dataset) {
 
-  console.log(dataset);
-
-  var x = d3.scale.linear()
-    .domain([0, 100]) /* 100% is the maximum I guess? */
-    .range([0, width]);
+  //console.log(dataset);
 
   /* redraw, with transition! */
-  chart.selectAll("rect")
+  bars.selectAll("rect")
     .data(dataset)
   .transition()
     .duration(1000)
@@ -90,9 +94,9 @@ function updateCpuChart(dataset) {
     .attr("height", y.rangeBand());
 
   /* Also redraw text */
-  $(".chart text").remove();
+  $(".cpuload .bars text").remove();
 
-  chart.selectAll("text")
+  bars.selectAll("text")
     .data(dataset)
       .enter().append("text")
         .attr("x", x)
