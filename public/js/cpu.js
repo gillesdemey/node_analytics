@@ -88,10 +88,8 @@ function updateCpuChart(dataset) {
   bars.selectAll("rect")
     .data(dataset)
   .transition()
-    .duration(1000)
-    .attr("y", y)
-    .attr("width", x)
-    .attr("height", y.rangeBand());
+    .duration(100)
+    .attr("width", x);
 
   /* Also redraw text */
   $(".cpuload .bars text").remove();
