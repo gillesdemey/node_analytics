@@ -10,3 +10,4 @@ Requires:
 
 See package.json file for all dependencies.
 
+Working example can be found at [http://node-analytics.herokuapp.com](http://node-analytics.herokuapp.com)
