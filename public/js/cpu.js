@@ -84,8 +84,7 @@ function updateCpuChart(dataset) {
   chart.selectAll("rect")
     .data(dataset)
   .transition()
-    .duration(10)
-    .attr("y", y)
+    .duration(1000)
     .attr("width", x);
 
   /* Also redraw text */
