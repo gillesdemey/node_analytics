@@ -86,7 +86,8 @@ function updateCpuChart(dataset) {
   .transition()
     .duration(1000)
     .attr("y", y)
-    .attr("width", x);
+    .attr("width", x)
+    .attr("height", y.rangeBand());
 
   /* Also redraw text */
   $(".chart text").remove();
