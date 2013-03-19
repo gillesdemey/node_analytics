@@ -1,0 +1,14 @@
+<div class='Block tplblock-viewarchive tplblockstyle-viewarchive-standard'>
+				
+{$archiveBreadcrumb}
+
+				<h2 class='tplvar-archive-title'>{$archiveTitle}</h2>
+				<div class='tplflag-archive-subarchive SubCategoriesList'>{$archiveSubArchive}</div>
+				<div class='tplflag-archive-paging'>{$archivePaging}</div>
+				<div class='tplflag-archive-contentlist ArchiveContentList'>{if $hasContent}
+{$archiveContentList}
+{else}
+{$noContentMsg}
+{/if}</div>
+				<div class='tplflag-archive-paging'>{$archivePaging}</div>
+			</div>

@@ -1,0 +1,245 @@
+<?php $tmpTplFile = $tpl->GetTemplate();
+			$tmpTplData = $tpl->TemplateData;
+			$tpl->ParseTemplate("header");
+			$tpl->SetTemplate($tmpTplFile);
+			$tpl->TemplateData = $tmpTplData; ?>
+
+<script type="text/javascript" src="../javascript/admin.upgrade.js"></script>
+
+<script type="text/javascript">
+
+// set variables that can't be loaded in the javascript file
+var currentAppVersion = '<?php echo $tpl->Get('CurrentVersion'); ?>';
+if('<?php if($tpl->Get('config','UpgradeErrors')): ?>1<?php else: ?>0<?php endif; ?>' == '1') {
+	$(document).ready(function() {
+		Upgrade.ErrorWindow();
+	});
+}else if('<?php echo $tpl->Get('ShowUpgradeWizard'); ?>' == '1'){
+	$(document).ready(function() {
+		Upgrade.LaunchWizard();
+	});
+}
+
+<?php if($tpl->Get('ShowVersionSection') && $tpl->Get('DoVersionCheck')): ?>
+	var DashboardShowVersionCheck = true;
+<?php else: ?>
+	var DashboardShowVersionCheck = false;
+<?php endif; ?>
+</script>
+<script type="text/javascript" src="<?php echo $tpl->Get('config','siteURL'); ?>/js.php?f=admin.dashboard&amp;a=1"></script>
+
+<div class="BodyContainer DashboardContainer">
+	<div class="Heading1"><?php echo sprintf(GetLang('DashboardWelcome'), $tpl->Get('LoggedInAs')); ?></div>
+
+	<p></p>
+
+	<?php if($tpl->Get('HomePageMessage') != null): ?>
+		<div class="VersionAlertContainer DashboardPanel <?php if($tpl->Get('HomePageMessageType') == MSG_ERROR): ?>DashboardPanelRed<?php elseif($tpl->Get('HomePageMessageType') == MSG_WARNING): ?>DashboardPanelYellow<?php else: ?>DashboardPanelBlue<?php endif; ?> DashboardMessage <?php if($tpl->Get('HomePageMessageType') == MSG_ERROR): ?>DashboardMessageError<?php elseif($tpl->Get('HomePageMessageType') == MSG_WARNING): ?>DashboardMessageWarning<?php else: ?>DashboardMessageInfo<?php endif; ?>" >
+			<div class="DashboardPanelInner">
+				<?php echo $tpl->Get('HomePageMessage'); ?>
+			</div>
+		</div>
+	<?php endif; ?>
+
+	<?php if($tpl->Get('ShowVersionSection') && $tpl->Get('DoVersionCheck')): ?>
+		<div class="VersionAlertContainer DashboardPanel DashboardPanelBlue DashboardMessage DashboardMessageInfo" style="display:none;">
+			<div class="DashboardPanelInner">
+				<span class="VersionAlertMessage"><?php echo GetLang('NewVersionMessage'); ?></span> <?php echo GetLang('VersionAlertLinks'); ?>
+			</div>
+		</div>
+	<?php endif; ?>
+	<?php if($tpl->Get('hasServerWarnings')): ?>
+		<?php $array = $tpl->Get('serverWarnings'); if(is_array($array)): foreach($array as $__key=>$row): $tpl->Assign('__key', $__key, false); $tpl->Assign('row', $row, false);  ?>
+			<div class="VersionAlertContainer DashboardPanel DashboardPanelYellow DashboardMessage DashboardMessageWarning" >
+				<div class="DashboardPanelInner">
+					<?php echo $tpl->Get('row'); ?>
+				</div>
+			</div>
+		<?php endforeach; endif; ?>
+	<?php endif; ?>
+
+	<?php if($tpl->Get('hasServerErrors')): ?>
+		<?php $array = $tpl->Get('serverErrors'); if(is_array($array)): foreach($array as $__key=>$row): $tpl->Assign('__key', $__key, false); $tpl->Assign('row', $row, false);  ?>
+			<div class="VersionAlertContainer DashboardPanel DashboardPanelRed DashboardMessage DashboardMessageError" >
+				<div class="DashboardPanelInner">
+					<?php echo $tpl->Get('row'); ?>
+				</div>
+			</div>
+		<?php endforeach; endif; ?>
+	<?php endif; ?>
+
+	<p></p>
+
+	<table cellspacing="0" class="DashboardLayoutTable">
+		<tr>
+			<td valign="top" class="DashboardColumn DashboardColumnLeft">
+				<div class="DashboardPanel DashboardPanelBlue DashboardPanelGetStarted">
+					<div class="DashboardPanelInner">
+						<div class="DashboardPanelInnerGetStarted" <?php if($tpl->Get('DashboardHide_DashboardPanelInnerGetStarted')): ?>style="display:none;"<?php endif; ?>>
+							<h3><?php echo GetLang('LetsGetStartedElipsis'); ?></h3>
+							<div class="DashboardHideLink" id="DashboardHideLink_DashboardPanelInnerGetStarted"><a href="#"><span><?php echo GetLang('switchtocommontasks'); ?></span></a></div>
+
+							<div class="GetStartedList">
+
+								<div class="GetStartedItem <?php if($tpl->Get('config','GettingStartedChooseTemplate')): ?>GetStartedItemDone<?php endif; ?>"><span class="GetStartedIcon"><span>1</span></span> <span class="GetStartedLabel"><?php echo GetLang('homeGettingStartedChooseTemplate'); ?></span></div>
+
+								<div class="GetStartedItem <?php if($tpl->Get('config','GettingStartedUploadLogo')): ?>GetStartedItemDone<?php endif; ?>"><span class="GetStartedIcon"><span>2</span></span> <span class="GetStartedLabel"><?php echo GetLang('homeGettingStartedUploadLogo'); ?></span></div>
+
+								<div class="GetStartedItem <?php if($tpl->Get('config','GettingStartedCreateContentTypes')): ?>GetStartedItemDone<?php endif; ?>"><span class="GetStartedIcon"><span>3</span></span> <span class="GetStartedLabel"><?php echo GetLang('homeGettingStartedCreateContentTypes'); ?></span></div>
+
+								<div class="GetStartedItem <?php if($tpl->Get('config','GettingStartedCreateContent')): ?>GetStartedItemDone<?php endif; ?>"><span class="GetStartedIcon"><span>4</span></span> <span class="GetStartedLabel"><?php echo GetLang('homeGettingStartedCreateContent'); ?></span></div>
+
+								<div class="GetStartedItem <?php if($tpl->Get('config','GettingStartedSiteLayout')): ?>GetStartedItemDone<?php endif; ?>"><span class="GetStartedIcon"><span>5</span></span> <span class="GetStartedLabel"><?php echo GetLang('homeGettingStartedSiteLayout'); ?></span></div>
+							</div>
+						</div>
+
+						<div class="DashboardPanelInnerWhatsNext" <?php if(!$tpl->Get('DashboardHide_DashboardPanelInnerGetStarted')): ?>style="display:none;"<?php endif; ?>>
+							<h3><?php echo GetLang('WhatsNext'); ?></h3>
+							<div class="DashboardShowLink" id="DashboardShowLink_DashboardPanelInnerGetStarted"><a href="#"><span><?php echo GetLang('switchtogettingstarted'); ?></span></a></div>
+
+							<div class="DynCreateContentOut">
+								<?php if(count($tpl->Get('ContentTypeList'))): ?>
+									<a href="#" class="ShowCreateContent"><img src="images/dashboard/but-create-content.gif" /></a>
+									<div class="DynCreateContentOver" style="display:none;">
+										<a href="#" class="ShowCreateContent"><img src="images/dashboard/but-create-content-rollover-corrected.gif" /></a><br />
+										<div>
+											<ul>
+												<?php $array = $tpl->Get('ContentTypeList'); if(is_array($array)): foreach($array as $__key=>$row): $tpl->Assign('__key', $__key, false); $tpl->Assign('row', $row, false);  ?>
+													<li><a href="index.php?section=content&amp;action=create&amp;typeid=<?php echo $tpl->Get('row','typeid'); ?>">Create <?php echo iwp_strtolower($tpl->Get('row','an')); ?> <?php echo iwp_htmlspecialchars($tpl->Get('row','name_singular')); ?></a></li>
+												<?php endforeach; endif; ?>
+											</ul>
+										</div>
+									</div>
+								<?php else: ?>
+									<img src="images/dashboard/but-create-content-gray.gif" onclick="alert('<?php echo iwp_FilterJavascriptString(GetLang('CreateContentNoPermission_All'), false); ?>');" style="cursor: pointer;" />
+								<?php endif; ?>
+							</div>
+
+							<div class="DynViewCommentsOut">
+								<?php if($tpl->Get('CommentsActivated')): ?>
+									<?php if(iwp_HasPerm('sitemodules', 'comments', '*')): ?>
+										<a href="#" class="ShowViewComments"><img src="images/dashboard/but-view-comments.gif" /></a>
+										<div class="DynViewCommentsOver" style="display:none;">
+											<a href="#" class="ShowViewComments"><img src="images/dashboard/but-view-comments-rollover.gif" /></a><br />
+											<div>
+												<ul>
+													<?php $array = $tpl->Get('CommentsDropdown'); if(is_array($array)): foreach($array as $__key=>$row): $tpl->Assign('__key', $__key, false); $tpl->Assign('row', $row, false);  ?>
+														<li><a href="<?php echo iwp_htmlspecialchars($tpl->Get('row','link')); ?>"><?php echo iwp_htmlspecialchars($tpl->Get('row','text')); ?></a></li>
+													<?php endforeach; endif; ?>
+												</ul>
+											</div>
+										</div>
+									<?php else: ?>
+										<img src="images/dashboard/but-view-comments-gray.gif" onclick="alert('<?php echo iwp_FilterJavascriptString(GetLang('YouDoNotHaveAccessToComments'), false); ?>');" style="cursor: pointer;" />
+									<?php endif; ?>
+								<?php else: ?>
+									<img src="images/dashboard/but-view-comments-gray.gif" onclick="alert('<?php echo iwp_FilterJavascriptString(GetLang('TheCommentsModuleIsNotActivated'), false); ?>');" style="cursor: pointer;" />
+								<?php endif; ?>
+							</div>
+
+							<div style="clear:both;"></div>
+
+							<h3 class="AtAGlanceHeader"><?php echo GetLang('YourContentAtAGlanceElipsis'); ?></h3>
+
+							<div class="AtAGlanceList">
+								<?php $array = $tpl->Get('AtAGlanceList'); if(is_array($array)): foreach($array as $__key=>$row): $tpl->Assign('__key', $__key, false); $tpl->Assign('row', $row, false);  ?>
+									<div class="AtAGlance">
+										<div class="AtAGlanceIcon"><div class="AtAGlanceIconInner"><div><a href="<?php echo iwp_htmlspecialchars($tpl->Get('row','link')); ?>"><?php echo number_format($tpl->Get('row','count')); ?></a></div></div></div>
+										<a href="<?php echo iwp_htmlspecialchars($tpl->Get('row','link')); ?>"><?php echo iwp_htmlspecialchars($tpl->Get('row','text')); ?></a>
+									</div>
+								<?php endforeach; endif; ?>
+							</div>
+
+							<div style="clear:both;"></div>
+						</div>
+					</div>
+
+					
+					<?php echo $tpl->Get('InfoImage'); ?>
+				</div>
+
+				<?php if(count($tpl->Get('RecentActivity'))): ?>
+					<a name="RecentActivity"></a>
+					<div class="DashboardPanel DashboardPanelGrey DashboardPanelRecentActivity">
+						<div class="DashboardPanelInner">
+							<h3><?php echo GetLang('RecentActivity'); ?></h3>
+							<ul class="ActivityList">
+								<?php $array = $tpl->Get('RecentActivity'); if(is_array($array)): foreach($array as $__key=>$row): $tpl->Assign('__key', $__key, false); $tpl->Assign('row', $row, false);  ?>
+									<?php $tmpTplFile = $tpl->GetTemplate();
+			$tmpTplData = $tpl->TemplateData;
+			$tpl->ParseTemplate("dashboard.activity.row");
+			$tpl->SetTemplate($tmpTplFile);
+			$tpl->TemplateData = $tmpTplData; ?>
+								<?php endforeach; endif; ?>
+							</ul>
+						</div>
+					</div>
+				<?php endif; ?>
+			</td>
+			<td valign="top" class="DashboardColumn DashboardColumnRight">
+				<?php if(count($tpl->Get('PendingList'))): ?>
+					<div class="DashboardPanel DashboardPanelYellow DashboardPanelPending"><div class="DashboardPanelInner">
+						<h3><?php echo GetLang('PendingElipsis'); ?></h3>
+						<ul class="PendingList">
+							<?php $array = $tpl->Get('PendingList'); if(is_array($array)): foreach($array as $__key=>$row): $tpl->Assign('__key', $__key, false); $tpl->Assign('row', $row, false);  ?>
+								<li class="<?php echo iwp_htmlspecialchars($tpl->Get('row','className')); ?>"><a href="<?php echo iwp_htmlspecialchars($tpl->Get('row','link')); ?>"><?php echo iwp_htmlspecialchars($tpl->Get('row','text')); ?></a></li>
+							<?php endforeach; endif; ?>
+						</ul>
+					</div></div>
+				<?php endif; ?>
+
+				<div class="DashboardPanel DashboardPanelGrey DashboardPanelComments"><div class="DashboardPanelInner">
+					<h3><?php echo GetLang('RecentComments'); ?></h3>
+					<?php if($tpl->Get('CommentsActivated')): ?>
+						<?php if(count($tpl->Get('RecentComments'))): ?>
+							<ul class="CommentsList">
+								<?php $array = $tpl->Get('RecentComments'); if(is_array($array)): foreach($array as $__key=>$row): $tpl->Assign('__key', $__key, false); $tpl->Assign('row', $row, false);  ?>
+									<li>
+										<?php ob_start(); ?><?php echo iwp_htmlspecialchars($tpl->Get('row','subjecttext')); ?><?php $tpl->Assign("subjecttext", ob_get_contents()); ob_end_clean(); ?>
+										<?php ob_start(); ?><?php echo iwp_htmlspecialchars($tpl->Get('row','usertext')); ?><?php $tpl->Assign("usertext", ob_get_contents()); ob_end_clean(); ?>
+										<?php ob_start(); ?><?php echo iwp_htmlspecialchars($tpl->Get('row','scope_lang')); ?><?php $tpl->Assign("scope_lang", ob_get_contents()); ob_end_clean(); ?>
+										<?php ob_start(); ?><?php echo elipsize($tpl->Get('subjecttext'), 100); ?><?php $tpl->Assign("subjecttext", ob_get_contents()); ob_end_clean(); ?>
+										<?php echo sprintf($tpl->Get('row','action_lang'), $tpl->Get('row','subject_url'), $tpl->Get('row','subjectid'), $tpl->Get('subjecttext'), $tpl->Get('row','user_url'), $tpl->Get('row','userid'), $tpl->Get('usertext'), $tpl->Get('row','source'), $tpl->Get('row','scope'), $tpl->Get('scope_lang'), $tpl->Get('row','colour'), $tpl->Get('row','action'), $tpl->Get('row','activitydate'), $tpl->Get('row','activityid')); ?>
+										<span class="Timeframe" title="<?php echo iwp_htmlspecialchars($tpl->Get('row','activitydate')); ?>">(<?php echo iwp_htmlspecialchars($tpl->Get('row','activitydate_relative')); ?>)</span>
+									</li>
+								<?php endforeach; endif; ?>
+							</ul>
+						<?php else: ?>
+							<p><?php echo GetLang('Nocommentshavebeenpostedyet'); ?></p>
+						<?php endif; ?>
+					<?php else: ?>
+						<p><?php echo GetLang('Thecommentsmoduleisnotactivated'); ?></p>
+					<?php endif; ?>
+				</div></div>
+
+				<div class="DashboardPanel DashboardPanelGrey DashboardPanelHelp"><div class="DashboardPanelInner">
+					<h3><?php echo GetLang('homeTopHelpArticles'); ?></h3>
+					<div class="HelpSearch">
+						<form method="post" action="" id="helpSearchForm">
+							<div class="ActionButton SearchGoButton" id="searchKb"><a href="#" class="helpSearchButton"><span class="RightEnd"></span><span class="ButtonText"><?php echo GetLang('homeGo'); ?></span></a></div>
+							<input type="text" name="q" id="helpSearchField" class="Field100 HelpSearchImage HelpSearchField" />
+						</form>
+					</div>
+					<div style="clear:both;"></div>
+					<div id="kbHelpArticles">
+					<ul>
+						<li><img src="images/loading.gif" /><?php echo GetLang('homePageLoading'); ?></li>
+					</ul>
+					</div>
+					<div class="HelpPanelFooter">
+						<div class="ActionButton BrowseKbButton">
+							<a href="javascript:LaunchHelpCategory(142);"><span class="RightEnd"></span><span class="ActionIcon"></span><span class="ButtonText"><?php echo GetLang('homeBrowseKB'); ?></span></a>
+						</div>
+					</div>
+				</div></div>
+				<img src="images/1x1.gif" class="DashboardColumnRightSpacer" /><br />
+			</td>
+		</tr>
+	</table>
+</div>
+
+<?php $tmpTplFile = $tpl->GetTemplate();
+			$tmpTplData = $tpl->TemplateData;
+			$tpl->ParseTemplate("footer");
+			$tpl->SetTemplate($tmpTplFile);
+			$tpl->TemplateData = $tmpTplData; ?>

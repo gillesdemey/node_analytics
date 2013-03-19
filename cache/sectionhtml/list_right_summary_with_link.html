@@ -1,0 +1,13 @@
+<div class='{$cssclasses} Block SideBox Summary tplblock-list tplblockstyle-list-right summary with link {$blockNumberClass}'>
+          <h2><span class='tplvar-list-title'>{$blockTitle}</span></h2>
+          <div class='BlockContent'>
+             <ul class='tplrepeat-parent'>{foreach from=$OutputList item=row1 id=listLoop}<li class='tplrepeat-list'><span>
+{$row1.beforePublishdate}{if strlen($row1.Publishdate) > 0}
+<small class='tplvar-listitem-publishdate'>{$row1.prependPublishdate}{$row1.Publishdate}{$row1.appendPublishdate}</small>
+{/if}{$row1.afterPublishdate}
+
+{$row1.beforeSummary}{if strlen($row1.Summary) > 0}
+<span class='tplvar-listitem-summary'>{$row1.prependSummary}{$row1.Summary}{$row1.appendSummary}</span>
+{/if}{$row1.afterSummary}
+</span> <a href='{$row1.Url}' class='tplvar-listitem-url-href tplvar-listitem-target-target tpllang-ReadMore' target='{$row1.prependTarget}{$row1.Target}{$row1.appendTarget}'>{$lang.ReadMore}</a></li>{/foreach}</ul></div>
+        </div>

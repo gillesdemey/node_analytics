@@ -1,0 +1,15 @@
+<div class='Block tplblock-viewcategory tplblockstyle-viewcategory-standard'>
+
+{$categoryBreadcrumb}
+
+            <h2 class='tplvar-category-title'>{$categoryTitle}</h2>
+            <div class='tplvar-category-description'>{$categoryDescription}</div>
+            <div class='tplflag-category-subcategories SubCategoriesList'>{$categorySubCategories}</div>
+            <div class='tplflag-category-paging'>{$categoryPaging}</div>
+            <div class='tplflag-category-contentlist'>{if $hasContent}
+{$categoryContentList}
+{else}
+{$noContentMsg}
+{/if}</div>
+            <div class='tplflag-category-paging'>{$categoryPaging}</div>
+          </div>

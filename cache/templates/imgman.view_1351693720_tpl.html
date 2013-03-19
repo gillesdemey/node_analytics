@@ -1,0 +1,229 @@
+<?php $tmpTplFile = $tpl->GetTemplate();
+			$tmpTplData = $tpl->TemplateData;
+			$tpl->ParseTemplate("header");
+			$tpl->SetTemplate($tmpTplFile);
+			$tpl->TemplateData = $tmpTplData; ?>
+
+<?php ob_start(); ?>
+	<span class="ManageImageBox" id="%%image_id%%" >
+		<input type="checkbox" id="deleteimages[]" value="%%image_realname%%" /><input class="TemplateHeading inPlaceImageBoxDefault" id="%%image_id%%_name" value="%%image_name%%" /><br />
+
+		<input type="hidden" id="%%image_id%%_realname" value="%%image_realname%%" />
+
+		<div style="width: 202px; height: 156px; margin-top: 5px;">
+			<a href='%%image_url%%' id="%%image_id%%_url" target="_blank"><img src='%%image_url%%' style=" border: solid 1px #CACACA;"  id="%%image_id%%_image" width="%%image_width%%" height="%%image_height%%" title="<?php echo GetLang('imageManagerViewFullSize'); ?>" /></a>
+		</div>
+
+		<a href='%%image_url%%' class="%%image_id%%_url" target="_blank"><img width="10" height="11" border="0" src="images/magnify.gif" /></a>
+		<a href='%%image_url%%' class="%%image_id%%_url" target="_blank"><?php echo GetLang('imageManagerShowFullImage'); ?></a>
+		| <a href="downloadimage.php?image=%%image_realname%%"><?php echo GetLang('Download'); ?></a><br />
+
+		Size: %%image_size%% <br />
+		Dimensions: %%image_dimensions%%px<br />
+		<input type="button"  class="Button" id="%%image_id%%_delete" value="<?php echo GetLang('imageManagerDelete'); ?>" style="width: 150px; margin-top: 4px; margin-bottom: 14px; " />
+	</span>
+<?php $tpl->Assign("baseImageRow", ob_get_contents()); ob_end_clean(); ?>
+
+<script type="text/javascript" src="../javascript/detect.flash.js"></script>
+<script type="text/javascript" src="../javascript/swfupload.js"></script>
+<script type="text/javascript" src="../javascript/admin.imagemanager.js"></script>
+
+<script type="text/javascript">
+
+
+<?php if(iwp_imageDir::getInstance()->CountDirItems() == 0): ?>
+	$(function(){
+		$('#MainMessage').infoMessage(<?php echo iwp_FilterJavascriptString(GetLang('PromptToCreateImage')); ?>);
+	});
+<?php endif; ?>
+
+imageManager.maxFileSize  = '<?php echo iwp_js($tpl->Get('MaxFileSize')); ?>';
+imageManager.phpSessionId = "<?php echo $tpl->Get('sessionid'); ?>";
+imageManager.imageRow     = '<?php echo iwp_js($tpl->Get('baseImageRow')); ?>';
+
+
+$(function(){
+
+	if (imageManager.hasRequestedFlashVersion()) {
+		imageManager.loadFlashObject();
+	} else {
+		// no flash installed or enabled
+		$('#btnUpload').bind('click', function () {
+			$.iModal({
+				width:   500,
+				title:   '<?php echo GetLang('imageManagerUploadingImages'); ?>',
+				type:    'ajax',
+				url:     'remote.php?section=imagemanager&action=noflashupload',
+				buttons: '<input type="button" onclick="$.iModal.close();" style="float: left" value="<?php echo GetLang('Cancel'); ?>"  class="Button" /><input type="button" value="<?php echo GetLang('imageManagerUpload'); ?>"  class="Button" id="uploadButton" style="font-weight: bold;"/>'
+			});
+		});
+	}
+
+	$('#deleteButton').bind('click', function() {
+		if(!$('#hasImages input:checkbox:checked').exists()){
+			alert('<?php echo iwp_js(GetLang('imageManagerNoImagesSelectedForDelete')); ?>');
+			return;
+		}
+
+		if(confirm('<?php echo iwp_js(GetLang('imageManagerConfirmDeleteSelectedImages')); ?>')) {
+			var sendPOST = '';
+
+			$('input:checkbox:checked').each(function (){
+				if(this.value == '%%image_name%%') { return; }
+				sendPOST += '&deleteimages[]=' + escape(this.value);
+			});
+
+			$.post('remote.php?section=imagemanager&action=delete', sendPOST,
+				function(result){
+					if(result.success){
+						for(i in result.successimages) {
+							var imageName = result.successimages[i];
+							imageName = imageManager.removeExtension(imageName);
+							$('input:checkbox[value=' + imageName + ']').removeAttr('checked');
+							$('input:text[value=' + imageName + ']').parent().hide('slow');
+							$('input:text[value=' + imageName + ']').parent().remove();
+						}
+						$('#MainMessage').successMessage(result.message);
+						imageManager.checkDelete();
+					}else{
+						$('#MainMessage').errorMessage(result.message);
+					}
+				}, 'json'
+			);
+		}
+	});
+
+});
+
+</script>
+
+<div class="BodyContainer">
+<table class="OuterPanel">
+	<tr>
+		<td class="Intro">
+
+		<h2 class="Heading1"><?php echo GetLang('ManageImages'); ?></h2>
+		<div><?php echo GetLang('ManageImagesIntro'); ?></div>
+
+		<?php $tmpTplFile = $tpl->GetTemplate();
+			$tmpTplData = $tpl->TemplateData;
+			$tpl->ParseTemplate("message");
+			$tpl->SetTemplate($tmpTplFile);
+			$tpl->TemplateData = $tmpTplData; ?>
+
+		<span id="spanButtonPlaceholder"></span>
+		<input id="btnUpload" type="button" value="<?php echo GetLang('imageManagerUploadImages'); ?>" style="width: 130px;" />&nbsp;<input id="deleteButton" type="button" value="<?php echo GetLang('imageManagerDeleteSelected'); ?>"  class="Button"  style="display: <?php if(!$tpl->Get('hasImages')): ?>none<?php endif; ?>;" /><br /><br />
+</td>
+</tr><tr><td>
+
+<div style="display: none" id="ProgressWindow">
+<div id="ProgressBarDiv" style="text-align: center;"><br/><span id="ProgressBarText" class="ProgressBarText"><?php echo GetLang('imageManagerUploadInProgress'); ?></span><br/><br/><br/>
+	<div style="border: 1px solid #ccc; width: 300px; padding: 0px; margin: 0 auto; position: relative;">
+		<div class="progressBarPercentage" style="margin: 0; padding: 0; background: url('images/progressbar.gif') no-repeat; height: 20px; width: 0%; ">
+			&nbsp;
+		</div>
+		<div style="position: absolute; top: 0px; left: 0; text-align: center; width: 300px; font-weight: bold;line-height:1.5;color:#333333;font-family:Tahoma;font-size:11px;" class="progressPercent">&nbsp;</div>
+	</div>
+	<span id="progressBarStatus" class="progressBarStatus" style="text-align: center; font-size: 10px; color: gray; padding-top: 5px;">&nbsp;</span>
+</div>
+
+</div><!-- End #ProgressWindow -->
+
+<div id="hasImages" style="display: <?php if(!$tpl->Get('hasImages')): ?>none<?php endif; ?>;">
+<div style="">
+	<div style="float: right"> <?php $tmpTplFile = $tpl->GetTemplate();
+			$tmpTplData = $tpl->TemplateData;
+			$tpl->ParseTemplate("paging");
+			$tpl->SetTemplate($tmpTplFile);
+			$tpl->TemplateData = $tmpTplData; ?></div>
+	<div style="float: right; padding-bottom: 7px;">
+		<select name="PerPage" class="Field" style="width: 180px;" onChange="imageManager.changeImageManagerPaging(this, '<?php echo $tpl->Get('PageNumber'); ?>');">
+			<option value="10" <?php echo $tpl->Get('PerPage10Selected'); ?>><?php echo sprintf(GetLang('imageManagerPerPage'), 10); ?></option>
+			<option value="20" <?php echo $tpl->Get('PerPage20Selected'); ?>><?php echo sprintf(GetLang('imageManagerPerPage'), 20); ?></option>
+			<option value="50" <?php echo $tpl->Get('PerPage50Selected'); ?>><?php echo sprintf(GetLang('imageManagerPerPage'), 50); ?></option>
+			<option value="100" <?php echo $tpl->Get('PerPage100Selected'); ?>><?php echo sprintf(GetLang('imageManagerPerPage'), 100); ?></option>
+			<option value="all" <?php echo $tpl->Get('PerPageAllSelected'); ?>><?php echo GetLang('imageManagerShowAllImages'); ?></option>
+		</select>
+		<select name="SortBy" class="Field" style="width: 150px;" onChange="imageManager.changeImageManagerSorting(this, '<?php echo $tpl->Get('PageNumber'); ?>');">
+			<option value="name.asc" <?php echo $tpl->Get('SortNameAsc'); ?>><?php echo GetLang('SortNameAsc'); ?></option>
+			<option value="name.desc" <?php echo $tpl->Get('SortNameDesc'); ?>><?php echo GetLang('SortNameDesc'); ?></option>
+
+			<option value="modified.asc" <?php echo $tpl->Get('SortModifiedAsc'); ?>><?php echo GetLang('SortDateAsc'); ?></option>
+			<option value="modified.desc" <?php echo $tpl->Get('SortModifiedDesc'); ?>><?php echo GetLang('SortDateDesc'); ?></option>
+
+			<option value="size.asc" <?php echo $tpl->Get('SortSizeAsc'); ?>><?php echo GetLang('SortFilesizeAsc'); ?></option>
+			<option value="size.desc" <?php echo $tpl->Get('SortSizeDesc'); ?>><?php echo GetLang('SortFilesizeDesc'); ?></option>
+		</select>
+	</div>
+</div>
+<div style="clear:both;"></div>
+	<table class="Panel" style="margin:0px;">
+			<tr>
+				<td class="Heading2" colspan='2'>
+					<input type="checkbox" name="toggleAllChecks" id="toggleAllChecks" onclick="imageManager.checkAllCheckBoxes(this);" style="margin: 3px 0 0 0 ; float: left;" />
+					<label for="toggleAllChecks" style="display: block; padding-top: 4px; float: left; padding-left: 4px;"><?php echo $tpl->Get('ImagesTitle'); ?></label>
+				</td>
+			</tr>
+			<tr>
+				<td align="right" style=" padding-left: 10px;" colspan='2'>
+
+				</td>
+			</tr>
+			<tr>
+				<td style="padding:5px 5px 5px 10px;" colspan='2'>
+
+
+
+	<div id="imagesList"><script type="text/javascript">
+	<!--
+
+	<?php if(!function_exists("foreach_113549")){ function foreach_113549(&$tpl, $array){ if(is_array($array)): foreach($array as $k=>$image): $tpl->Assign('k', $k, false); $tpl->Assign('image', $image, false);  ?>
+		imageManager.addImage( '<?php echo addslashes($tpl->Get('image','name')); ?>', '<?php echo addslashes($tpl->Get('image','url')); ?>', '<?php echo addslashes(NiceSize($tpl->Get('image','size'))); ?>', '<?php echo $tpl->Get('image','width'); ?>', '<?php echo $tpl->Get('image','height'); ?>', '<?php echo $tpl->Get('image','origwidth'); ?> x <?php echo $tpl->Get('image','origheight'); ?>', '<?php echo $tpl->Get('image','id'); ?>');
+	<?php endforeach; endif;}} foreach_113549($tpl, iwp_imagedir::getInstance()->GetImageDirFiles()); ?>
+
+	//-->
+	</script>
+	</div><!-- end #imagesList -->
+
+	</td>
+			</tr>
+				<tr>
+				<td align="right" style=" padding-left: 10px;" colspan='2'>
+					<select name="PerPage" class="Field" style="width: 160px;" onChange="imageManager.changeImageManagerPaging(this, '<?php echo $tpl->Get('PageNumber'); ?>');">
+						<option value="10" <?php echo $tpl->Get('PerPage10Selected'); ?>><?php echo sprintf(GetLang('imageManagerPerPage'), 10); ?></option>
+						<option value="20" <?php echo $tpl->Get('PerPage20Selected'); ?>><?php echo sprintf(GetLang('imageManagerPerPage'), 20); ?></option>
+						<option value="50" <?php echo $tpl->Get('PerPage50Selected'); ?>><?php echo sprintf(GetLang('imageManagerPerPage'), 50); ?></option>
+						<option value="100" <?php echo $tpl->Get('PerPage100Selected'); ?>><?php echo sprintf(GetLang('imageManagerPerPage'), 100); ?></option>
+						<option value="all" <?php echo $tpl->Get('PerPageAllSelected'); ?>><?php echo GetLang('imageManagerShowAllImages'); ?></option>
+					</select>
+					<select name="SortBy" class="Field" style="width: 150px;" onChange="imageManager.changeImageManagerSorting(this, '<?php echo $tpl->Get('PageNumber'); ?>');">
+						<option value="name.asc" <?php echo $tpl->Get('SortNameAsc'); ?>><?php echo GetLang('SortNameAsc'); ?></option>
+						<option value="name.desc" <?php echo $tpl->Get('SortNameDesc'); ?>><?php echo GetLang('SortNameDesc'); ?></option>
+
+						<option value="modified.asc" <?php echo $tpl->Get('SortModifiedAsc'); ?>><?php echo GetLang('SortDateAsc'); ?></option>
+						<option value="modified.desc" <?php echo $tpl->Get('SortModifiedDesc'); ?>><?php echo GetLang('SortDateDesc'); ?></option>
+
+						<option value="size.asc" <?php echo $tpl->Get('SortSizeAsc'); ?>><?php echo GetLang('SortFilesizeAsc'); ?></option>
+						<option value="size.desc" <?php echo $tpl->Get('SortSizeDesc'); ?>><?php echo GetLang('SortFilesizeDesc'); ?></option>
+					</select>
+				</td>
+			</tr>
+	 </table><br />
+	 <?php $tmpTplFile = $tpl->GetTemplate();
+			$tmpTplData = $tpl->TemplateData;
+			$tpl->ParseTemplate("paging");
+			$tpl->SetTemplate($tmpTplFile);
+			$tpl->TemplateData = $tmpTplData; ?>
+</div>
+
+<div id="hasNoImages" style="display: <?php if($tpl->Get('hasImages')): ?>none<?php endif; ?>; text-align: center;">
+
+</div>
+
+</td></tr></table>
+</div>
+<?php $tmpTplFile = $tpl->GetTemplate();
+			$tmpTplData = $tpl->TemplateData;
+			$tpl->ParseTemplate("footer");
+			$tpl->SetTemplate($tmpTplFile);
+			$tpl->TemplateData = $tmpTplData; ?>

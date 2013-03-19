@@ -1,0 +1,1435 @@
+
+
+/********* Common CSS *********/
+
+/*
+*	This file is loaded and included by styles.php and is applied to all front-end pages, for all templates.
+*	It should not be referenced directly as it includes templating code.
+*/
+
+/*
+* internet explorer png fix
+*/
+img, div {
+	behavior: url(/lib/iepngfix_v2/iepngfix.php);
+}
+
+/*
+* internet explorer :hover fix
+*/
+
+body {
+	behavior: url(/lib/csshover3/csshover3.htc);
+}
+
+
+/********* Module: contactform (base) *********/
+
+.contactFormSuccess {
+	color: #009900; 
+	border: solid 1px #C4C4C4; 
+	padding: 5px 5px 5px 30px;
+	margin-bottom: 5px; 
+	background-color: #F2F2F2; 
+	background-image: url('modules/contactform/images/success.gif');
+	background-repeat: no-repeat;
+	background-position: 5px 5px;
+}
+.contactFormError {
+	color: red;
+}
+
+/********* Module: anchorimage (base) *********/
+
+.AnchorImageBox { font-size:8pt; margin-bottom: 3px; margin-top: 4px; line-height:0.5em; clear: both;}
+
+body div.AnchorImageBox > a {
+	padding: 0;
+	margin: 0;
+}
+
+.AnchorImageRight { margin-left: 6px; float: right; margin-right:2px;}
+.AnchorImageLeft { margin-right: 8px; float: left; margin-left:2px;}
+
+.AnchorImageCaption { padding: 2px; color: #888888; border: 1px #CCCCCC solid; border-top: none;  line-height:1.6em}
+
+.AnchorImageBox img {border: none; padding: 0;}
+
+/********* Module: form (base) *********/
+
+.Module_Form form {
+	padding  : 0;
+	margin   : 0;
+	position : relative;
+}
+
+.Module_Form .Checkbox,
+.Module_Form .Radio {
+	border : 0;
+}
+.Module_Form textarea {
+	height : 65px;
+	overflow : auto;
+}
+
+.Module_Form ul {
+	margin     : 0;
+	list-style : none;
+}
+
+.Module_Form ul li {
+	margin     : 0;
+	padding    : 0;
+	list-style : none;
+	background : transparent none;
+}
+
+.Module_Form .Name {
+	font-size   : 1.65em;
+	font-weight : bold;
+	margin      : 0 0 10px 0;
+}
+
+.Module_Form .Description {
+	margin  : 10px 0;
+	padding : 0;
+}
+
+.Module_Form  fieldset {
+	margin           : 10px 0;
+	padding          : 0;
+	border           : 0;
+	background-color : transparent;
+}
+
+.Module_Form label {
+	display     : block;
+	font-weight : bold;
+}
+
+.Module_Form li {
+	border : 0;
+}
+
+.Module_Form p {
+	margin  : 0;
+	padding : 0;
+}
+
+.Module_Form .Message {
+	margin  : 15px 0;
+	padding : 5px 10px;
+}
+.Module_Form .Message.Error {
+	background : #ffd6d6;
+}
+.Module_Form .Message.Success {
+	background : #e1ff96;
+}
+
+.Module_Form .Widget {
+	margin-bottom : 15px;
+}
+
+.Module_Form .Widget .Description {
+	margin  : 0;
+	padding : 0;
+	color   : #777;
+}
+
+.Module_Form .Fields label {
+	display     : inline;
+	font-weight : normal;
+	cursor      : pointer;
+	padding     : 0;
+	margin      : 0;
+}
+
+.Module_Form .Buttons {
+	
+}
+
+.Module_Form .Errors {
+	color : #ff0000;
+}
+
+.Module_Form .Error,
+.Module_Form .Required {
+	color : #ff0000;
+}
+
+.Module_Form .FileType {
+	color      : #0000ff;
+	font-style : italic;
+}
+
+.Module_Form .SectionBreak label {
+	font-size : 14px;
+}
+
+
+
+.Left .Module_Form .Text,
+.Left .Module_Form textarea,
+.Left .Module_Form .File,
+.Right .Module_Form .Text,
+.Right .Module_Form textarea,
+.Right .Module_Form .File {
+	width : 90%;
+}
+.Left .Module_Form .Other,
+.Right .Module_Form .Other {
+	width : 50%;
+}
+.Content .Module_Form .Text,
+.Content .Module_Form textarea,
+.Content .Module_Form .File {
+	width : 300px;
+}
+.Content .Module_Form .Other {
+	width : 250px;
+}
+
+
+
+*html>body .Module_Form .Fields label {
+	position : relative;
+	top      : -6px;
+	left     : 0;
+}
+
+/********* Module: gallery (base) *********/
+
+.Left .GalleryList li,
+.Right .GalleryList li {
+	clear: both;
+	height: 50px;
+}
+
+.GalleryList img {
+	padding: 0 5px 0 0;
+	float: left;
+}
+
+.GalleryListMiddle .galleryViewAllGalleries {
+	padding-top: 10px;
+	clear: both;
+}
+
+.GalleryListMiddle ul {
+	margin: 10px 0;
+}
+
+.GalleryListMiddle ul li {
+	height: 50px;
+	width: 45%;
+	display: block;
+	float: left;
+	font-size: 1.2em;
+	background-image: none !important;
+	padding: 0;
+}
+
+.GalleryListMiddle li div {
+	padding-top: 15px;
+}
+
+.GalleryListMiddle li a {
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+
+.GalleryListMiddle li span {
+	padding-top: 10px;
+}
+
+.GalleryListMiddle img {
+	padding: 0 0 0 0;
+	margin-right: 10px;
+	float: left;
+}
+
+.GalleryViewImageContainer {
+	margin: 10px;
+	width: 130px;
+	height: 130px;
+	background-color: white;
+	vertical-align: middle;
+	text-align: center;
+}
+
+.GalleryImage {
+	padding: 4px;
+	border-color: #E1E1E1;
+}
+
+.GalleryImage:hover {
+	padding: 4px;
+	border-color: #666666;
+}
+
+#ViewImageControls {
+	padding: 5px 0;
+}
+.slideShowContainer .gallery {
+	margin-left: auto;
+	margin-right: auto;
+}
+.slideShowContainer .filmstrip li {
+	background-image: none;
+}
+
+.GalleryImagesTable {
+	background-color: transparent !important;
+	margin:0;
+	border: 0px !important;
+}
+
+.GalleryImagesTable td, .GalleryImagesTable tr{
+	background-color: transparent !important;
+	border: 0px !important;
+}
+
+.GalleryViewImage .GalleryImageNumber {
+	float: right;
+}
+
+.GalleryViewImage .GalleryImageNumber {
+	float: right;
+}
+
+.GalleryImageContainer {
+	text-align: center;
+}
+
+#GalleryRightImageControls {
+	float: right;
+}
+
+.GalleryImageTitle {
+	font-weight: bold;
+}
+
+.LatestGalleryMiddle .GalleryLatestDesc {
+	padding-left: 10px;
+}
+
+.LatestGalleryMiddle .AfterLatestGallery, .LatestGalleryMiddle .AfterLatestGallery {
+	clear: both;
+}
+
+.LatestGalleryMiddle img {
+	padding-right: 10px;
+	float: left;
+}
+
+.GalleryLatestImageContainer {
+	text-align: center;
+}
+
+.GalleryLatestLink {
+	width: 92%;
+	text-align: right;
+	display: block;
+	padding-right: 10px;
+}
+
+.GalleryLatestDesc {
+	padding-left: 15px;
+	padding-right: 10px;
+}
+
+.GalleryMiddlePreview img.GalleryLatestImage {
+	float: left;
+	display: inline;
+}
+
+.GalleryMiddlePreview .GalleryLatestLink {
+	float:left;
+}
+
+.GalleryMiddlePreview .GalleryLatestDesc {
+	display: inline;
+
+}
+
+.GalleryListContainer ul li a {
+	padding-bottom: 32px;
+}
+
+.Left .GalleryList  li a, .Right .GalleryList  li a {
+	background-image: none;
+}
+
+.Left .GalleryList .galleryViewAllGalleries,
+.Right .GalleryList .galleryViewAllGalleries {
+	padding-top: 0;
+	padding-bottom: 10px;
+	padding-left: 10px;
+	clear: both;
+}
+
+.GalleryMiddlePreview img {
+	padding-right: 10px;
+}
+
+.GalleryLoader {
+	  background: url("/modules/gallery/images/loading.gif") no-repeat center center;
+}
+
+#viewImageOuterContainerDiv {
+	text-align: center;
+	padding: 10px 0;
+}
+
+#viewImageContainerDiv {
+	margin: 0;
+}
+
+#GalleryImageControls {
+	height:100%;
+	position:absolute;
+}
+
+#galleryDescription {
+	padding-bottom: 10px;
+}
+
+#imageNavigation .imageNavItem {
+	display: inline;
+	margin: 0;
+	padding: 10px 5px;
+}
+
+#imageNavigation .imageNavItem img {
+	background-color: white;
+	filter:alpha(opacity=60);
+	-moz-opacity: 0.60;
+	-webkit-opacity: 0.60;
+	opacity: 0.60;
+}
+
+#imageNavigation .imageNavItem img:hover {
+	background-color: white;
+	filter:alpha(opacity=100);
+	-moz-opacity: 1.00;
+	-webkit-opacity: 1.00;
+	opacity: 1.00;
+}
+
+#imageNavigation #thirdNavigationImage.imageNavItem img {
+	background-color: white;
+	filter:alpha(opacity=100);
+	-moz-opacity: 1.00;
+	-webkit-opacity: 1.00;
+	opacity: 1.00;
+	border: 3px solid;
+}
+
+#imageNavItemsContainer {
+	display: block;
+	margin: 20px 0 0;
+	text-align: center;
+	width: 100%;
+}
+
+#overlayPrev, #overlayNext, #overlayEnlarge {
+	background-repeat: no-repeat;
+	float: left;
+	height: 100%;
+	filter:alpha(opacity=50);
+	-moz-opacity: 0.50;
+	-webkit-opacity: 0.50;
+	opacity: 0.50;
+	text-indent: -5000px;
+}
+
+#overlayEnlarge {
+	position: absolute;
+	display: block;
+	width: 36px;
+	height: 42px;
+	bottom: 0px;
+	right: 0px;
+}
+
+.overlayEnlargeHover, #overlayEnlarge:hover {
+	background-position: 0 0 !important;
+}
+
+#overlayPrev:hover, .overlayHover {
+	background-position: 10% 50% !important;
+}
+#overlayNext:hover {
+	background-position: 90% 50% !important;
+}
+
+#overlayEnlarge {
+	background-image: url("/modules/gallery/images/overlay_enlarge.png");
+	background-position: 1000px 1000px;
+}
+
+#overlayPrev {
+	background-image: url("/modules/gallery/images/overlay_prev_arrow.png");
+	background-position: 1000px 1000px;
+}
+
+#overlayNext {
+	background-image: url("/modules/gallery/images/overlay_next_arrow.png");
+	background-position: 1000px 1000px;
+}
+
+.ListOfGalleries {
+	margin-bottom: 10px;
+}
+
+.Left .slideShowContainer,
+.Right .slideShowContainer {
+	height:180px;
+	padding-top:10px;
+	text-align:center;
+}
+
+img.GalleryLatestImage {
+	border: none;
+}
+
+.LatestGalleryMiddle h2 {
+	padding-bottom: 5px;
+}
+
+.Left .GalleryList li, .Right .GalleryList li {
+	height: 60px;
+}
+
+#viewImageContainerDiv {
+	margin: auto;
+}
+
+.galleryViewAllGalleriesLink {
+	height: 30px !important;
+}
+
+.galleryViewAllGalleriesLink a {
+	padding-bottom: 0 !important;
+}
+
+.subSlideShowContainer {
+	width: 480px;
+	display: block;
+}
+
+.slideShowContainer .subSlideShowContainer {
+	margin: auto;
+}
+
+/********* Module: gallery (template: CarRental) *********/
+
+.GalleryListMiddle ul li {
+	padding-top: 10px;
+}
+
+/********* Module: calendar (base) *********/
+
+/* calendar structural styles - should contain positional / layout settings only */
+
+.calendar-container {
+	position: relative;
+}
+
+.calendar-container table,
+.calendar-container dl,
+.calendar-container dt,
+.calendar-container dd {
+	margin: 0;
+	background: transparent;
+	padding: 0;
+	border: none;
+}
+
+#calendar-bubble ul,
+#calendar-bubble ul li,
+.calendar-container .week-container .week-grid .times ul,
+.calendar-container .week-container .week-grid .times li,
+.calendar-view .datenavigator,
+.calendar-view .datenavigator li,
+.calendar-view .datenavigator li a,
+.calendar-container .viewnavigator,
+.calendar-container .viewnavigator li {
+	/* reset some styles that come with the control panel */
+	list-style-type: none;
+	list-style-image: none;
+	padding: 0;
+	margin: 0;
+	border: none;
+	line-height: normal;
+	background: none;
+}
+
+.calendar-container .datenavigator {
+	display: block;
+}
+
+.calendar-container .viewnavigator {
+	display: block;
+	position: absolute;
+	top: 0;
+	right: 14px;
+	z-index: 10;
+}
+
+.calendar-container .viewnavigator li {
+	float: left;
+	background: none;
+}
+
+.calendar-container th,
+.calendar-container td {
+	padding: 0;
+	vertical-align: top;
+	background: transparent;
+	border: none;
+}
+
+.calendar-container div {
+	padding: 0;
+	margin: 0;
+}
+
+.calendar-view {
+}
+
+.calendar-view-month {
+	position: relative;
+}
+
+.calendar-view-month .daynames,
+.calendar-container .week-container .week-grid-table,
+.calendar-container .week-container .week-top table {
+	width: 100%;
+	table-layout: fixed;
+}
+
+.calendar-view-month .month-grid {
+	position: relative;
+}
+
+.calendar-view-month .month-row {
+	position: absolute;
+	height: 16.6667%;
+	width: 100%;
+	overflow: hidden;
+}
+
+.calendar-view-month .month-row-0 { top: 0%; }
+.calendar-view-month .month-row-1 { top: 16.6667%; }
+.calendar-view-month .month-row-2 { top: 33.3333%; }
+.calendar-view-month .month-row-3 { top: 50%; }
+.calendar-view-month .month-row-4 { top: 66.6667%; }
+.calendar-view-month .month-row-5 { top: 83.3333%; }
+
+.calendar-view-month .month-row-bg {
+	height: 100%;
+	width: 100%;
+	table-layout: fixed;
+	position: absolute;
+}
+
+.calendar-view-month .month-row-fg {
+	width: 100%;
+	table-layout: fixed;
+	position: relative;
+}
+
+#calendar-colorpicker .event-occurrence,
+.calendar-view .event-occurrence {
+	white-space: nowrap;
+	overflow: hidden;
+	cursor: pointer;
+}
+
+.calendar-view .event-day i,
+.calendar-view .event-time i {
+	font-style: normal;
+}
+
+/* colouring / theme / template styles */
+
+.calendar-container {
+	line-height: normal;
+}
+
+.calendar-container .datenavigator {
+	display: block;
+	overflow: auto;
+	width: 220px;
+
+	background: url(/modules/calendar/images/navigator_bg.gif) repeat-x top left #EEE;
+
+	border: 1px solid #E6E6E6;
+	-moz-border-radius-topleft: 4px;
+	-moz-border-radius-topright: 4px;
+	-webkit-border-top-left-radius: 4px;
+	-webkit-border-top-right-radius: 4px;
+	border-bottom: none;
+	/*
+	margin-left: auto;
+	margin-right: auto;
+	*/
+	margin-left: 14px;
+	color: #333;
+}
+
+.calendar-container .datenavigator li {
+	float: left;
+	background: none;
+}
+
+.calendar-container .datenavigator a {
+	text-decoration: none;
+	margin: 0;
+	padding: 0;
+}
+
+.calendar-container .datenavigator span {
+	line-height: 32px;
+}
+
+.calendar-container .datenavigator .next span,
+.calendar-container .datenavigator .previous span {
+	display: none;
+}
+
+.calendar-container .datenavigator .next a,
+.calendar-container .datenavigator .previous a {
+	display: block;
+	width: 17px;
+	height: 32px;
+	background: no-repeat center center;
+	padding: 0 6px;
+}
+
+.calendar-container .datenavigator .next a {
+	background-image: url(/modules/calendar/images/navigator_next.gif);
+	padding-right: 9px;
+}
+
+.calendar-container .datenavigator .previous a {
+	background-image: url(/modules/calendar/images/navigator_previous.gif);
+	padding-left: 9px;
+}
+
+.calendar-container .datenavigator .date {
+	white-space: nowrap;
+	width: 156px;
+	text-align: center;
+}
+
+.calendar-container .viewnavigator li {
+	display: block;
+}
+
+.calendar-container .viewnavigator a {
+	display: block;
+	border: solid 1px #BADCDE;
+	background: url(/modules/calendar/images/viewnavigator_bg.gif) repeat-x top left #F0F6FF;
+	border-bottom: none;
+	-moz-border-radius-topleft: 4px;
+	-moz-border-radius-topright: 4px;
+	-webkit-border-top-left-radius: 4px;
+	-webkit-border-top-right-radius: 4px;
+	margin-left: 2px;
+	text-decoration: none;
+	color: #184F87;
+}
+
+.calendar-container .viewnavigator .current a {
+	background: #C3D9FF;
+	border-color: #C3D9FF;
+}
+
+.calendar-container .viewnavigator .not-current a:hover {
+	background: #FFFFFF;
+}
+
+.calendar-container .viewnavigator span {
+	display: block;
+	line-height: 32px;
+	padding: 0 12px;
+}
+
+
+.calendar-container,
+.calendar-container td,
+.calendar-container th {
+	font-family: Tahoma;
+	font-size: 11px;
+}
+
+.calendar-view-month .daynames {
+	background: #C3D9FF;
+}
+
+.calendar-view-month .daynames th {
+	font-weight: normal;
+	color: #112ABB;
+	text-align: center;
+}
+
+.calendar-view .event-day i,
+.calendar-view .event-time i {
+	padding-right: 0.5em;
+	vertical-align: top;
+	font-size: 9px;
+}
+
+.calendar-view-month .month-container,
+.calendar-container .week-container {
+	border: solid 6px #C3D9FF;
+	border-top-width: 2px;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+}
+
+body.sectionModule .calendar-container .month-container,
+body.sectionModule .calendar-container .week-container {
+	-moz-border-radius-topleft: 0;
+	-webkit-border-top-left-radius: 0;
+}
+
+.calendar-view-month .month-grid {
+	border-right: solid 1px #C3D9FF;
+	border-bottom: solid 1px #C3D9FF;
+	background: #FFF;
+}
+
+.calendar-view-month .month-row-bg td {
+	border-left: solid 1px #C3D9FF;
+}
+
+.calendar-view-month .month-row-fg thead a {
+	color: #444;
+	text-decoration: none;
+}
+
+.calendar-view-month .month-row-fg thead .othermonth {
+	background: #EEE;
+}
+
+.calendar-view-month .month-row-fg thead .othermonth a {
+	color: #777;
+}
+
+.calendar-view-month .month-row-bg .today {
+	background: #FFFFCC;
+}
+
+.calendar-view-month .month-row-fg thead .today {
+	background: #BBCCDD;
+}
+
+.calendar-view-month .month-row-fg thead td {
+	background: #E8EEF7;
+	text-align: right;
+	line-height: 16px;
+	padding-right: 2px;
+	border-top: solid 1px #C3D9FF;
+	border-left: solid 1px #C3D9FF;
+	font-weight: normal;
+}
+
+.calendar-view-month .month-row-fg tbody td {
+	padding: 1px 1px 0 2px;
+	line-height: 16px;
+}
+
+#calendar-colorpicker .event-occurrence,
+.calendar-view .event-occurrence {
+	position: relative;
+	line-height: 16px;
+	padding-left: 4px;
+}
+
+.calendar-view .occurrence-wrap {
+	position: absolute;
+	top: 5px;
+	width: 4px;
+	height: 8px;
+	background-repeat: no-repeat;
+	background-position: 0 0;
+}
+
+.calendar-view .occurrence-wrap-to {
+	right: 4px;
+	background-image: url(/modules/calendar/images/wrapto.gif);
+}
+
+.calendar-view .occurrence-wrap-from {
+	left: 4px;
+	background-image: url(/modules/calendar/images/wrapfrom.gif);
+}
+
+.calendar-view .event-occurrence-wrapped-from {
+	padding-left: 12px;
+}
+
+#calendar-colorpicker .event-day,
+.calendar-view .event-day {
+	background: #A992A9;
+	color: #FFF;
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
+}
+
+.calendar-view-month .event-time {
+	color: #705770;
+}
+
+.calendar-view-tinymonth > div {
+	border: solid 6px #C3D9FF;
+	padding: 1px;
+	background: #FFF;
+}
+
+.calendar-view-tinymonth > div > table {
+	width: 100%;
+	table-layout: fixed;
+}
+
+.calendar-view-tinymonth th,
+.calendar-view-tinymonth td {
+	text-align: center;
+	line-height: 16px;
+	padding: 1px 3px;
+	color: #000;
+	font-weight: normal;
+}
+
+.calendar-view-tinymonth th {
+	background-color: #A2BBDD;
+}
+
+.calendar-view-tinymonth td {
+	cursor: pointer;
+}
+
+.calendar-view-tinymonth table tbody tr td:hover {
+	background-color: #DDEEFF;
+}
+
+.calendar-view-tinymonth tbody td.highlight {
+	background-color: #AACCEE;
+}
+
+.calendar-view-tinymonth tbody td.highlight-0,
+.calendar-view-tinymonth tbody td.highlight-6 {
+	background-color: #99BBDD;
+}
+
+.calendar-view-tinymonth td.weekday-0,
+.calendar-view-tinymonth td.weekday-6 {
+	background-color: #EEE;
+}
+
+.calendar-view-tinymonth td.today {
+	border: solid 1px #224466;
+	padding: 0 2px;
+}
+
+.calendar-view-tinymonth .occurrence {
+	font-weight: bold;
+}
+
+.calendar-view-tinymonth tbody .othermonth {
+	color: #888;
+}
+
+.calendar-container .week-container .week-top {
+	background: #C3D9FF;
+	padding: 0 1px;
+}
+
+.calendar-container .week-container .week-top table {
+	background: #C3D9FF;
+}
+
+.calendar-container .week-container .week-top thead td {
+	font-weight: normal;
+	text-align: center;
+	padding-bottom: 1px;
+}
+
+.calendar-container .week-container .week-top thead td a {
+	color: #112ABB;
+	text-decoration: none;
+}
+
+.calendar-container .week-container .week-top tbody td {
+	padding: 1px 1px 0 1px;
+	border-left: 1px solid #C3D9FF;
+	background: #E8EEF7;
+}
+
+.calendar-container .week-container .week-grid {
+	background: #FFF;
+	overflow-x: hidden;
+	overflow-y: scroll;
+	position: relative;
+	border: solid 1px #C3D9FF;
+}
+
+.calendar-container .week-container .week-grid-table .column {
+	background-image: url(/modules/calendar/images/weekgridbg.gif);
+	border-left: 1px solid #C3D9FF;
+	position: relative;
+	padding: 0 0 0 1px;
+}
+
+.calendar-container .week-container .week-top .times,
+.calendar-container .week-container .week-grid .times {
+	width: 34px;
+	color: #777;
+	background: #E8EEF7;
+}
+
+.calendar-container .week-container .week-grid .times .now {
+	background: #C3D9FF;
+	font-weight: bold;
+}
+
+.calendar-container .week-container .week-top .times {
+	background: #C3D9FF;
+}
+
+.calendar-container .week-container .week-grid .times {
+	background-image: url(/modules/calendar/images/weekgridbg.gif);
+}
+
+.calendar-container .week-container .week-grid .today {
+	background-color: #FFC;
+}
+
+.calendar-container .week-container .week-grid .times li {
+	text-align: right;
+}
+
+.calendar-container .week-container .week-grid .times li span {
+	display: block;
+	padding: 2px 2px 0 0;
+}
+
+.calendar-container .week-container .week-top .scrollbar {
+	border: none;
+	background: #C3D9FF;
+	padding: 0;
+}
+
+.calendar-container .week-container .event-time {
+	position: absolute;
+	padding: 0;
+}
+
+.calendar-container .week-container .event-time > div {
+	color: #FFF;
+	margin-right: 1px;
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
+}
+
+.calendar-container .week-container .event-time dt {
+	background-image: url(/modules/calendar/images/000000_o16.png);
+	padding-left: 4px;
+}
+
+.calendar-container .week-container .event-time dd {
+	padding-left: 4px;
+}
+
+#calendar-bubble {
+	position: absolute;
+	z-index: 10000; /* must be higher than .calendar-createevent-highlight */
+	background: url(/modules/calendar/images/A2BBDD_o50.png);
+	padding: 4px;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	line-height: normal;
+	text-align: left;
+}
+
+#calendar-bubble #bubble-header {
+	background: #EAF0F9 url(/modules/calendar/images/bubble_header_bg.gif) top left repeat-x;
+	border: solid 1px #A2BBDD;
+	-moz-border-radius-topleft: 4px;
+	-moz-border-radius-topright: 4px;
+	-webkit-border-top-left-radius: 4px;
+	-webkit-border-top-right-radius: 4px;
+	padding: 6px 36px 6px 10px;
+	color: #000;
+	font-weight: bold;
+}
+
+#calendar-bubble #bubble-body {
+	padding: 8px 10px;
+	color: #000;
+	border: solid 1px #A2BBDD;
+	border-top: none;
+	background: #FEFFFF url(/modules/calendar/images/bubble_body_bg.gif) bottom left repeat-x;
+	-moz-border-radius-bottomleft: 4px;
+	-moz-border-radius-bottomright: 4px;
+	-webkit-border-bottom-left-radius: 4px;
+	-webkit-border-bottom-right-radius: 4px;
+}
+
+#calendar-bubble #bubble-arrow {
+	position: absolute;
+	background: url(/modules/calendar/images/bubble_arrow.png);
+	width: 47px;
+	height: 40px;
+	bottom: -40px;
+	left: 4px;
+}
+
+#calendar-bubble #bubble-close {
+	position: absolute;
+	top: 4px;
+	right: 4px;
+	border-left: solid 1px #A2BBDD;
+	background: url(/modules/calendar/images/bubble_close.png) 7px 8px no-repeat;
+	cursor: pointer;
+}
+
+#calendar-bubble #bubble-close a {
+	text-decoration: none;
+}
+
+#calendar-bubble #bubble-close span {
+	display: block;
+	padding: 7px 10px;
+	visibility: hidden;
+}
+
+#calendar-bubble .calendar-occurrence-summary {
+	margin-top: 0.6em;
+	border-top: solid 1px #A2BBDD;
+	padding-top: 0.6em;
+}
+
+#calendar-bubble .calendar-occurrence-actions {
+	margin-top: 0.6em;
+	border-top: solid 1px #A2BBDD;
+	padding-top: 0.6em;
+}
+
+#calendar-bubble .calendar-occurrence-info li {
+	margin-bottom: 0.6em;
+}
+
+#calendar-bubble .agendadialog div {
+	margin-bottom: 0.9em;
+}
+
+#calendar-bubble .agendadialog ol {
+	list-style-type: decimal;
+	margin: 1em 0;
+	padding-left: 23px;
+}
+
+#calendar-bubble .agendadialog em {
+	font-style: normal;
+	color: #888;
+}
+
+.calendar-view-month .event-morenotice {
+	text-align: center;
+}
+
+.calendar-view-month .event-morenotice a {
+	color: #112ABB;
+	text-decoration: none;
+}
+
+.calendar-view-month .event-morenotice a:hover {
+	text-decoration: underline;
+}
+
+.calendar-view-month .event-morenotice em {
+	font-style: normal;
+}
+
+.CalendarDisplay .BlockContent {
+	padding: 5px 0;
+}
+
+.BlockContent .calendar-container {
+	margin: 10px 0;
+}
+
+.calendar-view-tinymonth .datenavigator {
+	border: none;
+	background: transparent;
+	margin: 0 auto;
+	width: 131px;
+}
+
+.calendar-view-tinymonth .datenavigator,
+.calendar-view-tinymonth .datenavigator ul,
+.calendar-view-tinymonth .datenavigator li {
+	padding: 0 !important;
+}
+
+.calendar-view-tinymonth .datenavigator .previous a {
+	padding-left: 0;
+	background-image: url(/modules/calendar/images/navigator_sml_previous.png);
+	height: 24px;
+}
+
+.calendar-view-tinymonth .datenavigator .next a {
+	padding-right: 0;
+	background-image: url(/modules/calendar/images/navigator_sml_next.png);
+	height: 24px;
+}
+
+.calendar-view-tinymonth .datenavigator .date {
+	width: 85px;
+}
+
+.calendar-view-tinymonth .datenavigator span {
+	line-height: 24px;
+}
+
+.calendar-view-tinymonth .datenavigator a {
+	color: #00F;
+	text-decoration: none;
+}
+
+.calendar-view-tinymonth .datenavigator a:hover {
+	color: #00F;
+	text-decoration: underline;
+}
+
+.calendar-container .todaynavigator {
+	position: absolute;
+	top: 10px;
+	left: 245px;
+}
+
+body.sectionModule .calendar-container .todaynavigator a {
+	color: #184F87;
+}
+
+body.sectionModule .calendar-view-tinymonth > div {
+	border-right: none;
+}
+
+.calendar-container-frontend {
+	/* margin when displayed on front end */
+	margin-bottom: 10px;
+}
+
+.BlockContent .calendar-container-frontend {
+	/* no margin when displayed on front end inside a block */
+	margin-bottom: 0;
+}
+
+
+/********* Module: twitter (base) *********/
+
+.TwitterBlock h2 a {
+	background-image: url("/modules/twitter/images/twitter_bird_32x32.png") !important;
+	background-position: 5px 5px;
+	padding-top: 10px !important;
+	height: 32px;
+}
+.TwitterFeed li, .TwitterFeed ul {
+	list-style: none;
+	list-style-type: none;
+	list-style-image: none;
+}
+
+.TwitterFeed a {
+	display: inline  !important;
+	padding: 0 !important;
+	margin: 0 !important;
+	background-image: none !important;
+}
+
+/********* Module: comments (base) *********/
+
+/*
+CSS definitions which are (usually) common to all templates for comment system
+Any defined colours are samples only and should be overridden by the template as needed
+*/
+
+div.CommentsContainer
+{
+	margin-bottom: 10px;
+	border-bottom: solid 1px #E6E6E6;
+}
+
+div.CommentItemDepth
+{
+	/* border-left: solid 16px #c5dde9; */
+	padding-left: 16px;
+
+}
+
+div.CommentItem
+{
+	padding: 6px;
+	border-top: solid 1px #E6E6E6;
+	border-bottom: none;
+	background-image: url(/modules/comments/images/commentquote.gif);
+	background-position: 5px 5px;
+	background-repeat: no-repeat;
+}
+
+div.CommentItem .timeat
+{
+	text-transform: lowercase;
+}
+
+div.CommentItem .reply
+{
+	text-align: right;
+}
+
+div.CommentItem .permalink
+{
+	float: right;
+	font-size: 0.85em;
+}
+
+div.CommentItem div.name
+{
+	padding-left: 50px;
+}
+
+div.CommentItem div.date
+{
+	float: left;
+	padding-left: 50px;
+	font-size: 0.85em;
+	color: #ADADAD;
+}
+
+div.CommentItem div.inreplyto
+{
+	float: left;
+	margin-left: 0.3em;
+	text-transform: lowercase;
+	font-size: 0.85em;
+}
+
+div.CommentItem div.comment
+{
+	clear: both;
+}
+
+ul.CommentsPages
+{
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+ul.CommentsPages li
+{
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: inline;
+}
+
+div.CommentItemReplyContainer div.CommentsDialog {
+	border-top: solid 1px #c5dde9;
+}
+
+/* hide fieldset / legend inside modal */
+.ModalContent .CommentsDialog fieldset {
+	border: none;
+	padding: 10px 0 0 0;
+	background: transparent;
+}
+
+.ModalContent .CommentsDialog legend {
+	display: none;
+}
+
+div.CommentsDialog textarea {
+	width: 95%;
+}
+
+.CommentsShowLink {
+	display: none;
+}
+
+.CommentsDialogHidden .CommentsFormContainer,
+.CommentsDialogHidden .CommentsHideLink {
+	display: none;
+}
+
+.CommentsDialogHidden .CommentsShowLink {
+	display: inline;
+}
+
+div.CommentsDialog input[name='fromemail'] {
+	width: 250px;
+}
+
+div.CommentsDialog input[name='website'] {
+	width: 250px;
+}
+
+div.CommentsDialog input[name='captcha'] {
+	width: 100px;
+}
+
+div.CommentItemOutsideHighlight div.CommentItem
+{
+	background-color: #FFB;
+}
+
+body .PostDetails li.CommentsContentListDetails
+{
+	background-image: url(/modules/comments/images/comment.gif);
+}
+
+div.CommentsHTMLInfoLink,
+div.CommentsHTMLInfo
+{
+	padding: 6px;
+}
+
+span.HighlightMessage_fromemail {
+	display: block;
+}
+
+
+/********* Module: emailtofriend (base) *********/
+
+/*
+CSS definitions which are (usually) common to all templates for this module
+Any defined colours are samples only and should be overridden by the template as needed
+*/
+
+div.EmailToFriendDialog textarea
+{
+	width: 95%;
+}
+
+div.EmailToFriendDialog input[name='captcha'] {
+	width: 100px;
+}
+
+div.EmailToFriendDialog input[name='youremail'],
+div.EmailToFriendDialog input[name='friendemail'],
+div.EmailToFriendDialog input[name='website'] {
+	width: 250px;
+}
+
+span.HighlightMessage_youremail,
+span.HighlightMessage_friendemail,
+span.HighlightMessage_website {
+	display: block;
+}

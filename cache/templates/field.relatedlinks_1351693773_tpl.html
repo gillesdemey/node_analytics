@@ -1,0 +1,203 @@
+
+<?php ob_start(); ?>
+	<li id='link_%%rowid%%' class='SortableRow no-nesting'>
+		<table class='GridPanel' cellspacing='0' cellpadding='0' border='0' style='width:100%;'>
+			<tr style='background-color: #F2F2F2' onmouseout='this.className="GridRow"' onmouseover='this.className="GridRowOver"' class='GridRow'>
+				<td  width='28' style='text-align: center;' class='sort-handle'><img src='images/link.gif' width='21' height='20' alt='' /></td>
+				
+				<td  width='78' style='text-align: center;' class='sort-handle'><span class='linksortorder'></span></td>
+				
+				<td width=''>
+				
+				<table border="0" cellspacing="0" cellpadding="0" width="100%">
+				<tr>
+					<td width="50%">
+						<input id="relatedLinksText-%%rowid%%" name="relatedLinksText[%%rowid%%]" class='inPlaceFieldDefault'  />
+					</td>
+					<td width="50%">
+						<input id="relatedLinksUrl-%%rowid%%" name="relatedLinksUrl[%%rowid%%]" class='inPlaceFieldDefault' />
+					</td>
+					<td>
+						<a href="#" id="relatedLinksUrlBrowser-%%rowid%%" title="<?php echo iwp_htmlspecialchars(iwp_modules::getInstance()->GetModule("relatedlinks")->lang->Get('LinkToWebsiteContent')); ?>"><img src="images/insertlink.gif" width="16" height="16" alt="<?php echo iwp_htmlspecialchars(iwp_modules::getInstance()->GetModule("relatedlinks")->lang->Get('LinkToWebsiteContent')); ?>" /></a>
+					</td>
+				</tr>
+				</table>
+
+				</td>
+				
+				<td width="130">
+					<select id="linkNewWindow_%%rowid%%" name="relatedLinksNewWindow[%%rowid%%]" class="Field" style="width: 50px;">
+						<option value="no"><?php echo iwp_modules::getInstance()->GetModule("relatedlinks")->lang->Get('ListManualLinkNewWindowNo'); ?></option>
+						<option value="yes"><?php echo iwp_modules::getInstance()->GetModule("relatedlinks")->lang->Get('ListManualLinkNewWindowYes'); ?></option>
+					</select>
+				</td>
+				
+				<td  width='100'>
+					<img src="images/view_add.gif" alt="Add a New Link" onClick="AddRelatedLink();">
+					<img src="images/view_del.gif" alt="Remove this Link" id="remove_filter_id" class="remove_link_class" onClick="DeleteRelatedLink(%%rowid%%);">
+				</td>
+			</tr>
+		</table>
+	</li>
+<?php $tpl->Assign("linkRowContainer", ob_get_contents()); ob_end_clean(); ?>
+<script type="text/javascript">
+<!--
+var globalTmpIdNum = 0;
+var linkRowCounter = 0;
+var linkRow = "";
+
+$(document).ready(function() { 
+	linkRow = '<?php echo iwp_js($tpl->Get('linkRowContainer')); ?>';
+	<?php echo $tpl->Get('CurrentRelatedLinks'); ?>
+
+});
+
+function ToggleRelatedLinkWindow(id){
+	if($('#relatedNewWindow-'+id).val() == 'no'){
+		$('#relatedNewWindow-'+id).val('yes');
+		$('#linkNewWindow_'+id).attr('src', 'images/windownew.png');
+	}else{
+		$('#relatedNewWindow-'+id).val('no');
+		$('#linkNewWindow_'+id).attr('src', 'images/windowsame.png');
+	}
+}
+
+function UpdateRelatedLinksOrder(){
+	// update the numbers
+	pageSortCount = 1;
+	if($('#relatedlinksList li .linksortorder').size() == 0){
+		$('#relatedlinksListDiv').hide();
+		$('#relatedlinksList').hide();
+		$('#currentLinksHeader').hide();
+	}else{
+		$('#relatedlinksList li .linksortorder').each(function (){
+			$(this).html(pageSortCount);
+			pageSortCount++;
+		});
+	}
+}
+
+function DeleteRelatedLink(id){
+	$('#relatedText-'+id).remove();
+	$('#relatedUrl-'+id).remove();
+	$('#relatedNewWindow-'+id).remove();
+
+	animate_color('link_'+id+ ' table tr td', 'red');
+	
+	setTimeout("$('#link_"+id+"').remove();UpdateRelatedLinksOrder();$('#relatedlinksList').sortable( 'destroy' );$('#relatedlinksList').sortable({stop: function() { UpdateRelatedLinksOrder(); }, handle: '.sort-handle, .sort-handle img'});", 250);
+
+	UpdateRelatedLinksOrder();
+	
+}
+
+
+function AddRelatedLink(text,url,newwindow){
+
+	text = iwp.util.defaultVal(text, '<?php echo iwp_js(iwp_modules::getInstance()->GetModule("relatedlinks")->lang->Get('DefaultLinkText')); ?>');
+	url = iwp.util.defaultVal(url, '<?php echo iwp_js(iwp_modules::getInstance()->GetModule("relatedlinks")->lang->Get('DefaultLinkUrl')); ?>');
+	newwindow = iwp.util.defaultVal(newwindow, "no");
+
+	linkRowCounter++;
+	var newLinkRow = linkRow;
+	newLinkRow = newLinkRow.replace(/%%rowid%%/g ,linkRowCounter);
+
+	$(newLinkRow).appendTo('#relatedLinksList');
+	
+	$('#relatedLinksText-'+linkRowCounter).val(text);
+	$('#relatedLinksUrl-'+linkRowCounter).val(url);
+	$('#linkNewWindow_'+linkRowCounter).selectOptions(newwindow);
+	$('#relatedLinksText-'+linkRowCounter+', #relatedLinksUrl-'+linkRowCounter).bind('mouseover', 
+		function () { 
+			if(!$(this).hasClass("inPlaceFieldFocus")) { 
+				$(this).addClass("inPlaceFieldHover"); 
+			}
+		}
+	);
+
+	$('#relatedLinksText-'+linkRowCounter+', #relatedLinksUrl-'+linkRowCounter).bind('mouseout', 
+		function () { 
+			$(this).removeClass("inPlaceFieldHover");
+		}
+	);
+	
+	$('#relatedLinksText-'+linkRowCounter).bind('blur', 
+		function () { 
+			$(this).removeClass("inPlaceFieldFocus");
+			if(this.value == ''){
+				this.value = "<?php echo iwp_modules::getInstance()->GetModule("relatedlinks")->lang->Get('DefaultLinkText'); ?>";
+			}
+		}
+	);
+
+	$('#relatedLinksUrl-'+linkRowCounter).bind('blur', 
+		function () { 
+			$(this).removeClass("inPlaceFieldFocus");
+			if(this.value == ''){
+				this.value = "<?php echo iwp_modules::getInstance()->GetModule("relatedlinks")->lang->Get('DefaultLinkUrl'); ?>";
+			}
+		}
+	);
+
+	$('#relatedLinksText-'+linkRowCounter+', #relatedLinksUrl-'+linkRowCounter).bind('focus', 
+		function () { 
+			$(this).removeClass("inPlaceFieldHover");
+			$(this).addClass("inPlaceFieldFocus");
+			
+			if(this.value == "<?php echo iwp_modules::getInstance()->GetModule("relatedlinks")->lang->Get('DefaultLinkText'); ?>" || this.value == "<?php echo iwp_modules::getInstance()->GetModule("relatedlinks")->lang->Get('DefaultLinkUrl'); ?>"){
+				this.value = '';
+			}
+		}
+	);
+	
+	new IWPUrlBrowser($('#relatedLinksUrlBrowser-'+ linkRowCounter), $('#relatedLinksUrl-'+ linkRowCounter), $('#relatedLinksText-'+ linkRowCounter));
+
+	$('#relatedLinksList').sortable( "destroy" );
+	$('#relatedLinksList').sortable({stop: function() { UpdateRelatedLinksOrder(); }, handle: '.sort-handle, .sort-handle img'});
+	
+	UpdateRelatedLinksOrder();
+}
+
+function UpdateRelatedLinksOrder(){
+	// update the numbers
+	
+	pageSortCount = 1;
+	if($('#relatedLinksList li .linksortorder').size() == 0){
+		$('#relatedLinksList').hide();
+	}else{
+		$('#relatedLinksList li .linksortorder').each(function (){
+			$(this).html(pageSortCount);
+			pageSortCount++;
+		});
+	}
+}
+
+//-->
+</script>
+
+<div id="relatedLinksFieldList"></div>
+
+<div id="currentLinksHeader"  style="display: ">
+	<table width='100%' cellspacing="0">
+		<tr class="subTableHeadingRow" style="">
+			<td  width="40" style="text-align: center;">&nbsp;</td>
+			<td width="65" ><?php echo iwp_modules::getInstance()->GetModule("relatedlinks")->lang->Get('LinkSortOrder'); ?></td>
+			<td  width=''>
+			<table border="0" cellspacing="0" cellpadding="0" width="100%">
+				<tr>
+					<td width="50%">
+						<?php echo iwp_modules::getInstance()->GetModule("relatedlinks")->lang->Get('LinkText'); ?>
+					</td>
+					<td width="50%">
+						<?php echo iwp_modules::getInstance()->GetModule("relatedlinks")->lang->Get('LinkURL'); ?>
+					</td>
+				</tr>
+				</table>
+				
+				</td>
+			<td width="130"><?php echo iwp_modules::getInstance()->GetModule("relatedlinks")->lang->Get('LinkOpenNewWindow'); ?></td>
+			<td width="100">&nbsp;</td>
+		</tr>
+	</table>
+</div>
+<ul id="relatedLinksList" class="SortableList">
+</ul>

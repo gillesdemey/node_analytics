@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//Template//ITE XHTML Extension//EN" "http://www.buildertemplates.com/DTDs/ITEv1.3.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<?php echo $tpl->Get('layout','htmlHead'); ?>
+<body class="layout-<?php echo $tpl->Get('layout','template'); ?>">
+<?php echo $tpl->Get('bodyTagBegin'); ?>
+
+<div id="Container">
+
+ 
+    <div id="Header" class="tplsection-top-after-block1 headerBgImage">
+      
+<?php if($tpl->Get('hasWebsiteLogo')): ?>
+<div id="Logo" class="tplcond-showif-haswebsitelogo"><a href="<?php echo $tpl->Get('urls','homepage'); ?>" class="tplvar-site-siteurl-href"><img src="<?php echo $tpl->Get('WebsiteLogo'); ?>" alt="" class="tplvar-site-logoimage-src" /></a></div>
+<?php endif; ?>
+
+      
+<?php if(!$tpl->Get('hasWebsiteLogo')): ?>
+<h1 class="websiteName tplcond-hideif-haswebsitelogo"><a href="<?php echo $tpl->Get('urls','homepage'); ?>" class="tplvar-site-name tplvar-site-siteurl-href"><?php echo iwp_htmlspecialchars($tpl->Get('config','WebsiteTitle')); ?></a></h1>
+<?php endif; ?> 
+
+	  <div id="Slogan" class="tplvar-site-slogan"><?php echo iwp_htmlspecialchars($tpl->Get('config','siteSlogan')); ?></div>
+    </div><?php echo $tpl->Get('layout','topBlock1'); ?>
+   
+   
+    
+
+  
+
+<div id="content" class="clearfix">
+  
+
+      
+ <?php if(!in_array($tpl->Get('layout','columnCount'), array(1))): ?>
+<div class="Left tplsection-left-prepend tplcond-hideif-1column"><?php echo $tpl->Get('hookBeforeLeft'); ?><?php echo $tpl->Get('layout','leftBlocks'); ?><?php echo $tpl->Get('hookAfterLeft'); ?>
+        
+        
+
+        
+        
+        
+        
+        
+      </div>
+<?php endif; ?>
+
+ 
+
+    
+
+        <div class="Content tplsection-middle-prepend tplcond-addcolumncounttoclass-tplWidthColumns tplWidthColumns<?php echo $tpl->Get('layout','columnCount'); ?>"><?php echo $tpl->Get('hookBeforeMiddle'); ?><?php echo $tpl->Get('layout','middleBlocks'); ?><?php echo $tpl->Get('hookAfterMiddle'); ?>
+          
+          
+          
+          
+          
+          
+          
+
+
+				
+          
+			
+          
+          
+         </div>
+
+    
+    
+
+      
+ <?php if(!in_array($tpl->Get('layout','columnCount'), array(1, 2))): ?>
+<div class="Right tplsection-right-prepend tplcond-hideif-1column-2columns"><?php echo $tpl->Get('hookBeforeRight'); ?><?php echo $tpl->Get('layout','rightBlocks'); ?><?php echo $tpl->Get('hookAfterRight'); ?>
+        
+        
+        
+        
+      </div>
+<?php endif; ?>
+
+      </div>
+  </div>
+<div class="footerwrap">
+  <div id="Footer" class="tplsection-bottom-prepend-block1-block2"><?php echo $tpl->Get('layout','bottomBlock1'); ?><?php echo $tpl->Get('layout','bottomBlock2'); ?>
+    
+		
+  </div>
+</div>
+
+<?php echo $tpl->Get('bodyTagEnd'); ?>
+</body>
+</html>

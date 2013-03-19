@@ -1,0 +1,84 @@
+
+
+<style type="text/css">
+
+	dl.calendarBlockDisplayOptions dt {
+		font-weight: bold;
+	}
+
+	dl.calendarBlockDisplayOptions dd {
+		margin: 6px 0 8px 10px;
+	}
+
+</style>
+
+<dl class="calendarBlockDisplayOptions">
+	<dt>
+		<span class="required" style="visibility:hidden;">*</span> <?php echo $tpl->Get('calendar','lang','SetTitle'); ?>
+	</dt>
+	<dd>
+		<input type="text" name="title" id="Block_CalendarDisplay_title" class="Field300" value="<?php echo iwp_htmlspecialchars($tpl->Get('blockdata','title')); ?>" />
+	</dd>
+
+	<dt>
+		<span class="required">*</span> <?php echo $tpl->Get('calendar','lang','SelectViews'); ?>
+	</dt>
+	<dd>
+		<select id="Block_CalendarDisplay_views" name="views" class="Field300" multiple="multiple" size="4">
+			<option value="day" <?php if(in_array("day", $tpl->Get('blockdata','views'))): ?>selected="selected"<?php endif; ?>>Day</option>
+			<option value="week" <?php if(in_array("week", $tpl->Get('blockdata','views'))): ?>selected="selected"<?php endif; ?>>Week</option>
+			<option value="month" <?php if(in_array("month", $tpl->Get('blockdata','views'))): ?>selected="selected"<?php endif; ?>>Month</option>
+		</select><div class="ISelectorClear" />
+	</dd>
+
+	<dt>
+		<span class="required">*</span> <?php echo $tpl->Get('calendar','lang','SelectFirst'); ?>
+	</dt>
+	<dd>
+		<select id="Block_CalendarDisplay_first" name="first" class="Field300">
+			<option value="day" <?php if($tpl->Get('blockdata','first')=='day'): ?>selected="selected"<?php endif; ?>>Day</option>
+			<option value="week" <?php if($tpl->Get('blockdata','first')=='week'): ?>selected="selected"<?php endif; ?>>Week</option>
+			<option value="month" <?php if($tpl->Get('blockdata','first')=='month'): ?>selected="selected"<?php endif; ?>>Month</option>
+		</select>
+	</dd>
+
+</dl>
+
+<input type="hidden" name="blockid" value="<?php echo $tpl->Get('blockid'); ?>" id="blockid" />
+<input type="hidden" name="blocktype" value="moduleBlock_calendar_CalendarDisplay" id="blocktype" />
+
+<script type="text/javascript">//<!--
+
+$(function(){
+	if (typeof SiteLayout != 'undefined' && SiteLayout.tmpBlockID) {
+		//	dragging a new block in
+
+		var placeholder = $('#' + SiteLayout.tmpBlockID);
+		var columnList = placeholder.parents('.layoutBox');
+		var columnId = columnList.attr('id');
+
+		if (!/^layoutBox(.*)$/.test(columnId)) {
+			return;
+		}
+
+		var columnName = RegExp.$1.toLowerCase();
+		var views = ['month', 'week', 'day'];
+
+		for (var i = views.length; i--;) {
+			$('#Block_CalendarDisplay_views option[value=' + views[i] + ']').attr('selected', true);
+		}
+
+		$('#Block_CalendarDisplay_first').val('month');
+	}
+});
+
+window.setTimeout(function(){
+	//	using setTimeout so this happens after the modal draws and shows so we can determine the height
+	var views = $('#Block_CalendarDisplay_views');
+
+	views.iselector({
+		minimumHeight: views.outerHeight() * 1.7
+	});
+}, 1);
+
+//--></script>

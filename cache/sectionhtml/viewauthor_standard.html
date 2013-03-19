@@ -1,0 +1,12 @@
+<div class='Block tplblock-viewauthor tplblockstyle-viewauthor-standard'>
+            <h2 class='tplvar-author-name'>{$authorName}</h2>
+            
+{if $authorImageExists}
+<img src='{$authorImageSrc}' class='FloatRight tplvar-author-imageurl-src tplflag-author-image  tplvar-author-imagewidth-width tplvar-author-imageheight-height' height='{$authorImageHeight}' width='{$authorImageWidth}' />
+{/if}
+<div class='tplvar-author-biography'>{$authorBio}</div>
+            <h3 class='tpllang-ContentByAuthor'>{$lang.ContentByAuthor}</h3>
+				<div class='tplflag-author-paging'>{$authorPaging}</div>
+				<div class='tplflag-author-contentlist'>{$authorContentList}</div>
+				<div class='tplflag-author-paging'>{$authorPaging}</div>
+          </div>

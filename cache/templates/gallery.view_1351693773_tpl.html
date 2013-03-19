@@ -1,0 +1,85 @@
+<script type="text/javascript">
+<!--
+	function doBulkDelete() {
+		$('#GalleryForm').attr('action', 'index.php?section=module&action=custom&module=gallery&moduleaction=deletegalleries');
+		$('#GalleryForm').submit();
+	}
+//-->
+</script>
+<div class="BodyContainer">
+	<table class="OuterPanel">
+		<tr>
+			<td>
+				<?php if($tpl->Get('ViewListCount') || $tpl->Get('searchQuery')): ?>
+					<table class="GridPanel" cellspacing="1" cellpadding="2" border="0" id="IndexGrid" style="width:100%;">
+						<tr>
+							<td valign="top">
+							
+							</td>
+							<td valign="top" align="right">
+							
+								<?php if($tpl->Get('paging')): ?>
+									<?php echo $tpl->Get('paging'); ?>
+								<?php else: ?>
+									<div class="Paging">&nbsp;</div>
+								<?php endif; ?>
+							</td>
+						</tr>
+					</table>
+
+					<form name="GalleryForm" id="GalleryForm" action="" method="post">
+						<input type="hidden" name="bulkaction" id="bulkactionhidden" value="" />
+
+						<table class="GridPanel SortableGrid AutoExpand" cellspacing="0" cellpadding="0" border="0" id="IndexGrid" style="width:100%;" >
+							<thead>
+								<tr class="Heading3">
+									<td align="Center" width='10'><input type="checkbox" name="masterCheckbox" id="masterCheckbox" onClick="toggleCheckboxes(this,'GalleryForm');"></td>
+									<td width="50" >&nbsp;</td>
+										<?php if(!function_exists("foreach_159460")){ function foreach_159460(&$tpl, $array){ if(is_array($array)): foreach($array as $k=>$field): $tpl->Assign('k', $k, false); $tpl->Assign('field', $field, false);  ?>
+											<?php if($tpl->Get('field','display')): ?>
+												<td <?php if($tpl->Get('field','width')): ?>width="<?php echo $tpl->Get('field','width'); ?>"<?php endif; ?> <?php if($tpl->Get('field','nowrap')): ?>nowrap="nowrap"<?php endif; ?>>
+													<?php if($tpl->Get('field','ismodulefield')): ?>
+														<?php ob_start(); ?><?php echo $tpl->Get('field','lang'); ?><?php $tpl->Assign("tmplang", ob_get_contents()); ob_end_clean(); ?>
+													<?php else: ?>
+														<?php ob_start(); ?>Gallery_<?php echo stripspaces($tpl->Get('field','name')); ?><?php $tpl->Assign("tmp", ob_get_contents()); ob_end_clean(); ?>
+														<?php ob_start(); ?><?php echo $tpl->Get('gallery','lang',$tpl->Get("tmp")); ?><?php $tpl->Assign("tmplang", ob_get_contents()); ob_end_clean(); ?>
+													<?php endif; ?>
+													<?php echo $tpl->Get('tmplang'); ?>&nbsp;
+													<?php if($tpl->Get('field','sortable') ): ?>
+														<a title="<?php echo sprintf(GetLang('SortByAsc'), $tpl->Get('tmplang')); ?>" href="index.php?module=gallery&moduleaction=view&section=<?php echo $tpl->Get('section'); ?>&action=<?php echo $tpl->Get('action'); ?>&sortdir=asc&field=<?php echo $tpl->Get('field','dbfield'); ?>"><img src='images/<?php if($tpl->Get('SortField') == $tpl->Get('field','dbfield') && $tpl->Get('SortDir') == 'asc'): ?>active_<?php endif; ?>sortup.gif' border="0"></a>
+														<a title="<?php echo sprintf(GetLang('SortByDesc'), $tpl->Get('tmplang')); ?>" href="index.php?module=gallery&moduleaction=view&section=<?php echo $tpl->Get('section'); ?>&action=<?php echo $tpl->Get('action'); ?>&sortdir=desc&field=<?php echo $tpl->Get('field','dbfield'); ?>"><img src='images/<?php if($tpl->Get('SortField') == $tpl->Get('field','dbfield') && $tpl->Get('SortDir') == 'desc'): ?>active_<?php endif; ?>sortdown.gif' border="0"></a>
+													<?php endif; ?>
+													&nbsp;&nbsp;&nbsp;
+												</td>
+											<?php endif; ?>
+										<?php endforeach; endif;}} foreach_159460($tpl, $tpl->Get('DisplayFields')); ?>
+									<td nowrap width="120">
+										<?php echo GetLang('Action'); ?>
+									</td>
+								</tr>
+							</thead>
+							<tbody id="ContentListArea">
+								<?php if(!function_exists("foreach_50917")){ function foreach_50917(&$tpl, $array){ if(is_array($array)): foreach($array as $k=>$row): $tpl->Assign('k', $k, false); $tpl->Assign('row', $row, false);  ?>
+									<?php $tmpTplFile = $tpl->GetTemplate();
+			$tmpTplData = $tpl->TemplateData;
+			$tpl->ParseTemplate("gallery.view.row", false, "gallery");
+			$tpl->SetTemplate($tmpTplFile);
+			$tpl->TemplateData = $tmpTplData; ?>
+								<?php endforeach; endif;}} foreach_50917($tpl, $tpl->Get('ViewList')); ?>
+							</tbody>
+						</table>
+
+						<table class="GridPanel" cellspacing="1" cellpadding="2" border="0" id="IndexGrid" style="width:100%;">
+							<tr align="right">
+								<td>
+									<?php echo $tpl->Get('paging'); ?>
+								</td>
+							</tr>
+						</table>
+
+					</form>
+				<?php endif; ?>
+			</td>
+		</tr>
+	</table>
+</div>

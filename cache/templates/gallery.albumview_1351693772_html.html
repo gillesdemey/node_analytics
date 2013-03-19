@@ -1,0 +1,15 @@
+	<div class="galleryPaging"><?php echo $tpl->Get('galleryPaging'); ?></div>
+	<table border='0' cellspacing='0' cellpadding='0' class='GalleryImagesTable'>
+		<?php if(!function_exists("foreach_51870")){ function foreach_51870(&$tpl, $array){ $tpl->Assign(array('listLoop', 'iteration'), 0); if(is_array($array)): foreach($array as $__key=>$row): $tpl->Assign('__key', $__key, false); $tpl->Assign('row', $row, false); $tpl->Assign(array('listLoop', 'iteration'), $tpl->Get('listLoop', 'iteration')+1); ?>
+			<?php if((($tpl->Get('listLoop','iteration')-1) % 3) == 0): ?>
+				<tr>
+			<?php endif; ?>
+			<td class="GalleryViewImageContainer">
+				<a href="<?php echo $tpl->Get('config','siteURL'); ?><?php echo $tpl->Get('gallery','urlpath'); ?>viewimage-<?php echo $tpl->Get('row','imageid'); ?>.html" target="_blank" class="GalleryImageLink"><img src="<?php echo $tpl->Get('config','siteURL'); ?>/images/gallery/<?php echo $tpl->Get('row','galleryid'); ?>/<?php echo $tpl->Get('row','imageid'); ?>_thumbnail.<?php echo $tpl->Get('row','extension'); ?>" class="GalleryImage" id="image-<?php echo $tpl->Get('row','imageid'); ?>" alt="<?php echo $tpl->Get('row','title'); ?>" title="<?php echo $tpl->Get('row','title'); ?>" /></a>
+			</td>
+			<?php if((($tpl->Get('listLoop','iteration')) % 3) == 0): ?>
+				</tr>
+			<?php endif; ?>
+		<?php endforeach; endif;}} foreach_51870($tpl, $tpl->Get('OutputList')); ?>
+	</table>
+	<div class="galleryPaging"><?php echo $tpl->Get('galleryPaging'); ?></div>

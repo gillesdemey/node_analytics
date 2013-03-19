@@ -1,0 +1,25 @@
+<div class='Block ViewContentContainer tplblock-viewcontent tplblockstyle-viewcontent-standard'>
+				
+{$contentBreadcrumb}
+
+            
+{$contentbeforeTitle}{if strlen($contentTitle) > 0 && $hasTitle}
+<h2 class='tplvar-content-title'>{$contentprependTitle}{$contentTitle}{$contentappendTitle}</h2>
+{/if}{$contentafterTitle}<ul class='ContentPostDetails tplflag-content-details'>{$contentbeforeDetails}
+
+{$contentbeforeAuthors}{if strlen($contentAuthors) > 0 && $hasAuthors}<li class='ContentAuthors tplvar-content-authors'>{$contentprependAuthors}{$contentAuthors}{$contentappendAuthors}</li>{/if}{$contentafterAuthors}
+
+              
+{$contentbeforePublishdate}{if strlen($contentPublishdate) > 0 && $hasPublishdate}<li class='ContentPublishDate tplvar-content-publishdate'>{$contentprependPublishdate}{$contentPublishdate}{$contentappendPublishdate}</li>{/if}{$contentafterPublishdate}
+
+              
+{$contentbeforeCategories}{if strlen($contentCategories) > 0 && $hasCategories}<li class='ContentCategories tplvar-content-categories'>{$contentprependCategories}{$contentCategories}{$contentappendCategories}</li>{/if}{$contentafterCategories}
+
+            
+{$contentafterDetails}</ul>{$contentbeforeContent}{if strlen($contentContent) > 0 && $hasContent}
+<div class='tplvar-content-content BodyContent'>{$contentprependContent}{$contentContent}{$contentappendContent}</div>
+{/if}{$contentafterContent}
+
+            <br /><div class='tplflag-content-paging'>{$paging}</div>
+            <div class='tplflag-content-modules ContentModulesContainer'>{$contentModules}</div>
+          </div>

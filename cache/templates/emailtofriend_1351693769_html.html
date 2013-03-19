@@ -1,0 +1,50 @@
+<script type="text/javascript" language="javascript">
+$(function(){
+	var moduleScript = new IWP_Module_EmailToFriend('<?php echo $tpl->Get('emailtofriend','uniqueId'); ?>', '<?php echo $tpl->Get('emailtofriend','captchaImageAction'); ?>');
+	moduleScript.initialise();
+});
+</script>
+<div class="EmailToFriend" id="EmailToFriend_<?php echo $tpl->Get('emailtofriend','uniqueId'); ?>">
+	<h3><?php echo $tpl->Get('emailtofriend','lang','contentTitle'); ?></h3>
+	<?php ob_start(); ?><?php echo iwp_strtolower($tpl->Get('emailtofriend','contenttype','name_singular')); ?><?php $tpl->Assign("singular_lower", ob_get_contents()); ob_end_clean(); ?>
+	<p><?php echo sprintf($tpl->Get('emailtofriend','lang','contentIntro'), $tpl->Get('singular_lower')); ?></p>
+</div>
+<div class="EmailToFriendDialog" id="EmailToFriendDialog_<?php echo $tpl->Get('emailtofriend','uniqueId'); ?>">
+	<form id="EmailToFriendForm_<?php echo $tpl->Get('emailtofriend','uniqueId'); ?>" action="<?php echo $tpl->Get('emailtofriend','formAction'); ?>" method="post">
+		<fieldset>
+			<legend><?php echo $tpl->Get('emailtofriend','lang','formHeading'); ?></legend>
+			<div class="HorizontalFormContainer">
+				<dl>
+					<dt><span class="Required">*</span> <?php echo $tpl->Get('emailtofriend','lang','formYourName'); ?>:</dt>
+					<dd><input type="text" name="yourname" /> <span class="HighlightMessage HighlightMessage_yourname" style="display:none;"></span></dd>
+
+					<dt><span class="Required">*</span> <?php echo $tpl->Get('emailtofriend','lang','formYourEmail'); ?>:</dt>
+					<dd><input type="text" name="youremail" /> <span class="HighlightMessage HighlightMessage_youremail" style="display:none;"></span></dd>
+
+					<dt><span class="Required">*</span> <?php echo $tpl->Get('emailtofriend','lang','formFriendName'); ?>:</dt>
+					<dd><input type="text" name="friendname" /> <span class="HighlightMessage HighlightMessage_friendname" style="display:none;"></span></dd>
+
+					<dt><span class="Required">*</span> <?php echo $tpl->Get('emailtofriend','lang','formFriendEmail'); ?>:</dt>
+					<dd><input type="text" name="friendemail" /> <span class="HighlightMessage HighlightMessage_friendemail" style="display:none;"></span></dd>
+
+					<dt><span class="Required">*</span> <?php echo $tpl->Get('emailtofriend','lang','formSecurity'); ?>:</dt>
+					<dd><span class="captchaImageContainer"><?php echo $tpl->Get('emailtofriend','SecurityImage'); ?></span> <?php echo $tpl->Get('emailtofriend','lang','requestNewCaptchaImage'); ?></dd>
+
+					<dt></dt>
+					<dd>
+						<div class="Small"><?php echo $tpl->Get('emailtofriend','lang','formCopyCode'); ?></div>
+						<input type="text" name="captcha" autocomplete="off" /> <span class="HighlightMessage HighlightMessage_captcha" style="display:none;"></span>
+					</dd>
+
+					<dt><span class="Required">*</span> <?php echo $tpl->Get('emailtofriend','lang','formMessage'); ?>:</dt>
+					<dd><textarea cols="38" rows="4" name="message"></textarea> <span class="HighlightMessage HighlightMessage_message" style="display:none;"></span></dd>
+				</dl>
+				<p class="Submit">
+					<input type="submit" value="<?php echo GetLang('Submit'); ?>" class="Button" />
+				</p>
+				<p class="FormMessage" style="display:none;"></p>
+				<p class="FormError" style="display:none;"></p>
+			</div>
+		</fieldset>
+	</form>
+</div>

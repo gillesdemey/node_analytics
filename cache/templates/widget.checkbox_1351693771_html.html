@@ -1,0 +1,13 @@
+<ul class="Fields">
+	<?php $array = $tpl->Get('widget','fields'); if(is_array($array)): foreach($array as $__key=>$field): $tpl->Assign('__key', $__key, false); $tpl->Assign('field', $field, false);  ?>
+		<li>
+			<input class="Checkbox<?php if($tpl->Get('widget','is_required')): ?> required<?php endif; ?>" type="checkbox" id="widget-field-<?php echo $tpl->Get('field','id'); ?>" name="widget[<?php echo $tpl->Get('widget','id'); ?>][field][<?php echo $tpl->Get('widget','id'); ?>][value][]" value="<?php echo $tpl->Get('field','value'); ?>" <?php if($tpl->Get('field','is_selected')): ?>checked="checked"<?php endif; ?> />
+			<?php if($tpl->Get('field','is_other')): ?>
+				<label for="widget-field-<?php echo $tpl->Get('field','id'); ?>"><?php echo $tpl->Get('field','other_label_text'); ?></label>
+				<input class="Other" type="text" name="widget[<?php echo $tpl->Get('widget','id'); ?>][field][<?php echo $tpl->Get('widget','id'); ?>][other]" value="" />
+			<?php else: ?>
+				<label class="form-widget-field-label" for="widget-field-<?php echo $tpl->Get('field','id'); ?>"><?php echo $tpl->Get('field','value'); ?></label>
+			<?php endif; ?>
+		</li>
+	<?php endforeach; endif; ?>
+</ul>

@@ -1,0 +1,42 @@
+<div id="ViewImageControls">
+	<span id="GalleryRightImageControls">
+		<a href="#viewimage-<?php echo $tpl->Get('prev','imageid'); ?>" class="GalleryPrevLink" id="viewImagePreviousLink">&laquo; <?php echo $tpl->Get('gallery','lang','Previous'); ?></a>&nbsp;|&nbsp;<a href="#viewimage-<?php echo $tpl->Get('next','imageid'); ?>" class="GalleryNextLink" id="viewImageNextLink"><?php echo $tpl->Get('gallery','lang','Next'); ?> &raquo;</a>
+	</span>
+	<a href="#viewgallery"><?php echo $tpl->Get('gallery','lang','BackToAlbum'); ?></a>&nbsp;|&nbsp;<a href="<?php echo $tpl->Get('config','siteURL'); ?>/images/gallery/<?php echo $tpl->Get('image','galleryid'); ?>/<?php echo $tpl->Get('image','imageid'); ?>_original.<?php echo $tpl->Get('image','extension'); ?>" class="GalleryViewOriginalImage" id="viewImageOriginalSize" target="_blank"><?php echo $tpl->Get('gallery','lang','ViewOriginalSize'); ?></a>
+</div>
+<div class="GalleryViewImage">
+	<div class="GalleryImageContainerOuter" id="viewImageOuterContainerDiv">
+		<div class="GalleryImageContainer" id="viewImageContainerDiv" style="width: <?php echo $tpl->Get('image','width'); ?>px; height: <?php echo $tpl->Get('image','height'); ?>px;">
+				<div id="GalleryImageControls" style="width: <?php echo $tpl->Get('image','width'); ?>px; height: <?php echo $tpl->Get('image','height'); ?>px;">
+					<a id="overlayPrev" class="previous" href="<?php echo $tpl->Get('imageNav','second','url'); ?>" title="<?php echo $tpl->Get('gallery','lang','Previous'); ?>" style="width: <?php echo $tpl->Get('image','overlayPrevWidth'); ?>px;" >Previous</a>
+					<a id="overlayNext" class="next" href="<?php echo $tpl->Get('imageNav','fourth','url'); ?>"  title="<?php echo $tpl->Get('gallery','lang','Next'); ?>"  style="width: <?php echo $tpl->Get('image','overlayNextWidth'); ?>px;">Next</a>
+					<a id="overlayEnlarge" class="enlarge" href="<?php echo $tpl->Get('config','siteURL'); ?>/images/gallery/<?php echo $tpl->Get('image','galleryid'); ?>/<?php echo $tpl->Get('image','imageid'); ?>_original.<?php echo $tpl->Get('image','extension'); ?>"  title="Enlarge" target="_blank"><?php echo $tpl->Get('gallery','lang','Enlarge'); ?></a>
+				</div>
+				<img class="ViewImage" id="viewImage" style="width: <?php echo $tpl->Get('image','width'); ?>px; height: <?php echo $tpl->Get('image','height'); ?>px;" src="<?php echo $tpl->Get('config','siteURL'); ?>/images/gallery/<?php echo $tpl->Get('image','galleryid'); ?>/<?php echo $tpl->Get('image','imageid'); ?>_album.<?php echo $tpl->Get('image','extension'); ?>" />
+		</div>
+		<div id="imageNavigation">
+			<div id="imageNavItemsContainer">
+				<div id="firstNavigationImage" class="imageNavItem">
+					<a href="<?php echo $tpl->Get('imageNav','first','url'); ?>"><img src="<?php echo $tpl->Get('imageNav','first','src'); ?>" title="<?php echo $tpl->Get('imageNav','first','title'); ?>" /></a>
+				</div>
+				<div id="secondNavigationImage" class="imageNavItem">
+					<a href="<?php echo $tpl->Get('imageNav','second','url'); ?>"><img src="<?php echo $tpl->Get('imageNav','second','src'); ?>" title="<?php echo $tpl->Get('imageNav','second','title'); ?>" /></a>
+				</div>
+				<div id="thirdNavigationImage" class="imageNavItem">
+					<a href="<?php echo $tpl->Get('imageNav','third','url'); ?>"><img src="<?php echo $tpl->Get('imageNav','third','src'); ?>" title="<?php echo $tpl->Get('imageNav','third','title'); ?>" /></a>
+				</div>
+				<div id="fourthNavigationImage" class="imageNavItem">
+					<a href="<?php echo $tpl->Get('imageNav','fourth','url'); ?>"><img src="<?php echo $tpl->Get('imageNav','fourth','src'); ?>" title="<?php echo $tpl->Get('imageNav','fourth','title'); ?>" /></a>
+				</div>
+				<div id="fifthNavigationImage" class="imageNavItem">
+					<a href="<?php echo $tpl->Get('imageNav','fifth','url'); ?>"><img src="<?php echo $tpl->Get('imageNav','fifth','src'); ?>" title="<?php echo $tpl->Get('imageNav','fifth','title'); ?>" /></a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div style="clear: both;"></div>
+	<div class="GalleryImageNumber" id="viewImageNumber"><?php echo sprintf($tpl->Get('gallery','lang','gViewImageNumber'), $tpl->Get('imageNumber'), $tpl->Get('totalImages')); ?></div>
+	<div class="GalleryImageTitle"  id="viewImageTitle"><?php echo $tpl->Get('image','title'); ?></div>
+	<div class="GalleryImageCaption" id="viewImageCaption"><?php echo $tpl->Get('image','caption'); ?></div>
+</div>

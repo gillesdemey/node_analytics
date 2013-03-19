@@ -1,0 +1,75 @@
+(function() {
+	tinymce.create('tinymce.plugins.GalleryModulePlugin', {
+		init : function(ed, url) {
+
+			ed.onClick.add(function(ed, e) {
+				e = e.target;
+
+				if (e.nodeName === 'IMG' && ed.dom.hasClass(e, 'iwpModuleGallery')) {
+					ed.selection.select(e);
+				}
+			});
+
+
+			var gallerySlideshowPlaceholder = new RegExp('<!-- gallery\:slideshow\:([0-9]+) -->', 'g'),
+				galleryPreviewPlaceholder	= new RegExp('<!-- gallery\:preview\:([0-9]+) -->', 'g');
+
+			ed.onBeforeSetContent.add(function(ed, o) {
+				o.content = o.content.replace(gallerySlideshowPlaceholder, function (fullStr,firstMatch) {
+					return '<img src="' + iwp.config.get('siteURL') + '/galleryplaceholder.png?type=slideshow&galleryid=' +firstMatch +'" class="iwpModuleGallerySlideshow'+firstMatch+' mceItemNoResize"  />';
+				});
+
+				o.content = o.content.replace(galleryPreviewPlaceholder, function (fullStr,firstMatch) {
+					return '<img src="' + iwp.config.get('siteURL') + '/galleryplaceholder.png?type=preview&galleryid=' +firstMatch +'" class="iwpModuleGalleryPreview'+firstMatch+' mceItemNoResize" />';
+				});
+			});
+
+
+			ed.onPostProcess.add(function(ed, o) {
+				var imgType = '';
+				var galleryId = 0;
+
+				if (o.get) {
+					o.content = o.content.replace(/<img[^>]+>/g, function(im) {
+						var isGalleryImage = false;
+
+						if (im.indexOf('iwpModuleGallerySlideshow') !== -1) {
+							imgType = 'slideshow';
+							galleryIdFinder	= new RegExp('iwpModuleGallerySlideshow([0-9]+)', 'g');
+							isGalleryImage = true;
+
+						}else if (im.indexOf('iwpModuleGalleryPreview') !== -1) {
+							galleryIdFinder	= new RegExp('iwpModuleGalleryPreview([0-9]+)', 'g');
+							imgType = 'preview';
+							isGalleryImage = true;
+						}
+
+						if(isGalleryImage) {
+							galleryId = galleryIdFinder.exec(im);
+							if(parseInt(galleryId[1]) > 0) {
+								im = '<!-- gallery:' + imgType + ':' + galleryId[1] + ' -->';
+							} else {
+								im = '';
+							}
+						}
+
+						return im;
+					});
+				}
+			});
+		},
+
+		getInfo : function() {
+			return {
+				longname : 'PageBreak',
+				author : 'Moxiecode Systems AB',
+				authorurl : 'http://tinymce.moxiecode.com',
+				infourl : 'http://wiki.moxiecode.com/index.php/TinyMCE:Plugins/pagebreak',
+				version : tinymce.majorVersion + "." + tinymce.minorVersion
+			};
+		}
+	});
+
+	// Register plugin
+	tinymce.PluginManager.add('gallerymoduleplugin', tinymce.plugins.GalleryModulePlugin);
+})();

@@ -1,0 +1,292 @@
+
+function validate(field, funcs) {
+	if(funcs.length == 0) {
+		return true;
+	}
+
+	var
+		result    = '',
+		errormsgs = [],
+		fieldVal  = field;
+
+	for (var i = 0; i < funcs.length; i++) {
+		result = eval('valid_' + funcs[i] + '("' + field + '");');
+
+		if(result !== true){
+			result = FieldNameReplace(result, field);
+			errormsgs.push(result);
+		}
+	}
+
+	if(errormsgs.length == 0) {
+		return true;
+	} else {
+		return errormsgs;
+	}
+}
+
+function FieldNameReplace(strText, field) {
+	return strText.replace('%s', FieldName(field));
+}
+
+
+
+function DisableField(disabler, toDisable) {
+	var tmp = $('#'+disabler).attr('checked');
+	if(tmp != true){
+		tmp = false;
+	}
+	$('#'+toDisable).attr('disabled', tmp);
+
+	if(tmp == true){
+		$('#'+toDisable).hide();
+	}else{
+		$('#'+toDisable).show();
+	}
+}
+
+/**
+ * Error-handles the passed empty fields.
+ *
+ * @param  Array emptyFields
+ * @return undefined
+ */
+function EmptyFields(emptyFields) {
+	if (typeof emptyFields == 'undefined') {
+		return;
+	}
+
+	if (emptyFields.length > 0) {
+		var
+			length    = emptyFields.length,
+			oldBorder = '',
+			tagName   = '';
+
+		for (var i = length; i--;) {
+			var fieldName = emptyFields[i];
+
+			if (!$('#' + fieldName).get(0)) {
+				continue;
+			}
+
+			$('#'+ fieldName).focus();
+		}
+	}
+}
+
+function EnableField(enabler, toEnable){
+	var tmp = $('#'+enabler).attr('checked');
+	if(tmp != true){
+		tmp = false;
+	}
+	$('#'+toEnable).attr('disabled', !tmp);
+
+	if(tmp == false){
+		$('#'+toEnable).hide();
+	}else{
+		$('#'+toEnable).show();
+	}
+}
+
+function valid_IsNotDuplicateCategory(field) {
+	return true;
+}
+
+function valid_IsNumberOnly(field) {
+	var val = parseFloat($('#' + field).val());
+	if(typeof val == 'number'){
+		return true;
+	}else{
+		return <?php echo iwp_FilterJavascriptString(GetLang('ValidError_IsNumberOnly')); ?>;
+	}
+}
+
+function valid_ValidEmail (field) {
+	//	pass email validation to the server
+	return true;
+}
+
+/**
+ * Checks to see if the passed field is blank
+ *
+ * @param  String  field
+ * @return Boolean
+ */
+function valid_IsNotBlank(field) {
+	var val;
+	if (typeof tinyMCE != 'undefined' && typeof tinyMCE.get(field) != 'undefined') {
+		val = tinyMCE.get(field).getContent();
+	} else {
+		var element = $('#'+ field);
+
+		if (!element.length) {
+			//	the element (by id) is not present in the client side dom, so return true - this happens with field types such as datetime where there are duplicate html fields
+			return true;
+		}
+
+		val = element.getValue();
+	}
+
+	if (val == '' || val == ' ' || val == '&nbsp;' || val == '<br/>' || val == '&nbsp;<br/>'){
+		var arrField = [field];
+
+		EmptyFields(arrField);
+
+		return <?php echo iwp_FilterJavascriptString(GetLang('ValidError_IsNotBlank')); ?>;
+	} else {
+		return true;
+	}
+}
+
+function valid_GetWYSIWYGContent(field){
+	if(typeof(tinyMCE) != 'undefined' && typeof(tinyMCE.get(field)) != 'undefined'){
+		var val = tinyMCE.get(field).getContent();
+		val = tinyMCE.get(field).getContent();
+		$("#"+field).val(val);
+	}
+	return true;
+}
+
+function valid_HasOneSelected(field){
+	var origField = field;
+	if($('#' + field).hasClass('ISSelectReplacement')){
+		field += '_old';
+	}
+
+	if($('#' + field).selectedValues().length ==0){
+		var arrField = [origField];
+		EmptyFields(arrField);
+		return <?php echo iwp_FilterJavascriptString(GetLang('ValidError_HasOneSelected')); ?>;
+	}else{
+		return true;
+	}
+}
+
+function valid_IsInt (field) {
+	var jfield = $("#"+ field);
+	var val = jfield.val();
+	if (val === '') {
+		return true;
+	}
+
+	var intval = parseInt(val, 10);
+	if (isNaN(intval) || intval.toString() != val) {
+		return <?php echo iwp_FilterJavascriptString(GetLang('ValidError_IsInt')); ?>;
+	}
+	jfield.val(intval);
+	return true;
+}
+
+valid_FilterInt = valid_IsInt;
+
+function valid_IsPositiveInt (field) {
+	var jfield = $('#'+ field);
+	var val = jfield.val();
+	if (val === '') {
+		return true;
+	}
+
+	var intval = parseInt(val, 10);
+	if (isNaN(intval) || intval.toString() != val || intval < 0) {
+		return <?php echo iwp_FilterJavascriptString(GetLang('ValidError_IsPositiveInt')); ?>;
+	}
+
+	jfield.val(intval);
+	return true;
+}
+
+function valid_IsIntGreaterThanZero (field) {
+	var jfield = $('#'+ field);
+	var val = jfield.val();
+	if (val === '') {
+		return true;
+	}
+
+	var intval = parseInt(val, 10);
+	if (isNaN(intval) || intval.toString() != val || intval < 1) {
+		return <?php echo iwp_FilterJavascriptString(GetLang('ValidError_IsIntGreaterThanZero')); ?>;
+	}
+
+	jfield.val(intval);
+	return true;
+}
+
+function valid_ValidateUserPictureWidth (field) {
+	return valid_ValidateUserPictureWidthHeight(field);
+}
+
+function valid_ValidateUserPictureHeight (field) {
+	return valid_ValidateUserPictureWidthHeight(field);
+}
+
+function valid_ValidateUserPictureWidthHeight (field) {
+	var parentfield = $('#RestrictUserPictureSize');
+	if (!parentfield.attr('checked')) {
+		//	skip validation if parent checkbox field is not checked
+		return true;
+	}
+
+	var result = valid_IsNotBlank(field);
+	if (result === true) {
+		result = valid_IsPositiveInt(field);
+	}
+
+	return result;
+}
+
+function valid_ValidateDateString (field) {
+	//	on javascript side we do a basic date format check - server side will perform date range and us/uk validation
+
+	var val = $.trim($('#'+ field).val());
+	if (val.length == 0) {
+		return true
+	}
+
+	if (!/^(\d{1,2})[\/\-\.](\d{1,2})[\/\-\.](\d{2,4})$/.test(val)) {
+		return <?php echo iwp_FilterJavascriptString(GetLang('ValidError_ValidateDateString')); ?>;
+	}
+	return true;
+}
+
+function valid_IsValidTimezone (field) {
+	//	returning true as this validation can only be performed by the server
+	return true;
+}
+
+function valid_IsValidView (field) {
+	var valid = true;
+	var empty = [];
+
+	$('.FieldRow[id^='+ field +'_row]').each(function(){
+		var nodes = $(this).find('.FiltName');
+		if (!nodes.val()) {
+			//	ignore filter rows without a field selected
+			return;
+		}
+
+		var nodes = $(this).find('.TypeName');
+		var typeName = nodes.val();
+		if (!typeName) {
+			valid = false;
+			empty.push(nodes.attr('id'));
+			return;
+		}
+
+		if (typeName == 'equals') {
+			return;
+		}
+
+		var nodes = $(this).find('.FilterEntry');
+		if (!nodes.val()) {
+			valid = false;
+			empty.push(nodes.attr('id'));
+			return;
+		}
+	});
+
+	if (!valid) {
+		EmptyFields(empty);
+		return <?php echo iwp_FilterJavascriptString(GetLang('ValidError_IsValidView')); ?>;
+	}
+	return true;
+}

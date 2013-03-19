@@ -1,0 +1,2 @@
+<input type="button" name="IndexCreateButton" <?php if(!$tpl->Get('createPermission')): ?>disabled="disabled"<?php endif; ?> value="<?php echo $tpl->Get('gallery','lang','CreateGallery'); ?>"  class="Button" onClick="document.location.href='index.php?section=module&action=custom&module=gallery&moduleaction=create'" />
+<input type="button" name="IndexCreateButton" <?php if(!$tpl->Get('anyDeletePermission')): ?>disabled="disabled"<?php endif; ?> value="<?php echo GetLang('DeleteSelected'); ?>"  class="Button" onClick="doBulkDelete(); return false;" />

@@ -1,0 +1,2 @@
+<div class='Block Breadcrumb tplblock-breadcrumbtrail tplblockstyle-breadcrumbtrail-standard'>
+            <ul class='tplrepeat-breadcrumb'>{foreach from=$breadcrumbtrail.links item=row}{if $row.Url}<li class='tplcond-breadcrumb-iflinked'><a href='{$row.Url}' class='tplvar-breadcrumb-url-href tplvar-breadcrumb-label'>{$row.Title}</a></li>{/if}{if !$row.Url}<li class='tplcond-breadcrumb-ifnotlinked tplvar-breadcrumb-label'>{$row.Title}</li>{/if}{/foreach}</ul></div>

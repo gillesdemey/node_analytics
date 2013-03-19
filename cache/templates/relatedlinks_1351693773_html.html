@@ -1,0 +1,8 @@
+<?php if($tpl->Get('relatedlinks','hasRelatedLinks')): ?>
+	<h3><?php echo $tpl->Get('relatedlinks','lang','displayRelatedLinks'); ?></h3>
+	<ul>
+		<?php if(!function_exists("foreach_221663")){ function foreach_221663(&$tpl, $array){ if(is_array($array)): foreach($array as $key=>$row): $tpl->Assign('key', $key, false); $tpl->Assign('row', $row, false);  ?>
+			<li><a href="<?php echo $tpl->Get('row','url'); ?>" <?php if($tpl->Get('row','newwindow') == 'yes'): ?>target="_blank"<?php endif; ?>><?php echo $tpl->Get('row','title'); ?></a></li>
+		<?php endforeach; endif;}} foreach_221663($tpl, $tpl->Get('relatedlinks','result')); ?>
+	</ul>
+<?php endif; ?>

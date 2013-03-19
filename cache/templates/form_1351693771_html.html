@@ -1,0 +1,94 @@
+<script type="text/javascript">
+
+jQuery(function($) {
+	
+	// set the default form error handler
+	$.fn.form.setErrorHandler('default', function(errors) {
+		var form = $(this);
+		
+		// remove the error messages
+		form.find('.Widget div.Error').remove();
+		
+		// foreach error, insert them
+		$.each(errors, function(errorIndex, error) {
+			// fields with the same name represent radio and checkboxes
+			var fieldsWithSameName = form.find('[name="' + error.field.attr('name') + '"]');
+			
+			// put a error message after the widget title, but do it only once for each widget
+			if (fieldsWithSameName.index(error.field) == fieldsWithSameName.length - 1) {
+				error.field.closest('.Widget').find('label:first').after('<div class="Error">' + error.message + '</div>');
+			}
+		});
+		
+		// focus the first error field
+		errors[0].field.focus();
+		
+		// and alert the first error message
+		alert(errors[0].message);
+	});
+	
+	// initialize the form validator
+	$('#form-<?php echo $tpl->Get('form','id'); ?>').form().init({
+		errorClass : 'Required'
+	});
+	
+	// language pack the error messages
+	$('#form-<?php echo $tpl->Get('form','id'); ?> .Required').form().setErrorMessage('required', '<?php echo $tpl->Get('langvars','errorRequired'); ?>');
+	
+	// "Other" fields must not be empty if their corresponding
+	// radio button is checked
+	$('#form-<?php echo $tpl->Get('form','id'); ?> :input.Other').form().setDependency(function(field) {
+		if ($(this).siblings(':radio:checked, :checkbox:checked').length && $.trim($(this).val()) == '') {
+			return false;
+		}
+		
+		return true;
+	}, "<?php echo $tpl->Get('langvars','errorRequiredOther'); ?>");
+	
+});
+
+</script>
+
+<div class="Module_Form">
+	<form id="form-<?php echo $tpl->Get('form','id'); ?>" action="<?php echo $tpl->Get('action'); ?>" method="post" enctype="multipart/form-data">
+		<div class="Name"><?php echo $tpl->Get('form','name'); ?></div>
+			
+		<?php if($tpl->Get('form','description')): ?>
+			<p class="Description"><?php echo $tpl->Get('form','description'); ?></p>
+		<?php endif; ?>
+		
+		<fieldset>
+			<?php if($tpl->Get('errorMessage')): ?>
+				<p class="Message Error"><?php echo $tpl->Get('errorMessage'); ?></p>
+			<?php endif; ?>
+			
+			<?php if($tpl->Get('successMessage')): ?>
+				<p class="Message Success"><?php echo $tpl->Get('successMessage'); ?></p>
+			<?php endif; ?>
+			
+			<?php $array = $tpl->Get('widgets'); if(is_array($array)): foreach($array as $__key=>$widget): $tpl->Assign('__key', $__key, false); $tpl->Assign('widget', $widget, false);  ?>
+				<div class="Widget <?php echo $tpl->Get('widget','className'); ?><?php if($tpl->Get('widget','is_required')): ?> NotBlank<?php endif; ?>">
+					<label for="Widget_<?php echo $tpl->Get('widget','id'); ?>"><?php echo $tpl->Get('widget','name'); ?> <?php if($tpl->Get('widget','is_required')): ?><span class="Required">*</span><?php endif; ?></label>
+					
+					<?php if($tpl->Get('widget','errors')): ?>
+						<ul class="Errors">
+							<?php $array = $tpl->Get('widget','errors'); if(is_array($array)): foreach($array as $__key=>$error): $tpl->Assign('__key', $__key, false); $tpl->Assign('error', $error, false);  ?>
+								<li><?php echo $tpl->Get('error'); ?></li>
+							<?php endforeach; endif; ?>
+						</ul>
+					<?php endif; ?>
+					
+					<?php if($tpl->Get('widget','description')): ?>
+						<p class="Description"><?php echo $tpl->Get('widget','description'); ?></p>
+					<?php endif; ?>
+					
+					<?php echo $tpl->Get('widget','template'); ?>
+				</div>
+			<?php endforeach; endif; ?>
+			
+			<div class="Buttons">
+				<button type="submit"><?php echo $tpl->Get('form','submit_button_text'); ?></button>
+			</div>
+		</fieldset>
+	</form>
+</div>

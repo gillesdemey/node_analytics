@@ -1,0 +1,20 @@
+<?php echo $tpl->Get('emailBodyStart'); ?>
+
+<?php $array = $tpl->Get('widgets'); if(is_array($array)): foreach($array as $key=>$widget): $tpl->Assign('key', $key, false); $tpl->Assign('widget', $widget, false);  ?>
+
+<?php if($tpl->Get('widget','type') == 'section.break'): ?>===== <?php echo $tpl->Get('widget','name'); ?> =====
+<?php else: ?>
+<?php echo $tpl->Get('widget','name'); ?>:
+	
+<?php $array = $tpl->Get('widget','values'); if(is_array($array)): foreach($array as $__key=>$value): $tpl->Assign('__key', $__key, false); $tpl->Assign('value', $value, false);  ?>
+<?php echo $tpl->Get('value','value'); ?>
+
+<?php endforeach; endif; ?>
+
+<?php endif; ?>
+<?php endforeach; endif; ?>
+
+<?php echo $tpl->Get('emailViewLink'); ?>
+
+
+<?php echo $tpl->Get('emailEditLink'); ?>

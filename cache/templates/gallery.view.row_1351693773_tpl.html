@@ -1,0 +1,47 @@
+<tr id="tr_<?php echo $tpl->Get('row','id'); ?>"  class="GridRow" onmouseover="this.className='GridRowOver'" onmouseout="this.className='GridRow'" >
+	<td align="Center">
+			<input type="checkbox" <?php if(!$tpl->Get('row','deletePermission')): ?>disabled="disabled"<?php endif; ?> name="items[]" class="deleteBox" id="deleteBox_<?php echo $tpl->Get('row','id'); ?>" value="<?php echo $tpl->Get('row','id'); ?>" <?php echo $tpl->Get('all_checked'); ?>>
+	</td>
+	<td width="50">
+		<?php if($tpl->Get('row','numimages') > 0): ?>
+			<img align="left" src="../images/gallery/<?php echo $tpl->Get('row','id'); ?>/gallerythumb_small.<?php echo $tpl->Get('row','extension'); ?>" width="50" height="50" />
+		<?php else: ?>
+			<img align="left" src="../modules/gallery/images/no_photos.jpg" width="50" height="50" />
+		<?php endif; ?>
+	</td>
+	<td >
+		<?php echo iwp_htmlspecialchars($tpl->Get('row','name')); ?>
+	</td>
+
+	<td width="140">
+		<?php echo $tpl->Get('row','numimages'); ?>
+	</td>
+
+	<td  width="130">
+		<?php echo iwp_LongDate(strtotime($tpl->Get('row','date_created'))); ?>
+	</td>
+
+	<td width="130">
+		<?php echo iwp_LongDate(strtotime($tpl->Get('row','date_updated'))); ?>
+	</td>
+
+
+
+	<td nowrap="nowrap"  width="120"><div style="white-space: nowrap; padding: 0; margin: 0; width: 120px;">
+
+			<a href="<?php echo $tpl->Get('config','siteURL'); ?><?php echo $tpl->Get('row','urlpath'); ?>" target="_blank"><?php echo GetLang('View'); ?></a>
+
+			<?php if(!$tpl->Get('row','editPermission')): ?>
+				<span class="greytext"><?php echo GetLang('Edit'); ?></span>
+			<?php else: ?>
+				<a href="index.php?section=module&amp;action=custom&amp;module=gallery&amp;moduleaction=edit&amp;galleryid=<?php echo $tpl->Get('row','id'); ?>" ><?php echo GetLang('Edit'); ?></a>
+			<?php endif; ?>
+
+			<?php if(!$tpl->Get('row','deletePermission')): ?>
+				<span class="greytext"><?php echo GetLang('Delete'); ?></span>
+			<?php else: ?>
+				<a href="index.php?section=module&amp;action=custom&amp;module=gallery&amp;moduleaction=deletesinglegallery&amp;galleryid=<?php echo $tpl->Get('row','id'); ?>"><?php echo GetLang('Delete'); ?></a>
+			<?php endif; ?>
+
+	</td>
+</tr>

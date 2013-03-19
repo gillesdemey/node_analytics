@@ -1,0 +1,12 @@
+<div style="padding-bottom:5px; ">
+	<table class="Panel">
+		<?php if($tpl->Get('GroupName')): ?>
+			<tr>
+				<td class="Heading2" colspan=2> <?php echo $tpl->Get('GroupName'); ?></td>
+			</tr>
+			<tr><td class="Gap"/></tr>
+		<?php endif; ?>
+		<?php echo $tpl->Get('fieldrows'); ?>
+		<tr><td class="Gap"/></tr>
+	</table>
+</div>

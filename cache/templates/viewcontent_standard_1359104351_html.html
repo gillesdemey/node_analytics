@@ -1,0 +1,25 @@
+<div class='Block ViewContentContainer tplblock-viewcontent tplblockstyle-viewcontent-standard'>
+				
+<?php echo $tpl->Get('contentBreadcrumb'); ?>
+
+            
+<?php echo $tpl->Get('contentbeforeTitle'); ?><?php if(strlen($tpl->Get('contentTitle')) > 0 && $tpl->Get('hasTitle')): ?>
+<h2 class='tplvar-content-title'><?php echo $tpl->Get('contentprependTitle'); ?><?php echo $tpl->Get('contentTitle'); ?><?php echo $tpl->Get('contentappendTitle'); ?></h2>
+<?php endif; ?><?php echo $tpl->Get('contentafterTitle'); ?><ul class='ContentPostDetails tplflag-content-details'><?php echo $tpl->Get('contentbeforeDetails'); ?>
+
+<?php echo $tpl->Get('contentbeforeAuthors'); ?><?php if(strlen($tpl->Get('contentAuthors')) > 0 && $tpl->Get('hasAuthors')): ?><li class='ContentAuthors tplvar-content-authors'><?php echo $tpl->Get('contentprependAuthors'); ?><?php echo $tpl->Get('contentAuthors'); ?><?php echo $tpl->Get('contentappendAuthors'); ?></li><?php endif; ?><?php echo $tpl->Get('contentafterAuthors'); ?>
+
+              
+<?php echo $tpl->Get('contentbeforePublishdate'); ?><?php if(strlen($tpl->Get('contentPublishdate')) > 0 && $tpl->Get('hasPublishdate')): ?><li class='ContentPublishDate tplvar-content-publishdate'><?php echo $tpl->Get('contentprependPublishdate'); ?><?php echo $tpl->Get('contentPublishdate'); ?><?php echo $tpl->Get('contentappendPublishdate'); ?></li><?php endif; ?><?php echo $tpl->Get('contentafterPublishdate'); ?>
+
+              
+<?php echo $tpl->Get('contentbeforeCategories'); ?><?php if(strlen($tpl->Get('contentCategories')) > 0 && $tpl->Get('hasCategories')): ?><li class='ContentCategories tplvar-content-categories'><?php echo $tpl->Get('contentprependCategories'); ?><?php echo $tpl->Get('contentCategories'); ?><?php echo $tpl->Get('contentappendCategories'); ?></li><?php endif; ?><?php echo $tpl->Get('contentafterCategories'); ?>
+
+            
+<?php echo $tpl->Get('contentafterDetails'); ?></ul><?php echo $tpl->Get('contentbeforeContent'); ?><?php if(strlen($tpl->Get('contentContent')) > 0 && $tpl->Get('hasContent')): ?>
+<div class='tplvar-content-content BodyContent'><?php echo $tpl->Get('contentprependContent'); ?><?php echo $tpl->Get('contentContent'); ?><?php echo $tpl->Get('contentappendContent'); ?></div>
+<?php endif; ?><?php echo $tpl->Get('contentafterContent'); ?>
+
+            <br /><div class='tplflag-content-paging'><?php echo $tpl->Get('paging'); ?></div>
+            <div class='tplflag-content-modules ContentModulesContainer'><?php echo $tpl->Get('contentModules'); ?></div>
+          </div>

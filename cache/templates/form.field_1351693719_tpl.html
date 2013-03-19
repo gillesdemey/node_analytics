@@ -1,0 +1,28 @@
+	<tr id="<?php echo $tpl->Get('FieldName'); ?>_row" class="FieldRow FieldRow_type_<?php echo $tpl->Get('fieldType'); ?>">
+		<td class="FieldLabel">
+			<?php if($tpl->Get('showName')): ?>
+				<?php if($tpl->Get('required')): ?>
+					<span style="color:red;">*</span>
+				<?php else: ?>
+					<span class="AsteriskPlaceholder">&nbsp;</span>
+				<?php endif; ?>&nbsp;<?php echo sprintf($tpl->Get('Name'), $tpl->Get('ContentType','name_singular')); ?><?php if(right($tpl->Get('Name'), 1) != '?'): ?>:<?php endif; ?>
+			<?php endif; ?>
+		</td>
+		<td>
+			<?php if($tpl->Get('showHelpTip')): ?>
+				<table border="0" cellpadding="0" cellspacing="0">
+					<tr>
+						<td><?php echo $tpl->Get('inputField'); ?><?php if($tpl->Get('showLabel') && $tpl->Get('Label')): ?><label for="<?php echo $tpl->Get('FieldName'); ?>" style="margin-right:5px;"><?php echo sprintf($tpl->Get('Label'), $tpl->Get('ContentType','name_singular')); ?></label><?php endif; ?></td>
+						<td valign="top" class="FieldHelpTip">
+							<?php if($tpl->Get('HelpText')): ?>
+								<img onMouseOut="HideHelp('<?php echo $tpl->Get('helpid'); ?>')" onMouseOver="ShowHelp('<?php echo $tpl->Get('helpid'); ?>', '<?php echo iwp_js(sprintf($tpl->Get('Name'), $tpl->Get('ContentType','name_singular'))); ?>', '<?php echo iwp_js(sprintf($tpl->Get('HelpText'), $tpl->Get('ContentType','name_singular'))); ?>')" src='images/help.gif' width='24' height='16' border='0' /><div style='display:none; z-index: 1000;' id='<?php echo $tpl->Get('helpid'); ?>'></div>
+							<?php endif; ?>
+						</td>
+					</tr>
+				</table>
+			<?php else: ?>
+				<?php echo $tpl->Get('inputField'); ?><?php if($tpl->Get('showLabel') && $tpl->Get('Label')): ?><label for="<?php echo $tpl->Get('FieldName'); ?>"><?php echo sprintf($tpl->Get('Label'), $tpl->Get('ContentType','name_singular')); ?></label><?php endif; ?>
+			<?php endif; ?>
+		</td>
+	</tr>
+

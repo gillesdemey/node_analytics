@@ -1,0 +1,24 @@
+<div id="galleryBreadcrumbContainer">
+	<?php echo $tpl->Get('galleryBreadcrumb'); ?>
+</div>
+
+<h2><?php echo $tpl->Get('gallery','name'); ?></h2>
+<div class="BodyContent" id="galleryDescription"><?php echo $tpl->Get('gallery','description'); ?></div>
+
+<script type="text/javascript">
+<!--
+	var galleryId = <?php echo $tpl->Get('gallery','id'); ?>;
+	var onViewGalleryPage = <?php echo $tpl->Get('onViewGalleryPage'); ?>;
+//-->
+</script>
+<div class='GalleryImages' id='GalleryImages' style="display: none;">
+	<?php echo $tpl->Get('galleryPageContent'); ?>
+</div>
+
+<script type="text/javascript">
+<!--
+	if (!(onViewGalleryPage && document.location.hash.indexOf('viewimage') > 0)) {
+		$('#GalleryImages').show();
+	}
+//-->
+</script>

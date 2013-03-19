@@ -1,0 +1,12 @@
+<div class='tplblock-customimage tplblockstyle-customimage-standard'>
+          
+{if !$imageIsLinked}
+<div class='tplcond-ifimagenotlinked'> <img class='tplvar-image-path-src tplvar-image-label-alt tplvar-image-width-width tplvar-image-height-height' src='{$imageURI}' width='{$imageWidth}' height='{$imageHeight}' alt='{$imageAlt}' /></div>
+{/if}
+
+          
+{if $imageIsLinked}
+<div class='tplcond-ifimagelinked'><a href='{$imageLinkURI}' target='{$imageLinkTarget}' class='tplvar-imagelink-url-href tplvar-imagelink-target-target'><img class='tplvar-image-path-src tplvar-image-label-alt tplvar-image-width-width tplvar-image-height-height' src='{$imageURI}' width='{$imageWidth}' height='{$imageHeight}' alt='{$imageAlt}' /></a> </div>
+{/if}
+
+        </div>

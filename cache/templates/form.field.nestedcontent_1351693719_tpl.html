@@ -1,0 +1,19 @@
+
+<script type="text/javascript">
+
+var nestedcontent_contentid = parseInt('<?php echo $tpl->Get('NestedContentId'); ?>');
+var nestedcontent_contenttypeid = parseInt('<?php echo $tpl->Get('NestedContentTypeId'); ?>');
+
+</script>
+<script type="text/javascript" src="../javascript/admin.nestedcontent.js" ></script>
+
+<div><select name="nestedparentcontenttype" id="nestedparentcontenttype">
+	<option><?php echo GetLang('ChooseParentContentType'); ?></option>
+	<?php $array = iwp_admin_contenttypes::getInstance()->GetContentTypeList(); if(is_array($array)): foreach($array as $__key=>$row): $tpl->Assign('__key', $__key, false); $tpl->Assign('row', $row, false);  ?>
+			<option value='<?php echo $tpl->Get('row','typeid'); ?>'><?php echo $tpl->Get('row','name'); ?></option>
+	<?php endforeach; endif; ?>
+</select></div>
+<div>
+<img src="images/nodejoin.gif" align="top" style="padding-top: 5px;" />
+<select id="contentparentid" name="contentparentid"></select>
+</div>

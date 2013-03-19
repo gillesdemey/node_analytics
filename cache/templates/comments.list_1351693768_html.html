@@ -1,0 +1,11 @@
+<?php if($tpl->Get('comments','comments')): ?>
+	<div class="CommentsContainer">
+		<?php if(!function_exists("foreach_38518")){ function foreach_38518(&$tpl, $array){ if(is_array($array)): foreach($array as $__key=>$comment): $tpl->Assign('__key', $__key, false); $tpl->Assign('comment', $comment, false);  ?>
+			<?php $tmpTplFile = $tpl->GetTemplate();
+			$tmpTplData = $tpl->TemplateData;
+			$tpl->ParseTemplate("comments.item", false, "comments");
+			$tpl->SetTemplate($tmpTplFile);
+			$tpl->TemplateData = $tmpTplData; ?>
+		<?php endforeach; endif;}} foreach_38518($tpl, $tpl->Get('comments','comments')); ?>
+	</div>
+<?php endif; ?>

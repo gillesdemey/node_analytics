@@ -1,0 +1,41 @@
+<div class='Block tplblock-advancedsearch tplblockstyle-advancedsearch-standard'>
+				<form action='#' method='get' class='tplvar-advancedsearch-pageurl-action' id='advancedSearchForm'>
+					<input type='hidden' name='searchadvanced' id='advancedSearchForm_searchadvanced' value='{if $searchAdvanced}1{/if}' class='tplflag-search-fromadvanced-value' /><fieldset><legend class='tpllang-AdvancedSearch'>{$lang.AdvancedSearch}</legend>
+					<div class='HorizontalFormContainer'>
+						<div class='tplvar-search-message Required'>{$searchMessage}</div>
+						<dl><dt><span class='Required'>* </span><span class='tpllang-AdvancedSearch_SearchQuery'>{$lang.AdvancedSearch_SearchQuery}</span></dt>
+							<dd>
+								<input type='text' name='search_Query' id='search_Query' class='tplvar-search-query-value' value='{$searchQuery}' /><small>(<a href='#' class='tpllang-AdvancedSearch_SearchTips' onclick='launchSearchTips();'>{$lang.AdvancedSearch_SearchTips}</a>)</small></dd>
+							<dt class='searchToggleOptionsRow'></dt>
+							<dd class='searchToggleOptionsRow'><a id='toggleSearchOptionsLinkShow' class='SearchToggleLinkShow tplvar-search-showadvanced-styleprepend tpllang-AdvancedSearch_ShowAdvancedOptions' onclick='ToggleSearchForm("show")' href='javascript:void(0)' style='{if $searchAdvanced}display:none;{/if}'>{$lang.AdvancedSearch_ShowAdvancedOptions}</a><a id='toggleSearchOptionsLinkHide' onclick='ToggleSearchForm("hide")' class='SearchToggleLinkHide tplvar-search-hideadvanced-styleprepend tplflag-searchAdvancedOption tpllang-AdvancedSearch_HideAdvancedOptions' href='javascript:void(0)' style='{if !$searchAdvanced}display:none;{/if}'>{$lang.AdvancedSearch_HideAdvancedOptions}</a></dd>
+							<dt class='tplvar-search-showadvanced-styleprepend tplflag-searchAdvancedOption tpllang-AdvancedSearch_SearchFields' style='{if $searchAdvanced}display:none;{/if}'>{$lang.AdvancedSearch_SearchFields}</dt>
+							<dd class='tplvar-search-showadvanced-styleprepend tplflag-searchAdvancedOption' style='{if $searchAdvanced}display:none;{/if}'>
+								<input type='checkbox' id='searchfield_title' name='searchfields[]' value='title' class='tplcond-search-titlecheckbox' {if $searchTitleChecked}checked='checked'{/if} /><label for='searchfield_title' class='tpllang-searchFieldTitle tpllang-AdvancedSearch_Title'>{$lang.AdvancedSearch_Title}</label>
+								<input type='checkbox' id='searchfield_content' name='searchfields[]' value='content' class='tplcond-search-contentcheckbox' {if $searchContentChecked}checked='checked'{/if} /><label for='searchfield_content' class='tpllang-searchFieldContent tpllang-AdvancedSearch_Content'>{$lang.AdvancedSearch_Content}</label>
+								<input type='checkbox' id='searchfield_author' name='searchfields[]' value='author' class='tplcond-search-authorcheckbox' {if $searchAuthorChecked}checked='checked'{/if} /><label for='searchfield_author' class='tpllang-searchFieldAuthor tpllang-AdvancedSearch_Author'>{$lang.AdvancedSearch_Author}</label>
+							</dd>
+							<dt class='tplvar-search-showadvanced-styleprepend tplflag-searchAdvancedOption tpllang-AdvancedSearch_SearchCategories' style='{if $searchAdvanced}display:none;{/if}'>{$lang.AdvancedSearch_SearchCategories}</dt>
+							<dd class='tplvar-search-showadvanced-styleprepend tplflag-searchAdvancedOption' style='{if $searchAdvanced}display:none;{/if}'>
+								<select name='search_categories[]' id='search_categories' size='5' multiple='multiple' class='tplflag-search-categorylist ISSelectReplacement'>{$searchableCategoriesOptions}</select><div class='ISelectorClear'></div>
+							</dd>
+							<dt class='tplvar-search-showadvanced-styleprepend tplflag-searchAdvancedOption tpllang-AdvancedSearch_SearchContent' style='{if $searchAdvanced}display:none;{/if}'>{$lang.AdvancedSearch_SearchContent}</dt>
+							<dd class='tplvar-search-showadvanced-styleprepend tplflag-searchAdvancedOption' style='{if $searchAdvanced}display:none;{/if}'>
+								<select name='search_contenttypes[]' id='search_contenttypes' size='5' multiple='multiple' class='tplflag-search-contenttypelist ISSelectReplacement'>{$searchableContentTypesOptions}</select><div class='ISelectorClear'></div>
+							</dd>
+							<dt class='tplvar-search-showadvanced-styleprepend tplflag-searchAdvancedOption tpllang-AdvancedSearch_StartSearchFrom' style='{if $searchAdvanced}display:none;{/if}'>{$lang.AdvancedSearch_StartSearchFrom}</dt>
+							<dd class='tplvar-search-showadvanced-styleprepend tplflag-searchAdvancedOption' style='{if $searchAdvanced}display:none;{/if}'>
+								<input id='search_startdate' class='tplvar-search-startdate-value' type='text' value='{$searchStartDate}' name='search_startdate' /></dd>
+							<dt class='tplvar-search-showadvanced-styleprepend tplflag-searchAdvancedOption tpllang-AdvancedSearch_EndSearchOn' style='{if $searchAdvanced}display:none;{/if}'>{$lang.AdvancedSearch_EndSearchOn}</dt>
+							<dd class='tplvar-search-showadvanced-styleprepend tplflag-searchAdvancedOption' style='{if $searchAdvanced}display:none;{/if}'>
+								<input id='search_enddate' class='tplvar-search-enddate-value' type='text' value='{$searchEndDate}' name='search_enddate' /></dd>
+						</dl><p class='Submit'>
+							<input type='submit' value='{$lang.Search}' class='Button tplvar-search-submitbuttonaction-onclick SubmitButton tpllang-Search-value' onclick='return CheckSearchForm();' /></p>
+					</div>
+					</fieldset></form>
+				<div id='search_results'>
+					<h2 class='tpllang-SearchResultTitle tplcond-search-showifresults' style=' display: none;'>{$lang.SearchResultTitle}</h2>
+					<div class='tplflag-search-paging'>{$searchPaging}</div>
+					<div class='tplflag-search-results'>{$searchResults}</div>
+					<div class='tplflag-search-paging'>{$searchPaging}</div>
+				</div>
+			</div>

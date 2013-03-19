@@ -1,0 +1,108 @@
+<?php $tmpTplFile = $tpl->GetTemplate();
+			$tmpTplData = $tpl->TemplateData;
+			$tpl->ParseTemplate("header.login");
+			$tpl->SetTemplate($tmpTplFile);
+			$tpl->TemplateData = $tmpTplData; ?>
+	<form action="index.php" method="post" name="frmLogin" id="frmLogin">
+	<input type="hidden" name="submit_login" value="true">
+	<div id="box">
+		<table><tr><td style="border:solid 2px #DDD; padding:20px; background-color:#FFF; width:300px">
+		<table>
+		  <tr>
+			<td class="Heading1">
+				<?php echo $tpl->Get('whitelabel','AdminLogo'); ?>
+			</td>
+		  </tr>
+
+<?php if($tpl->Get('LoginError')): ?>
+		  <tr style="">
+			<td style="padding:10px 0px 5px 0px; color:red;"><?php echo $tpl->Get('LoginErrorMessage'); ?></td>
+		  </tr>
+<?php endif; ?>
+
+		  <tr>
+			<td><div style="padding:10px 0px 5px 0px;"><?php echo GetLang('LoginIntro'); ?></div>
+				<table>
+				<tr>
+				  <td nowrap style="padding:0px 10px 0px 10px"><?php echo GetLang('UsernameLabel'); ?></td>
+				  <td nowrap>
+					<input type="text" name="username" id="username" class="Field150" <?php if($tpl->Get('DemoMode')): ?>value="admin"<?php else: ?>value="<?php echo $tpl->Get('loginUsername'); ?>"<?php endif; ?>> <?php if($tpl->Get('DemoMode')): ?>(admin)<?php endif; ?>
+				  </td>
+				</tr>
+				<tr>
+				  <td nowrap style="padding:0px 10px 0px 10px"><?php echo GetLang('PasswordLabel'); ?></td>
+				  <td nowrap>
+					<input type="password" name="password" id="password" class="Field150" <?php if($tpl->Get('DemoMode')): ?>value="password"<?php else: ?>value=""<?php endif; ?>> <?php if($tpl->Get('DemoMode')): ?>(password)<?php endif; ?>
+				  </td>
+				</tr>
+				<tr>
+				  <td nowrap>&nbsp;</td>
+				  <td>&nbsp;<input type="checkbox" name="remember" id="remember" value="ON" style="margin-left:-0px"> <label for="remember" <?php echo $tpl->Get('RememberMeChecked'); ?>><?php echo GetLang('RememberMe'); ?></label>
+				  </td>
+				</tr>
+				  <tr>
+					<td>&nbsp;</td>
+					<td>
+					  <input type="submit" name="SubmitButton" value="<?php echo GetLang('Login'); ?>" class="FormButton">
+					  &nbsp;&nbsp;<a href='index.php?forgotpass=true'><?php echo GetLang('ForgotPassword'); ?></a>
+					</td>
+				  </tr>
+				  <tr><td class="Gap"></td></tr>
+			  </table>
+			</td>
+		  </tr>
+		</table>
+		</td></tr></table>
+		<div style="padding:10px; margin-bottom:20px; padding-left:0px; text-align:center" class="PageFooter">
+			<?php echo $tpl->Get('whitelabel','AdminCopyright'); ?>
+		</div>
+	</div>
+	</form>
+<script type="text/javascript">
+
+		$('#frmLogin').submit(function() {
+			var f = document.frmLogin;
+
+			if(f.username.value == '')
+			{
+				alert('<?php echo GetLang('NoUsername'); ?>');
+				f.username.focus();
+				f.username.select();
+				return false;
+			}
+
+			if(f.password.value == '')
+			{
+				alert('<?php echo GetLang('NoPassword'); ?>');
+				f.password.focus();
+				f.password.select();
+				return false;
+			}
+
+			// Everything is OK
+			return true;
+		});
+
+		function sizeBox() {
+			var w = $(window).width();
+			var h = $(window).height();
+			$('#box').css('position', 'absolute');
+			$('#box').css('top', h/2-($('#box').height()/2)-50);
+			$('#box').css('left', w/2-($('#box').width()/2));
+		}
+
+		$(document).ready(function() {
+			sizeBox();
+			$('#username').focus();
+		});
+
+		$(window).resize(function() {
+			sizeBox();
+		});
+
+	</script>
+<?php $tmpTplFile = $tpl->GetTemplate();
+			$tmpTplData = $tpl->TemplateData;
+			$tpl->ParseTemplate("footer.login");
+			$tpl->SetTemplate($tmpTplFile);
+			$tpl->TemplateData = $tmpTplData; ?>

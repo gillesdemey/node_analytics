@@ -1,0 +1,60 @@
+<div class="BodyContainer Intro CommonViewTop">
+	<table class="OuterPanel">
+		<?php if($tpl->Get('DisplayFilters') == 1): ?>
+			<tr>
+				<td class="Heading1"><?php echo GetLang('View'); ?>: <a href="#" style="color:#005FA3" id="ViewsMenuButton" class="PopDownMenu"><?php echo $tpl->Get('PageTitle'); ?> <img width="8" height="5" src="images/arrow_blue.gif" border="0" /></a></td>
+			</tr>
+		<?php else: ?>
+			<tr>
+				<td class="Heading1"><?php echo $tpl->Get('PageTitle'); ?></td>
+			</tr>
+		<?php endif; ?>
+
+		<tr>
+			<td class="Intro">
+				<?php if($tpl->Get('hasCustomIntro')): ?>
+					<div><?php echo $tpl->Get('CustomIntro'); ?></div>
+				<?php else: ?>
+					<div><?php echo GetLang($tpl->Get('PageIntro')); ?></div>
+				<?php endif; ?>
+				
+				<?php echo $tpl->Get('CommonViewTopAfterPageIntro'); ?>
+				
+				<div id="MainMessage" style="display: none;"></div>
+				<?php if($tpl->Get('MessageText') != false): ?>
+					<script type="text/javascript">
+					$(document).ready(function() {
+						<?php if($tpl->Get('MessageType') == MSG_ERROR): ?>
+							$('#MainMessage').errorMessage('<?php echo addslashes($tpl->Get('MessageText')); ?>');
+						<?php elseif($tpl->Get('MessageType') == MSG_SUCCESS): ?>
+							$('#MainMessage').successMessage('<?php echo addslashes($tpl->Get('MessageText')); ?>');
+						<?php elseif($tpl->Get('MessageType') == MSG_INFO): ?>
+							$('#MainMessage').infoMessage('<?php echo addslashes($tpl->Get('MessageText')); ?>');
+						<?php elseif($tpl->Get('MessageType') == MSG_WARNING): ?>
+							$('#MainMessage').warningMessage('<?php echo addslashes($tpl->Get('MessageText')); ?>');
+						<?php endif; ?>
+					});
+					</script>
+				<?php endif; ?>
+				
+				<table id="Introtable" cellspacing="0" cellpadding="0" width="100%">
+					<tr>
+						<td class="Intro" valign="top">
+							<?php if(!$tpl->Get('CustomButtons')): ?>
+								<input type="button" name="IndexCreateButton" value="<?php echo GetLang($tpl->Get('CreateItem')); ?>" id="IndexCreateButton" class="Button" onClick="document.location.href='index.php?section=<?php echo $tpl->Get('section'); ?>&amp;action=create'" />
+								<?php if($tpl->Get('hasDeleteButton')): ?>
+									<input type="button" name="IndexCreateButton" value="<?php echo GetLang('DeleteSelected'); ?>" id="IndexDeleteButton" class="Button" onClick="doBulkDelete(); return false;" />
+								<?php endif; ?>
+							<?php else: ?>
+								<?php echo $tpl->Get('CustomButtons'); ?>
+							<?php endif; ?>
+						</td>
+						<td class="SmallSearch" align="right">
+	
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+</div>

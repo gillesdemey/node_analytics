@@ -1,0 +1,204 @@
+
+<script type="text/javascript">
+/**
+ * ArticleImageToggle
+ * Changes the fields to display either the upload field, the URL field or none
+ *
+ * @param string onlyEnabled
+ */
+function ArticleImageToggle(onlyEnabled){
+	var list = new Array;
+	list[0] = 'artimage_url_row';
+	list[1] = 'artimage_file_row';
+
+	if(onlyEnabled == 'artimage_file_row'){
+		document.getElementById('FeatureImageFrame').style.display = '';
+		document.getElementById('FeatureImageOptions').style.display = 'none';
+	}
+
+	if(onlyEnabled == 'artimage_file_row1'){
+		document.getElementById('FeatureImageFrame').style.display = 'none';
+		document.getElementById('FeatureImageOptions').style.display = '';
+		onlyEnabled = 'artimage_file_row';
+	}
+
+	for(i=0;i<list.length;i++){
+		if(onlyEnabled == list[i]){
+
+			document.getElementById(onlyEnabled).style.display = '';
+		}else{
+			document.getElementById(list[i]).style.display = 'none';
+		}
+	}
+}
+
+/**
+ * ajaxFileUpload
+ * Changes the fields to display either the upload field, the URL field or none
+ *
+ * @param string onlyEnabled
+ */
+
+var globalTmpIdNum = 0;
+
+function ajaxAnchorImageUpload()
+{
+	// random number to keep the request unique
+	globalTmpIdNum = Math.floor(Math.random()*10000);
+
+	$.ajaxFileUpload
+	(
+		{
+			url:'remote.php?module=anchorimage&action=uploadimage&contentid='+$('#contentid').val()+'&unique='+globalTmpIdNum,
+			secureuri:false,
+			fileElementId:'artimage_file',
+			dataType: 'xml',
+			beforeSend: function (){
+				var name = $('#artimage_file').val().replace(/\\/g, '/');
+				name = name.split('/');
+
+				var pos = name.length;
+				var fileName = name[pos-1];
+				var idfileName = fileName.replace(/[^a-zA-Z0-9]/g, '');
+				$('#uploadingAnchorImage').show();
+				$('#uploadingAnchorImage').append('<img src="images/load.gif"> Please Wait Uploading '+fileName+'...<br />');
+			},
+
+			success: function (xml, status)
+			{
+				var name = $('file', xml).text();
+				name = name.replace(/[^a-zA-Z0-9]/g, '');
+				if($('status', xml).text() == "success"){
+					$('#uploadingAnchorImage').html(' ');
+					$('#uploadingAnchorImage').hide();
+					$('#anchorMessage').successMessage('The anchor image "'+$('file', xml).text()+'" has been uploaded to this <?php echo $tpl->Get('ContentType','name_singular'); ?>');
+					$('#artimage_file').val('');
+					ArticleImageToggle('none');
+					$('#artimage_select_upload').attr('checked', false);
+					$('#artimage_select_current').attr('checked', 'checked');
+					$('#currentAnchorImage').text($('file', xml).text());
+					$('#currentAnchorImageRow').show();
+					$('#AnchorImageId').val($('imageid', xml).text());
+					$('#FeatureImageFrame').hide();
+					if(!$('#FeatureImagePreview').exists()){
+						$('#AnchorImageContainer').html('<img id="FeatureImagePreview" src="../<?php echo $tpl->Get('ImagePath'); ?>/'+$('file', xml).text()+'" />');
+					}else{
+						$('#FeatureImagePreview').attr('src','../<?php echo $tpl->Get('ImagePath'); ?>/'+$('file', xml).text());
+					}
+					$('#FeatureImageOptions').css('display', 'block');
+					$('#FeatureImageOptions').show();
+					$('#artimage_file_row').show();
+				}else{
+					$('#uploadingAnchorImage').html(' ');
+					$('#uploadingAnchorImage').hide();
+					$('#anchorMessage').errorMessage('Error uploading '+$('file', xml).text()+': '+$('message', xml).text());
+				}
+
+			},
+			error: function (data, status, e)
+			{
+				alert('Error ' + $('status', xml).text());
+				alert(e);
+			}
+		}
+	)
+	return false;
+}
+
+$(document).ready(function() {
+	$('#uploadedItems').sortable({stop: function() { UpdateAttachmentOrder(); }, handle: '.sort-handle, .sort-handle img'});
+});
+
+
+
+</script>
+<div id="anchorMessage" style="display: none"></div>
+
+<table border="0" width="100%">
+						<tr>
+							<td width="20">
+								<input type="radio" name="artimage_select" value="author" id="artimage_select_author" onclick="ArticleImageToggle('none')" <?php echo $tpl->Get('UserPicAnchorImageChecked'); ?>>
+							</td>
+							<td>
+								<label for="artimage_select_author" ><?php echo iwp_modules::getInstance()->GetModule("anchorimage")->lang->Get('AnchorImageAuthorImage'); ?></label>
+							</td>
+						</tr>
+
+						<tr id="artimage_url_row" style="display: none">
+							<td width="20">&nbsp;</td>
+							<td><input type="text" name="artimage_url" id="artimage_url" class="Field200" value="http://" ></td>
+						</tr>
+						<tr>
+							<td width="20">
+								<input type="radio" name="artimage_select" value="none" id="artimage_select_none" onclick="ArticleImageToggle('none')" <?php echo $tpl->Get('NoAnchorImageChecked'); ?>>
+							</td>
+							<td>
+								<label for="artimage_select_none" ><?php echo sprintf(iwp_modules::getInstance()->GetModule("anchorimage")->lang->Get('AnchorImageNone'), $tpl->Get('ContentType','name_singular')); ?></label>
+							</td>
+						</tr>
+						<tr>
+							<td width="20">
+								<input type="radio" name="artimage_select" value="upload" id="artimage_select_upload" onclick="ArticleImageToggle('artimage_file_row')" >
+							</td>
+							<td>
+								<label for="artimage_select_upload" ><?php echo iwp_modules::getInstance()->GetModule("anchorimage")->lang->Get('AnchorImageUpload'); ?></label>
+							</td>
+						</tr>
+
+						<tr id="currentAnchorImageRow" width="20"  style="display: <?php if(!$tpl->Get('ShowAnchorImage')): ?>none<?php endif; ?>">
+							<td>
+								<input type="radio" name="artimage_select" value="current" id="artimage_select_current" onclick="ArticleImageToggle('artimage_file_row1')" <?php echo $tpl->Get('CurrentAnchorImageChecked'); ?>>
+							</td>
+							<td>
+								<label for="artimage_select_current" ><?php echo iwp_modules::getInstance()->GetModule("anchorimage")->lang->Get('AnchorImageCurrent'); ?></label> <span id="currentAnchorImage"><?php echo $tpl->Get('CurrentAnchorImage'); ?></span> <input type="hidden" name="artimage_current" value="%%GLOBAL_ArticleImageCurrentValue%%">
+							</td>
+						</tr>
+
+						<tr id="artimage_file_row" style="display: <?php if(!$tpl->Get('ShowAnchorImage')): ?>none<?php endif; ?>" >
+							<td width="20">&nbsp;</td>
+							<td>
+<div id="FeatureImageFrame" style="display: none">
+								<input type="file" name="artimage_file" id="artimage_file" class="Field200" value=""> <input type="button"  onclick="return ajaxAnchorImageUpload();" name="upload" value="<?php echo iwp_modules::getInstance()->GetModule("anchorimage")->lang->Get('UploadButton'); ?>" class="FormButton"><br /><div id="uploadingAnchorImage" style="display: none;"></div><?php echo $tpl->Get('MaxUploadSize'); ?>
+</div>
+								<input type="hidden" name="AnchorImageId" id="AnchorImageId" value="<?php echo $tpl->Get('AnchorImageId'); ?>">
+
+				<div style="display: <?php if(!$tpl->Get('ShowAnchorImage')): ?>none<?php endif; ?>" id="FeatureImageOptions">
+
+				<table border="0">
+				<tr>
+					<td><center><div id="AnchorImageContainer"><?php if($tpl->Get('ShowAnchorImage')): ?><img src="../<?php echo $tpl->Get('ImagePath'); ?>/<?php echo $tpl->Get('CurrentAnchorImage'); ?>" id="FeatureImagePreview" border="0"><?php endif; ?></div></center></td>
+					<td valign="top">
+
+					<table border=0 width="300">
+					<tr>
+						<td><?php echo iwp_modules::getInstance()->GetModule("anchorimage")->lang->Get('Align'); ?>:</td>
+						<td>
+							<input type="radio" name="AnchorImageAlign" id="AlignFeatureImageLeft" value="left" <?php echo $tpl->Get('AlignLeftChecked'); ?>> <label for="AlignFeatureImageLeft"><?php echo iwp_modules::getInstance()->GetModule("anchorimage")->lang->Get('AlignLeft'); ?></label>
+							
+							<input type="radio" name="AnchorImageAlign" id="AlignFeatureImageRight" value="right" <?php echo $tpl->Get('AlignRightChecked'); ?>> <label for="AlignFeatureImageRight"><?php echo iwp_modules::getInstance()->GetModule("anchorimage")->lang->Get('AlignRight'); ?></label>
+
+						</td>
+					</tr>
+					<tr>
+						<td><?php echo iwp_modules::getInstance()->GetModule("anchorimage")->lang->Get('Caption'); ?>:</td>
+						<td><input type="text" name="AnchorImageCaption" id="AnchorImageCaption" class="Field" style="width:150px;" value="<?php echo $tpl->Get('CurrentAnchorCaption'); ?>"></td>
+					</tr>
+					</table>
+					<table border=0>
+					<tr>
+						<td><input type="checkbox" name="AnchorImageShowSummary" id="ShowInSummary" value='checked' <?php echo $tpl->Get('ShowInSummaryChecked'); ?>></td>
+						<td><label for="ShowInSummary"><?php echo iwp_modules::getInstance()->GetModule("anchorimage")->lang->Get('ShowArticleImageSummary'); ?></label></td>
+					</tr>
+					<tr id="ShowInArticleRow">
+						<td><input type="checkbox" name="AnchorImageShowContent" id="ShowInContent" value='checked' <?php echo $tpl->Get('ShowInContentChecked'); ?>></td>
+						<td><label for="ShowInContent"><?php echo iwp_modules::getInstance()->GetModule("anchorimage")->lang->Get('ShowArticleImageContent'); ?></label></td>
+					</tr>
+					</table>
+					</td>
+				</tr>
+				</table>
+								</div>
+							</td>
+						</tr>
+
+					</table>

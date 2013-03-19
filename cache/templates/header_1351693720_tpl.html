@@ -1,0 +1,173 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<?php echo $tpl->Get('headTagBegin'); ?>
+
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta http-equiv="pragma" content="no-cache" />
+
+	<title><?php echo $tpl->Get('whitelabel','AdminTitle'); ?><?php echo $tpl->Get('adminEditionTitle'); ?></title>
+
+	<link rel="SHORTCUT ICON" href="favicon.ico" />
+
+	<style type="text/css">
+		@import url("styles/styles.css");
+		@import url("../lib/iselector/iselector.css");
+		@import url("styles/datePicker.css");
+		@import url("styles/tabmenu.css");
+		@import url("styles/iModal/iModal.css");
+	</style>
+
+	<!--[if IE]>
+	<style type="text/css">
+		#headermenu li ul {
+			margin-top: 0px;
+			margin-left: 2px;
+		}
+		#headermenu li li a {
+			width: 107px;
+		}
+	</style>
+	<![endif]-->
+
+	<script type="text/javascript" src="../javascript/compiled.js"></script>
+	<script type="text/javascript" src="<?php echo $tpl->Get('config','siteURL'); ?>/js.php?f=admin&amp;section=<?php echo $tpl->Get('section'); ?>&amp;a=1"></script>
+	<link rel="stylesheet" href="styles/imagebrowser.css" type="text/css" media="screen" />
+
+	<script type="text/javascript">//<!--
+
+		<?php if($tpl->Get('jsonLangvars')): ?>
+			// set registry variables
+			jFrame.registry.set('lang', <?php echo $tpl->Get('jsonLangvars'); ?>);
+		<?php endif; ?>
+
+		// form module jFrame instance
+		new jFrame({
+			controllerPath : '../modules/form/javascript/',
+			cache          : false
+		}, 'moduleForm');
+
+	//--></script>
+
+	<?php if(!$tpl->Get('section')): ?>
+		<link rel="stylesheet" href="styles/dashboard.css" type="text/css" media="screen" />
+	<?php endif; ?>
+
+	<?php if(sizeof($tpl->Get('languageForJS')) > 0): ?>
+		<script type="text/javascript">//<!--
+			/* languageForJS */ iwp.lang.set(<?php echo json_encode($tpl->Get('languageForJS')); ?>);
+		//--></script>
+	<?php endif; ?>
+
+	<?php if(sizeof($tpl->Get('tpl','JSfiles')) > 0): ?>
+		<?php if(!function_exists("foreach_114064")){ function foreach_114064(&$tpl, $array){ if(is_array($array)): foreach($array as $key=>$file): $tpl->Assign('key', $key, false); $tpl->Assign('file', $file, false);  ?>
+			<?php if($tpl->Get('tpl','JSfilesIF',$tpl->Get("key")) !== false): ?>
+				<!--[if <?php echo $tpl->Get('tpl','JSfilesIF',$tpl->Get("key")); ?>]><script type="text/javascript" src="<?php echo $tpl->Get('file'); ?>"></script><![endif]-->
+			<?php else: ?>
+				<script type="text/javascript" src="<?php echo $tpl->Get('file'); ?>"></script>
+			<?php endif; ?>
+		<?php endforeach; endif;}} foreach_114064($tpl, $tpl->Get('tpl','JSfiles')); ?>
+	<?php endif; ?>
+
+	<?php if(sizeof($tpl->Get('tpl','CSSfiles')) > 0): ?>
+		<?php if(!function_exists("foreach_202830")){ function foreach_202830(&$tpl, $array){ if(is_array($array)): foreach($array as $key=>$file): $tpl->Assign('key', $key, false); $tpl->Assign('file', $file, false);  ?>
+			<link rel="stylesheet" href="<?php echo $tpl->Get('file'); ?>" type="text/css" media="screen" />
+		<?php endforeach; endif;}} foreach_202830($tpl, $tpl->Get('tpl','CSSfiles')); ?>
+	<?php endif; ?>
+
+	<?php echo $tpl->Get('headTagEnd'); ?>
+
+
+	<script type="text/javascript">//<!--
+		iwp.config.set('appPath', '<?php echo $tpl->Get('config','appPath'); ?>');
+		iwp.config.set('adminPath', '<?php echo $tpl->Get('site','adminPath'); ?>');
+		iwp.config.set('siteURL', '<?php echo $tpl->Get('config','siteURL'); ?>');
+		iwp.config.set('maxUploadFileSize', '<?php echo $tpl->Get('site','maxUploadFileSize'); ?>');
+	//--></script>
+
+	<!--[if IE]>
+	<style type="text/css">
+		@import url("styles/ie.css");
+	</style>
+	<![endif]-->
+
+	<?php if(sizeof($tpl->Get('tpl','onPageLoadJs')) > 0): ?>
+		<script type="text/javascript">//<!--
+			/* onPageLoadJs */
+			<?php $array = $tpl->Get('tpl','onPageLoadJs'); if(is_array($array)): foreach($array as $__key=>$script): $tpl->Assign('__key', $__key, false); $tpl->Assign('script', $script, false);  ?>
+				<?php echo $tpl->Get('script'); ?><?php echo $tpl->Get('newLine'); ?>
+			<?php endforeach; endif; ?>
+		//--></script>
+	<?php endif; ?>
+</head>
+
+<body class="section<?php echo ucfirst(iwp_strtolower($tpl->Get('section'))); ?> action<?php echo ucfirst(iwp_strtolower($tpl->Get('action'))); ?> page<?php echo ucfirst(iwp_strtolower($tpl->Get('action'))); ?><?php echo ucfirst(iwp_strtolower($tpl->Get('section'))); ?>">
+<?php echo $tpl->Get('bodyTagBegin'); ?>
+
+<div id="statusdiv" class="statusOff">
+	<img src="images/load_yellow.gif" /><span id="statustext"><?php echo GetLang('PleasewaitElipsis'); ?></span>
+</div>
+
+<div class="Header">
+	<div class="logo">
+		<a href="index.php"><?php echo $tpl->Get('whitelabel','AdminLogo'); ?></a>
+	</div>
+
+	<div class="textlinks">
+		<div class="MenuTextContainer"><?php echo $tpl->Get('menu','Text'); ?></div>
+		<div class="loggedinas">
+			
+			<span class="SystemTime"><?php echo sprintf(GetLang('SystemTime'), $tpl->Get('SystemTime')); ?></span> | 
+			<span><?php echo sprintf(GetLang('LoggedInAs'), $tpl->Get('LoggedInAs')); ?></span>&nbsp;&nbsp;
+		</div>
+	</div>
+</div>
+
+<div class="menuBar">
+	<?php echo $tpl->Get('menu','DropDown'); ?>
+</div>
+
+<div class="ContentContainer">
+
+	<div class="Breadcrumb" id="PageBreadcrumb">
+	<ul>
+		<?php ob_start(); ?>
+			<?php echo $tpl->Get('section'); ?>_breadcrumb
+		<?php $tpl->Assign("breadCrumbSection", trim(ob_get_contents())); ob_end_clean(); ?>
+
+		<?php ob_start(); ?>
+			<?php echo $tpl->Get('section'); ?>_<?php echo $tpl->Get('action'); ?>_breadcrumb
+		<?php $tpl->Assign("breadCrumbAction", trim(ob_get_contents())); ob_end_clean(); ?>
+
+		<li class="Home"><a href="index.php"><?php echo GetLang('Home'); ?></a></li>
+
+		<?php if($tpl->Get('action') != "view" && $tpl->Get('action') != "sitelayout" && $tpl->Get('action') != "" && $tpl->Get('action') != "systeminformation"): ?>
+			<?php ob_start(); ?><?php if($tpl->Get('BreadCrumbAction')): ?><?php echo $tpl->Get('BreadCrumbAction'); ?><?php elseif($tpl->Get('BreadCrumbAction')===''): ?><?php else: ?><?php echo GetLang($tpl->Get('breadCrumbAction')); ?><?php endif; ?><?php $tpl->Assign("tmpbreadcrumbaction", ob_get_contents()); ob_end_clean(); ?>
+		<?php endif; ?>
+
+		<?php if($tpl->Get('section') != ""): ?>
+
+			<?php ob_start(); ?><?php if($tpl->Get('BreadCrumbSection')): ?><?php echo $tpl->Get('BreadCrumbSection'); ?><?php elseif($tpl->Get('BreadCrumbSection')===''): ?><?php else: ?><?php echo GetLang($tpl->Get('breadCrumbSection')); ?><?php endif; ?><?php $tpl->Assign("tmpbreadcrumbsection", ob_get_contents()); ob_end_clean(); ?>
+			<?php if($tpl->Get('tmpbreadcrumbaction')): ?>
+				<li><a href="index.php?section=<?php echo $tpl->Get('section'); ?><?php if($tpl->Get('module')): ?>&action=custom&module=<?php echo $tpl->Get('module'); ?>&moduleaction=view<?php else: ?>&action=view<?php endif; ?>"><?php echo $tpl->Get('tmpbreadcrumbsection'); ?></a></li>
+			<?php else: ?>
+				<li><span><?php echo $tpl->Get('tmpbreadcrumbsection'); ?></span></li>
+			<?php endif; ?>
+		<?php endif; ?>
+
+		<?php if($tpl->Get('section') == "modules" && $tpl->Get('action') != "view"): ?>
+			<li><span><?php echo $tpl->Get('PageTitle'); ?></span></li>
+		<?php endif; ?>
+
+		<?php if($tpl->Get('tmpbreadcrumbaction')): ?>
+			<li><span><?php echo $tpl->Get('tmpbreadcrumbaction'); ?></span></li>
+		<?php endif; ?>
+	</ul>
+	</div>
+
+<script type="text/javascript">//<!--
+	$('#PageBreadcrumb ul li:last').addClass('Last').prev('li').addClass('SecondLast');
+//--></script>
+
+<!-- End page header -->

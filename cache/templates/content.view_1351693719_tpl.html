@@ -1,0 +1,289 @@
+<?php $tmpTplFile = $tpl->GetTemplate();
+			$tmpTplData = $tpl->TemplateData;
+			$tpl->ParseTemplate("header");
+			$tpl->SetTemplate($tmpTplFile);
+			$tpl->TemplateData = $tmpTplData; ?>
+<script type="text/javascript">
+	$(function(){
+		<?php if(!$tpl->Get('ContentTypeListCount')): ?>
+			$('#MainMessage').infoMessage(<?php echo iwp_FilterJavascriptString(GetLang('PromptToCreateContentType')); ?>);
+		<?php elseif(!$tpl->Get('ViewListCount')): ?>
+			<?php if($tpl->Get('searchQuery')): ?>
+				$('#MainMessage').errorMessage(<?php echo iwp_FilterJavascriptString(GetLang('NoContentMatchedYourSearchCriteria')); ?>);
+			<?php else: ?>
+				$('#MainMessage').infoMessage(<?php echo iwp_FilterJavascriptString(GetLang('PromptToCreateContent')); ?>);
+			<?php endif; ?>
+		<?php elseif($tpl->Get('searchQuery')): ?>
+			<?php if($tpl->Get('ViewListCount') == 1): ?>
+				$('#MainMessage').infoMessage(<?php echo iwp_FilterJavascriptString(sprintf(GetLang('YourSearchFound_Singular'), $tpl->Get('searchQuery'), $tpl->Get('ViewListCount'))); ?>);
+			<?php else: ?>
+				$('#MainMessage').infoMessage(<?php echo iwp_FilterJavascriptString(sprintf(GetLang('YourSearchFound_Plural'), $tpl->Get('searchQuery'), $tpl->Get('ViewListCount'))); ?>);
+			<?php endif; ?>
+		<?php endif; ?>
+
+		$('.onClickNoDeletePermission').live('click', function(){
+			alert(<?php echo iwp_FilterJavascriptString(GetLang('DeleteContentNoPermission')); ?>);
+		});
+	});
+
+	function ValidateSearchForm () {
+		if (!$.trim($('#SearchQuery').val())) {
+			alert(<?php echo iwp_FilterJavascriptString(GetLang('PromptForSearchQuery')); ?>);
+			return false;
+		}
+		return true;
+	}
+
+	function confirmDelete () {
+		return confirm(<?php echo iwp_FilterJavascriptString(GetLang('ConfirmDeleteSingle')); ?>);
+	}
+</script>
+
+<?php if(strlen($tpl->Get('ViewName')) > 0): ?>
+	<?php ob_start(); ?><?php echo $tpl->Get('ViewName'); ?><?php $tpl->Assign("PageTitle", ob_get_contents()); ob_end_clean(); ?>
+<?php else: ?>
+	<?php ob_start(); ?><?php echo GetLang('AllContent'); ?><?php $tpl->Assign("PageTitle", ob_get_contents()); ob_end_clean(); ?>
+<?php endif; ?>
+
+
+<div class="BodyContainer Intro CommonViewTop">
+	<table class="OuterPanel">
+
+		<?php if($tpl->Get('DisplayFilters') == 1): ?>
+		<tr>
+			<td class="Heading1"><?php echo GetLang('View'); ?>: <a href="#" style="color:#005FA3" id="ViewsMenuButton" class="PopDownMenu"><?php echo $tpl->Get('PageTitle'); ?> <img width="8" height="5" src="images/arrow_blue.gif" border="0" /></a></td>
+		</tr>
+		<?php else: ?>
+		<tr>
+			<td class="Heading1"><?php echo $tpl->Get('PageTitle'); ?></td>
+		</tr>
+		<?php endif; ?>
+
+		<tr>
+		<td class="Intro">
+			<div><?php echo GetLang($tpl->Get('PageIntro')); ?></div>
+			<table id="Introtable" cellspacing="0" cellpadding="0" width="100%">
+
+			<div id="MainMessage"></div>
+
+			<?php if($tpl->Get('MessageText') != false): ?>
+			<script type="text/javascript"><!--
+			$(document).ready(function() {
+				<?php if($tpl->Get('MessageType') == MSG_ERROR): ?>
+					$('#MainMessage').errorMessage('<?php echo addslashes($tpl->Get('MessageText')); ?>');
+				<?php elseif($tpl->Get('MessageType') == MSG_SUCCESS): ?>
+					$('#MainMessage').successMessage('<?php echo addslashes($tpl->Get('MessageText')); ?>');
+				<?php elseif($tpl->Get('MessageType') == MSG_INFO): ?>
+					$('#MainMessage').infoMessage('<?php echo addslashes($tpl->Get('MessageText')); ?>');
+				<?php elseif($tpl->Get('MessageType') == MSG_WARNING): ?>
+					$('#MainMessage').warningMessage('<?php echo addslashes($tpl->Get('MessageText')); ?>');
+				<?php endif; ?>
+			});
+			//-->
+			</script>
+			<?php endif; ?>
+
+			<tr>
+
+			<td class="Intro" valign="top">
+
+				<!-- <input type="button" name="IndexCreateButton" value="" id="IndexCreateButton" class="Button" onClick="document.location.href='index.php?section=<?php echo $tpl->Get('section'); ?>&amp;action=create'" /> -->
+				<?php if($tpl->Get('ContentTypeList_Create')): ?>
+					<button type="button" class="Button PopDownMenu" id="CreateContentMenuButton"><?php echo GetLang($tpl->Get('CreateItem')); ?> <img border="0" src="images/arrow_black.png" width="8" height="5"/></button>
+				<?php else: ?>
+					<button type="button" class="Button PopDownMenu" id="CreateContentMenuButton" disabled="disabled"><?php echo GetLang($tpl->Get('CreateItem')); ?> <img border="0" src="images/arrow_black.png" width="8" height="5"/></button>
+				<?php endif; ?>
+
+				<?php if(!$tpl->Get('ViewListCount')): ?>
+					<input type="button" disabled="disabled" value="<?php echo GetLang('DeleteSelected'); ?>" />
+				<?php elseif(!$tpl->Get('CanDelete')): ?>
+					<input type="button" disabled="disabled" value="<?php echo GetLang('DeleteSelected'); ?>" />
+				<?php else: ?>
+					<input type="hidden" name="bulkaction" id="bulkaction" value="delete" />
+					<input type="button" onclick="javascript:BulkAction('content', 'ListForm');" value="<?php echo GetLang('DeleteSelected'); ?>">
+				<?php endif; ?>
+				<br/>
+			</td>
+			<td class="Intro" align="right" valign="top">
+				<?php if($tpl->Get('DisplayGrid')=='none' && !$tpl->Get('searchQuery')): ?>
+				<?php else: ?>
+					<form method="get" action="index.php" onsubmit="return ValidateSearchForm();">
+						<input type="hidden" value="content" name="section"/>
+						<input type="hidden" name="action" value="view"/>
+						<input id="SearchQuery" class="Field150" type="text" size="20" value="<?php echo $tpl->Get('searchQuery'); ?>" name="searchQuery" />
+						<input id="SearchButton" class="Button" type="submit" border="0" value="<?php echo GetLang('SearchContent'); ?>" name="SearchButton" />
+						<input id="SearchClearButton" class="Button" type="button" border="0" value="<?php echo GetLang('Clear'); ?>" <?php if(strlen($tpl->Get('searchQuery')) < 1): ?>disabled="disabled"<?php else: ?>onclick="location.href='index.php?section=content&action=view';"<?php endif; ?> />
+						<a id="AdvancedSearchButton" class="Link" style="font-size: 10px;" href="index.php?section=content&action=search"><?php echo GetLang('AdvancedSearch'); ?></a>
+					</form>
+				<?php endif; ?>
+			</td>
+
+			</tr>
+			</table>
+		</td>
+		</tr>
+	</table>
+</div>
+
+
+
+	<div class="BodyContainer Intro">
+	<table class="OuterPanel">
+<tr>
+		<td style="display:<?php echo $tpl->Get('DisplayGrid'); ?>;">
+		<form name="ListForm" id="ListForm" action="index.php?ToDo=viewArticles" method="post">
+			<table border="0" cellpadding="0" cellspacing="0" width="100%" style="padding-bottom: 7px;"><tr><td align="right"><?php $tmpTplFile = $tpl->GetTemplate();
+			$tmpTplData = $tpl->TemplateData;
+			$tpl->ParseTemplate("paging");
+			$tpl->SetTemplate($tmpTplFile);
+			$tpl->TemplateData = $tmpTplData; ?></td></tr></table>
+			<table class="GridPanel SortableGrid AutoExpand" cellspacing="0" cellpadding="0" border="0" id="IndexGrid" style="width:100%;" >
+			<tr class="Heading3">
+				<td align="Center" width='10'>
+					<?php if($tpl->Get('CanDelete')): ?>
+						<input type="checkbox" name="masterCheckbox" id="masterCheckbox" onClick="toggleCheckboxes(this,'ListForm');">
+					<?php else: ?>
+						<input type="checkbox" disabled="disabled" />
+					<?php endif; ?>
+				</td>
+				<td>&nbsp;</td>
+				<?php if(!function_exists("foreach_227536")){ function foreach_227536(&$tpl, $array){ if(is_array($array)): foreach($array as $k=>$field): $tpl->Assign('k', $k, false); $tpl->Assign('field', $field, false);  ?>
+					<?php if($tpl->Get('field','display')): ?>
+						<td <?php if($tpl->Get('field','width')): ?>width="<?php echo $tpl->Get('field','width'); ?>"<?php endif; ?> <?php if($tpl->Get('field','nowrap')): ?>nowrap="nowrap"<?php endif; ?>>
+							<?php if($tpl->Get('field','ismodulefield')): ?>
+								<?php ob_start(); ?><?php echo $tpl->Get('field','lang'); ?><?php $tpl->Assign("tmplang", ob_get_contents()); ob_end_clean(); ?>
+							<?php else: ?>
+								<?php ob_start(); ?>Content_<?php echo stripspaces($tpl->Get('field','name')); ?><?php $tpl->Assign("tmp", ob_get_contents()); ob_end_clean(); ?>
+								<?php ob_start(); ?><?php echo GetLang($tpl->Get('tmp')); ?><?php $tpl->Assign("tmplang", ob_get_contents()); ob_end_clean(); ?>
+							<?php endif; ?>
+							<?php echo $tpl->Get('tmplang'); ?>&nbsp;
+							<?php if($tpl->Get('field','sortable') ): ?>
+								<a title="<?php echo sprintf(GetLang('SortByAsc'), $tpl->Get('tmplang')); ?>" href="index.php?section=<?php echo $tpl->Get('section'); ?>&action=<?php echo $tpl->Get('action'); ?>&sortdir=asc&field=<?php echo $tpl->Get('field','name'); ?>"><img src='images/<?php if($tpl->Get('SortField') == $tpl->Get('field','dbfield') && $tpl->Get('SortDir') == 'asc'): ?>active_<?php endif; ?>sortup.gif' border="0"></a>
+								<a title="<?php echo sprintf(GetLang('SortByDesc'), $tpl->Get('tmplang')); ?>" href="index.php?section=<?php echo $tpl->Get('section'); ?>&action=<?php echo $tpl->Get('action'); ?>&sortdir=desc&field=<?php echo $tpl->Get('field','name'); ?>"><img src='images/<?php if($tpl->Get('SortField') == $tpl->Get('field','dbfield') && $tpl->Get('SortDir') == 'desc'): ?>active_<?php endif; ?>sortdown.gif' border="0"></a>
+							<?php endif; ?>
+							&nbsp;&nbsp;&nbsp;
+						</td>
+					<?php endif; ?>
+				<?php endforeach; endif;}} foreach_227536($tpl, $tpl->Get('DisplayFields')); ?>
+				<td nowrap style="width:110px">
+					<?php echo GetLang('Action'); ?>
+				</td>
+			</tr>
+			<tbody id="ContentListArea">
+				<?php if(!function_exists("foreach_194776")){ function foreach_194776(&$tpl, $array){ if(is_array($array)): foreach($array as $k=>$row): $tpl->Assign('k', $k, false); $tpl->Assign('row', $row, false);  ?>
+					<tr id="tr_<?php echo $tpl->Get('row','typeid'); ?>"  class="GridRow" onmouseover="this.className='GridRowOver'" onmouseout="this.className='GridRow'" >
+						<td align="Center">
+							<?php if($tpl->Get('row','isDeletable')): ?>
+								<input type="checkbox" name="items[]" id="deleteBox_<?php echo $tpl->Get('row','contentid'); ?>" value="<?php echo $tpl->Get('row','contentid'); ?>">
+							<?php else: ?>
+								<input type="checkbox" disabled="disabled" />
+							<?php endif; ?>
+						</td>
+
+						<td align="Center" style="width:18px;">
+							<img src="<?php echo $tpl->Get('row','iconpath'); ?>" alt="<?php echo $tpl->Get('row','typeicon'); ?>" onclick="$('#deleteBox_<?php echo $tpl->Get('row','contentid'); ?>').click();" />
+						</td>
+
+						<?php if(!function_exists("foreach_38877")){ function foreach_38877(&$tpl, $array){ if(is_array($array)): foreach($array as $k=>$field): $tpl->Assign('k', $k, false); $tpl->Assign('field', $field, false);  ?>
+							<?php if($tpl->Get('field','display')): ?>
+								<td <?php if($tpl->Get('field','width')): ?>width="<?php echo $tpl->Get('field','width'); ?>"<?php endif; ?> <?php if($tpl->Get('field','nowrap')): ?>nowrap="nowrap"<?php endif; ?> class="<?php if($tpl->Get('field','dbfield') == $tpl->Get('SortField')): ?>SortHighlight<?php endif; ?>">
+								<?php ob_start(); ?><?php echo $tpl->Get('field','dbfield'); ?><?php $tpl->Assign("tmp", ob_get_contents()); ob_end_clean(); ?>
+								<?php if(is_blank($tpl->Get('row',$tpl->Get("tmp")))): ?>
+									<?php echo iwp_htmlspecialchars($tpl->Get('field','default')); ?>
+								<?php elseif($tpl->Get('field','ismodulefield')): ?>
+									<?php echo $tpl->Get('row',$tpl->Get("tmp")); ?>
+								<?php elseif($tpl->Get('field','isdate')): ?>
+									<?php echo iwp_longdate($tpl->Get('row',$tpl->Get("tmp"))); ?>
+								<?php else: ?>
+									<?php echo iwp_htmlspecialchars($tpl->Get('row',$tpl->Get("tmp"))); ?>
+								<?php endif; ?>
+								</td>
+							<?php endif; ?>
+						<?php endforeach; endif;}} foreach_38877($tpl, $tpl->Get('DisplayFields')); ?>
+
+						<td nowrap style="width:110px">
+							<?php if($tpl->Get('row','isEditable')): ?>
+								<a href="index.php?section=<?php echo $tpl->Get('section'); ?>&action=edit&id=<?php echo $tpl->Get('row','contentid'); ?>"><?php echo GetLang('Edit'); ?></a>
+							<?php endif; ?>
+
+							<?php if($tpl->Get('row','isDeletable')): ?>
+								<a href="index.php?section=<?php echo $tpl->Get('section'); ?>&action=deletesingle&id=<?php echo $tpl->Get('row','contentid'); ?>" onclick="return confirmDelete();"><?php echo GetLang('Delete'); ?></a>
+							<?php else: ?>
+								<span class="greytext onClickNoDeletePermission"><?php echo GetLang('Delete'); ?></span>
+							<?php endif; ?>
+
+							<a href="<?php echo $tpl->Get('row','viewUrl'); ?>" onclick="window.open(this.href);return false;"><?php echo GetLang('View'); ?></a>
+						</td>
+					</tr>
+				<?php endforeach; endif;}} foreach_194776($tpl, $tpl->Get('ViewList')); ?>
+			</tbody>
+			</table>
+			<table class="GridPanel" cellspacing="1" cellpadding="2" border="0" id="IndexGrid" style="width:100%;">
+			<tr align="right">
+				<td>
+					<?php $tmpTplFile = $tpl->GetTemplate();
+			$tmpTplData = $tpl->TemplateData;
+			$tpl->ParseTemplate("paging");
+			$tpl->SetTemplate($tmpTplFile);
+			$tpl->TemplateData = $tmpTplData; ?>
+				</td>
+			</tr>
+			</table>
+		</form>
+		</td></tr>
+	</table>
+
+	</div>
+<div id="ViewsMenu" class="DropDownMenu DropShadow" style="display: none; width:200px">
+	<ul>
+		<li class="<?php echo $tpl->Get('cType','selectedClass'); ?>">
+			<a href="index.php?section=content&action=view" style='background-image:url("images/page.gif"); background-repeat:no-repeat; background-position:5px 5px; padding-left:28px'><span><?php echo GetLang('AllContent'); ?></span></a>
+		</li>
+			</ul>
+	<hr />
+	<ul>
+		<?php if(!function_exists("foreach_189493")){ function foreach_189493(&$tpl, $array){ if(is_array($array)): foreach($array as $k=>$cType): $tpl->Assign('k', $k, false); $tpl->Assign('cType', $cType, false);  ?>
+			<li class="<?php echo $tpl->Get('cType','selectedClass'); ?>">
+				<a href="index.php?section=content&action=view&typeid=<?php echo $tpl->Get('cType','typeid'); ?>" style='background-image:url("<?php echo $tpl->Get('cType','iconpath'); ?>"); background-repeat:no-repeat; background-position:5px 5px; padding-left:28px'><span><?php echo $tpl->Get('cType','name'); ?></span></a>
+			</li>
+		<?php endforeach; endif;}} foreach_189493($tpl, $tpl->Get('ContentTypeList_Any')); ?>
+		<?php if(!function_exists("foreach_164012")){ function foreach_164012(&$tpl, $array){ if(is_array($array)): foreach($array as $k=>$searchItem): $tpl->Assign('k', $k, false); $tpl->Assign('searchItem', $searchItem, false);  ?>
+			<li class="<?php echo $tpl->Get('searchItem','selectedClass'); ?>"><a href="index.php?section=content&action=view&searchid=<?php echo $tpl->Get('searchItem','searchid'); ?>" style='background-image:url("images/view.gif"); background-repeat:no-repeat; background-position:5px 5px; padding-left:28px'><span><?php echo $tpl->Get('searchItem','searchname'); ?></span></a></li>
+		<?php endforeach; endif;}} foreach_164012($tpl, $tpl->Get('SearchList')); ?>
+	</ul>
+	<hr />
+	<ul>
+		<li><a href="index.php?section=content&action=search&createview=1" style="background-image:url('images/view_add.gif'); background-repeat:no-repeat; background-position:5px 5px; padding-left:28px"><?php echo GetLang('CreateNewView'); ?></a></li>
+		<?php if($tpl->Get('inSavedSearch')): ?><li style="display:"><a onclick="if(confirm('<?php echo iwp_js(GetLang('ConfirmDeleteViewJS')); ?>')){ window.location = 'index.php?action=view&section=content&deletesearchid=<?php echo $tpl->Get('savedSearchId'); ?>'; }" href="javascript:void(0);" style="background-image:url('images/view_del.gif'); background-repeat:no-repeat; background-position:5px 5px; padding-left:28px"><?php echo GetLang('DeleteThisView'); ?></a></li><?php endif; ?>
+	</ul>
+</div>
+
+
+
+<?php if($tpl->Get('ContentTypeList_Create')): ?>
+	<div id="CreateContentMenu" class="DropDownMenu DropShadow" style="display: none; width:200px">
+		<ul>
+			<?php if(!function_exists("foreach_152970")){ function foreach_152970(&$tpl, $array){ if(is_array($array)): foreach($array as $k=>$cType): $tpl->Assign('k', $k, false); $tpl->Assign('cType', $cType, false);  ?>
+				<li>
+					<a class="HasInnerPadding" href="index.php?section=content&action=create&typeid=<?php echo $tpl->Get('cType','typeid'); ?>" style='background-image:url("<?php echo $tpl->Get('cType','iconpath'); ?>"); background-repeat:no-repeat; background-position:5px 5px;'>
+						<div style="padding-left:28px; background-image:url(images/bullet_add_overlay.png); background-repeat:no-repeat; background-position:5px 5px;">
+							<?php if(in_array(iwp_strtolower(substr($tpl->Get('cType','name'), 0,1)), array('a', 'e', 'i', 'o', 'u'))): ?>
+								<?php echo sprintf(GetLang('menuCreateContentAn'), $tpl->Get('cType','name_singular')); ?>
+							<?php else: ?>
+								<?php echo sprintf(GetLang('menuCreateContent'), $tpl->Get('cType','name_singular')); ?>
+							<?php endif; ?>
+						</div>
+					</a>
+				</li>
+			<?php endforeach; endif;}} foreach_152970($tpl, $tpl->Get('ContentTypeList_Create')); ?>
+		</ul>
+	</div>
+<?php endif; ?>
+
+
+
+<?php $tmpTplFile = $tpl->GetTemplate();
+			$tmpTplData = $tpl->TemplateData;
+			$tpl->ParseTemplate("footer");
+			$tpl->SetTemplate($tmpTplFile);
+			$tpl->TemplateData = $tmpTplData; ?>

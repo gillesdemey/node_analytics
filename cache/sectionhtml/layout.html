@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//Template//ITE XHTML Extension//EN" "http://www.buildertemplates.com/DTDs/ITEv1.3.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+{$layout.htmlHead}
+<body class="layout-{$layout.template}">
+{$bodyTagBegin}
+
+<div id="Container">
+
+ 
+    <div id="Header" class="tplsection-top-after-block1 headerBgImage">
+      
+{if $hasWebsiteLogo}
+<div id="Logo" class="tplcond-showif-haswebsitelogo"><a href="{$urls.homepage}" class="tplvar-site-siteurl-href"><img src="{$WebsiteLogo}" alt="" class="tplvar-site-logoimage-src" /></a></div>
+{/if}
+
+      
+{if !$hasWebsiteLogo}
+<h1 class="websiteName tplcond-hideif-haswebsitelogo"><a href="{$urls.homepage}" class="tplvar-site-name tplvar-site-siteurl-href">{$config.WebsiteTitle|iwp_htmlspecialchars}</a></h1>
+{/if} 
+
+	  <div id="Slogan" class="tplvar-site-slogan">{$config.siteSlogan|iwp_htmlspecialchars}</div>
+    </div>{$layout.topBlock1}
+   
+   
+    
+
+  
+
+<div id="content" class="clearfix">
+  
+
+      
+ {if !in_array($layout.columnCount, array(1))}
+<div class="Left tplsection-left-prepend tplcond-hideif-1column">{$hookBeforeLeft}{$layout.leftBlocks}{$hookAfterLeft}
+        
+        
+
+        
+        
+        
+        
+        
+      </div>
+{/if}
+
+ 
+
+    
+
+        <div class="Content tplsection-middle-prepend tplcond-addcolumncounttoclass-tplWidthColumns tplWidthColumns{$layout.columnCount}">{$hookBeforeMiddle}{$layout.middleBlocks}{$hookAfterMiddle}
+          
+          
+          
+          
+          
+          
+          
+
+
+				
+          
+			
+          
+          
+         </div>
+
+    
+    
+
+      
+ {if !in_array($layout.columnCount, array(1, 2))}
+<div class="Right tplsection-right-prepend tplcond-hideif-1column-2columns">{$hookBeforeRight}{$layout.rightBlocks}{$hookAfterRight}
+        
+        
+        
+        
+      </div>
+{/if}
+
+      </div>
+  </div>
+<div class="footerwrap">
+  <div id="Footer" class="tplsection-bottom-prepend-block1-block2">{$layout.bottomBlock1}{$layout.bottomBlock2}
+    
+		
+  </div>
+</div>
+
+{$bodyTagEnd}
+</body>
+</html>

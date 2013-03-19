@@ -1,0 +1,6 @@
+<select class="Select<?php if($tpl->Get('widget','is_required')): ?> required<?php endif; ?>" id="widget<?php echo $tpl->Get('widget','id'); ?>" name="widget[<?php echo $tpl->Get('widget','id'); ?>][field][0][value]">
+	<option value=""><?php echo $tpl->Get('langvars','pleaseSelectAnOption'); ?></option>
+	<?php $array = $tpl->Get('widget','fields'); if(is_array($array)): foreach($array as $__key=>$field): $tpl->Assign('__key', $__key, false); $tpl->Assign('field', $field, false);  ?>
+		<option value="<?php echo $tpl->Get('field','value'); ?>"<?php if($tpl->Get('field','is_selected')): ?>selected="selected"<?php endif; ?>><?php echo $tpl->Get('field','value'); ?></option>
+	<?php endforeach; endif; ?>
+</select>

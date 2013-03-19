@@ -1,0 +1,13 @@
+<div id='FooterList' class='{$cssclasses} tplblock-list tplblockstyle-list-bottom standard {$blockNumberClass}'> <span class='tplrepeat-parent'>
+{foreach from=$OutputList item=row1 id=listLoop}
+ <span class='tplrepeat-list'>
+{$row1.beforeTitle}{if strlen($row1.Title) > 0}<a href='{$row1.Url}' class='tplvar-listitem-url-href tplvar-listitem-title tplvar-listitem-target-target' target='{$row1.prependTarget}{$row1.Target}{$row1.appendTarget}'>{$row1.prependTitle}{$row1.Title}{$row1.appendTitle}</a>{/if}{$row1.afterTitle}
+ 
+{if !$listLoop.last}
+<span class='tplcond-listitem-ifnotlast'>| </span>
+{/if}
+ </span>
+      
+      
+{/foreach}
+</span> </div>

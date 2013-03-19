@@ -1,0 +1,3 @@
+<?php if($tpl->Get('anchorimage','hasAnchorImage')): ?>
+<div style="<?php echo $tpl->Get('anchorimage','rowData','dimensions'); ?>" class="AnchorImageBox <?php echo $tpl->Get('anchorimage','rowData','positionStyle'); ?>"><img src="<?php echo $tpl->Get('anchorimage','rowData','fullImagePath'); ?>" style="margin: 0px; border: none;"><?php if($tpl->Get('anchorimage','rowData','caption')): ?><div class="AnchorImageCaption" ><?php echo $tpl->Get('anchorimage','rowData','caption'); ?></div><?php endif; ?></div>
+<?php endif; ?>

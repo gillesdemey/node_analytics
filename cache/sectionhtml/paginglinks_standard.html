@@ -1,0 +1,6 @@
+{if $paging.PageCount}<div class='Block CategoryPagination tplblock-paginglinks tplblockstyle-paginglinks-standard'>
+            <ul class='PagingList'><li><a href='{$paging.firstPageLink}' class='tplvar-paging-firstlink-href tpllang-First'>{$lang.First}</a></li>
+					<li><a href='{$paging.prevPageLink}' class='tplvar-paging-prevlink-href tpllang-Previous'>{$lang.Previous}</a></li>
+					<li>Pages:</li>{foreach from=$paging.links item=pagingRow key=key id=pagingLoop}{if $paging.currentPage != $key}<li class='tplrepeat-paging-iflinked'><a href='{$pagingRow}' class='tplvar-paging-url-href tplvar-paging-number'>{$key}</a></li>{else}<li class='tplrepeat-paging-ifnotlinked tplvar-paging-number'>{$key}</li>{/if}{/foreach}<li><a href='{$paging.nextPageLink}' class='tplvar-paging-nextlink-href tpllang-Next'>{$lang.Next}</a></li>
+					<li><a href='{$paging.lastPageLink}' class='tplvar-paging-lastlink-href tpllang-Last'>{$lang.Last}</a></li>
+            </ul></div>{/if}

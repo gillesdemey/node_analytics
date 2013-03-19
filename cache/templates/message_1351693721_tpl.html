@@ -1,0 +1,18 @@
+<div id="MainMessage"></div>
+<?php if($tpl->Get('MessageText') != false && strlen($tpl->Get('MessageText')) > 0): ?><script type="text/javascript">
+	<!--
+	$(document).ready(function() {
+			<?php if($tpl->Get('MessageType') == MSG_ERROR): ?>
+				$('#MainMessage').errorMessage('<?php echo addslashes($tpl->Get('MessageText')); ?>');
+			<?php elseif($tpl->Get('MessageType') == MSG_SUCCESS): ?>
+				$('#MainMessage').successMessage('<?php echo addslashes($tpl->Get('MessageText')); ?>');
+			<?php elseif($tpl->Get('MessageType') == MSG_WARNING): ?>
+				$('#MainMessage').warningMessage('<?php echo addslashes($tpl->Get('MessageText')); ?>');
+			<?php else: ?>
+				$('#MainMessage').infoMessage('<?php echo addslashes($tpl->Get('MessageText')); ?>');
+			<?php endif; ?>
+		});
+	
+	//-->
+	</script>
+<?php endif; ?>

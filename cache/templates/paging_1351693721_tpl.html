@@ -1,0 +1,36 @@
+<?php if($tpl->Get('paging','PageCount') > 1): ?>
+
+	<div class="Paging">
+
+	(<?php echo GetLang('Page'); ?> <?php echo $tpl->Get('paging','CurrentPage'); ?> <?php echo GetLang('PagingOf'); ?> <?php echo $tpl->Get('paging','PageCount'); ?>)&nbsp;&nbsp;&nbsp;
+		<?php if($tpl->Get('paging','CurrentPage') > 2): ?>
+			<a href="<?php echo $tpl->Get('paging','FirstURL'); ?>">&laquo;&laquo;</a> |
+		<?php endif; ?>
+		
+		<?php if($tpl->Get('paging','CurrentPage') == 1): ?>
+			&laquo;&nbsp;<?php echo GetLang('Prev'); ?>
+		<?php else: ?>
+			<a href="<?php echo $tpl->Get('paging','PreviousURL'); ?>">&laquo;&nbsp;<?php echo GetLang('Prev'); ?></a>
+		<?php endif; ?>
+
+		<?php if(!function_exists("foreach_148056")){ function foreach_148056(&$tpl, $array){ if(is_array($array)): foreach($array as $pageNumber=>$url): $tpl->Assign('pageNumber', $pageNumber, false); $tpl->Assign('url', $url, false);  ?>
+			|
+			<?php if($tpl->Get('paging','CurrentPage') == $tpl->Get('pageNumber')): ?>
+				<span class="PagingCurrentPage"><?php echo $tpl->Get('pageNumber'); ?></span>
+			<?php else: ?>
+				<a href="<?php echo $tpl->Get('url'); ?>"><span><?php echo $tpl->Get('pageNumber'); ?></span></a>
+			<?php endif; ?>
+		<?php endforeach; endif;}} foreach_148056($tpl, $tpl->Get('paging','PageList')); ?>
+		|
+
+		<?php if($tpl->Get('paging','CurrentPage') == $tpl->Get('paging','PageCount')): ?>
+			<?php echo GetLang('Next'); ?>&nbsp;&raquo;
+		<?php else: ?>
+			<a href="<?php echo $tpl->Get('paging','NextURL'); ?>"><?php echo GetLang('Next'); ?>&nbsp;&raquo;</a>
+		<?php endif; ?>
+		
+		<?php if($tpl->Get('paging','CurrentPage') + 1 < $tpl->Get('paging','PageCount')): ?>
+			| <a href="<?php echo $tpl->Get('paging','LastURL'); ?>">&raquo;&raquo;</a>
+		<?php endif; ?>
+	</div>
+<?php endif; ?>

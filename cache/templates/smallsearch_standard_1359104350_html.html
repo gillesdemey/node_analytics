@@ -1,0 +1,8 @@
+<div class='Block SideBox Search tplblock-smallsearch tplblockstyle-smallsearch-standard'>
+          <h2><span class='tpllang-QuickSearch'><?php echo GetLang('QuickSearch'); ?></span></h2>
+          <div class='BlockContent'>
+					<form class='tplvar-smallsearch-pageurl-action tplflag-smallsearchform' id='smallSearchForm' action='<?php echo $tpl->Get('urls','search'); ?>' method='get'>
+						<input type='text' id='smallSearch_Query' name='search_Query' class='smallSearch_Query' /><input type='submit' value='<?php echo GetLang('SearchGo'); ?>' class='tpllang-SearchGo-value SearchGoButton' /></form>
+            <p> <small><a href='<?php echo $tpl->Get('urls','search'); ?>' class='tplvar-smallsearch-pageurl-href tpllang-AdvancedSearch'><?php echo GetLang('AdvancedSearch'); ?></a></small></p>
+          </div>
+        </div>

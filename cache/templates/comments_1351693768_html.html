@@ -1,0 +1,30 @@
+<script type="text/javascript" language="javascript">
+$(function(){
+	var moduleScript = new IWP_Module_Comments('<?php echo $tpl->Get('comments','uniqueId'); ?>', <?php echo $tpl->Get('comments','captchaImageAction'); ?>, <?php echo $tpl->Get('comments','replyDialogAction'); ?>, <?php echo $tpl->Get('comments','formHeadingJs'); ?>, <?php echo $tpl->Get('comments','formHeadingReplyJs'); ?>, <?php echo $tpl->Get('comments','settingsDialogAction'); ?>, <?php echo $tpl->Get('comments','settingsDialogTitleJs'); ?>);
+	moduleScript.initialiseLinks();
+});
+</script>
+<div class="ContentComments" id="ContentComments_<?php echo $tpl->Get('comments','uniqueId'); ?>">
+	<a name="contentcomments"></a>
+	<h3><?php echo $tpl->Get('comments','lang','contentTitle'); ?><?php echo $tpl->Get('comments','commentCountTitle'); ?></h3>
+	<?php $tmpTplFile = $tpl->GetTemplate();
+			$tmpTplData = $tpl->TemplateData;
+			$tpl->ParseTemplate("comments.list", false, "comments");
+			$tpl->SetTemplate($tmpTplFile);
+			$tpl->TemplateData = $tmpTplData; ?>
+	<?php echo $tpl->Get('comments','paging'); ?>
+	
+	<?php if($tpl->Get('comments','showSettingsLink')): ?>
+		<ul>
+			<li><a href="#" class="CommentSettingsLink"><span><?php echo $tpl->Get('comments','lang','settingsLinkText'); ?></span></a></li>
+		</ul>
+	<?php endif; ?>
+	
+	<div class="ContentRootReplyContainer" id="ContentRootReplyContainer_<?php echo $tpl->Get('comments','uniqueId'); ?>">
+		<?php $tmpTplFile = $tpl->GetTemplate();
+			$tmpTplData = $tpl->TemplateData;
+			$tpl->ParseTemplate("comments.replyform", false, "comments");
+			$tpl->SetTemplate($tmpTplFile);
+			$tpl->TemplateData = $tmpTplData; ?>
+	</div>
+</div>

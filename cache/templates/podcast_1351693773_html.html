@@ -1,0 +1,8 @@
+<?php if($tpl->Get('podcast','hasPodcast')): ?>
+<div class="Podcast">
+<h3><?php echo $tpl->Get('podcast','lang','PodcastTitle'); ?></h3>
+<a href="<?php echo $tpl->Get('podcast','iTunesLink'); ?>"><img align="top" src="<?php echo $tpl->Get('podcast','urlToModule'); ?>/images/podcast.gif">
+<?php echo $tpl->Get('podcast','lang','iTunesPodcast'); ?></a> <?php echo $tpl->Get('podcast','lang','podcastOr'); ?> <a href="<?php echo $tpl->Get('podcast','PodcastFileLink'); ?>"><?php echo $tpl->Get('podcast','lang','DownloadThisFile'); ?></a>.<br/><br/>
+<?php echo $tpl->Get('podcast','lang','NoiTunesPodcast'); ?><a href="<?php echo $tpl->Get('podcast','PodcastFeedLink'); ?>"><?php echo $tpl->Get('podcast','PodcastFeedLink'); ?></a><br/><br/>
+</div>
+<?php endif; ?>

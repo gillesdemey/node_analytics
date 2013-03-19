@@ -1,0 +1,70 @@
+<div id="uploadingBlockImage" style="display: none">
+</div>
+<table class="" style="width:100%; border: 0px;">
+
+	<tr>
+		<td class="blockLabelRow">
+			<span class="Required">*</span> <b><?php echo GetLang('layoutBlockName'); ?>:</b>
+		</td>
+	</tr>
+
+	<tr>
+		<td style="padding-top: 6px;">
+			<input type="text" id="blockname" name="blockname" class="Field300" value="<?php echo $tpl->Get('name'); ?>" />
+		</td>
+	</tr>
+
+	<tr>
+		<td class="blockLabelRow">
+			<?php if(!$tpl->Get('hasCurrentImage')): ?><span class="Required">*</span><?php endif; ?> <b><?php echo GetLang('layoutBrowseForImage'); ?>:</b>
+		</td>
+	</tr>
+
+	<tr>
+		<td ><?php if($tpl->Get('hasCurrentImage')): ?>
+ <i><?php echo GetLang('layoutLeaveBlankFileField'); ?></i><br />
+			<?php endif; ?>
+			<input type="file" name="blockimage" id="blockimage" size="20" class="Field300"/><br />
+			<div style="color: gray">(<?php echo $tpl->Get('maxFileSize'); ?>)</div>
+
+		</td>
+	</tr>
+
+	<tr>
+		<td class="blockLabelRow">
+			<b><?php echo GetLang('layoutAltText'); ?>:</b>
+		</td>
+	</tr>
+
+	<tr>
+		<td style="padding-top: 6px;">
+			<input type="text" id="blockalt" name="blockalt" class="Field300" value="<?php echo $tpl->Get('blockalt'); ?>" />
+		</td>
+	</tr>
+
+	<tr>
+		<td class="blockLabelRow">
+			<b><?php echo GetLang('layoutBlockImageUrl'); ?>:</b>
+		</td></tr>
+		<tr>
+		<td style="padding-top: 6px;">
+			<input type="text" id="blockurl" name="blockurl" class="Field300" value="<?php echo $tpl->Get('blockurl'); ?>" /><br />
+			<div style="padding-top: 5px;"><img src="images/nodejoin.gif" style=" float:left; " /> <input type="checkbox" id="blocknewwindow" name="blocknewwindow" <?php echo $tpl->Get('newWindowChecked'); ?> /><label for="blocknewwindow"><?php echo GetLang('layoutBlockImageUrlLabel'); ?></label></div>
+		</td>
+	</tr>
+	<?php if($tpl->Get('hasCurrentImage')): ?>
+	<tr>
+		<td class="blockLabelRow">
+			<b><?php echo GetLang('layoutCurrentImage'); ?>:</b>
+		</td></tr>
+		<tr>
+		<td >
+			<a href="<?php echo $tpl->Get('currentImageUrl'); ?>" target="_blank"><?php echo GetLang('layoutViewCurrentImage'); ?></a>
+		</td>
+	</tr>
+	<?php endif; ?>
+
+
+</table><br />
+	<input type="hidden" name="blockid" value="<?php echo $tpl->Get('blockid'); ?>" id="blockid" />
+	<input type="hidden" name="blocktype" value="customImage" id="blocktype" />

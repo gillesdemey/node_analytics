@@ -1,0 +1,37 @@
+<div class='{$cssclasses} Block tplblock-list tplblockstyle-list-middle standard {$blockNumberClass}'>
+            <h2><span class='tplvar-list-title'>{$blockTitle}</span></h2>
+            <div class='BlockContent'>
+              <div class='tplrepeat-parent'>
+{foreach from=$OutputList item=row1 id=listLoop}
+
+                <div class='tplrepeat-list listRow'>
+					<h3>
+{$row1.beforeTitle}{if strlen($row1.Title) > 0}<a href='{$row1.Url}' class='tplvar-listitem-url-href tplvar-listitem-title tplvar-listitem-target-target' target='{$row1.prependTarget}{$row1.Target}{$row1.appendTarget}'>{$row1.prependTitle}{$row1.Title}{$row1.appendTitle}</a>{/if}{$row1.afterTitle}
+</h3>
+                  
+{if strlen($row1.Summary) > 0 || strlen($row1.Publishdate) > 0 || strlen($row1.Categories) > 0 || strlen($row1.Contenttypename) > 0 || strlen($row1.Authors) > 0}<ul class='PostDetails tplflag-listitem-contentdetails'>{$row1.beforeDetails}
+
+{$row1.beforeContenttypename}{if strlen($row1.Contenttypename) > 0}<li class='ContentType tplvar-listitem-contenttypename'>{$row1.prependContenttypename}{$row1.Contenttypename}{$row1.appendContenttypename}</li>{/if}{$row1.afterContenttypename}
+
+                    
+{$row1.beforeAuthors}{if strlen($row1.Authors) > 0}<li class='ContentAuthors tplvar-listitem-authors'>{$row1.prependAuthors}{$row1.Authors}{$row1.appendAuthors}</li>{/if}{$row1.afterAuthors}
+
+                    
+{$row1.beforePublishdate}{if strlen($row1.Publishdate) > 0}<li class='ContentPublishDate tplvar-listitem-publishdate'>{$row1.prependPublishdate}{$row1.Publishdate}{$row1.appendPublishdate}</li>{/if}{$row1.afterPublishdate}
+
+                    
+{$row1.beforeCategories}{if strlen($row1.Categories) > 0}<li class='ContentCategories tplvar-listitem-categories'>{$row1.prependCategories}{$row1.Categories}{$row1.appendCategories}</li>{/if}{$row1.afterCategories}
+
+                  
+{$row1.afterDetails}</ul>{/if}
+
+{$row1.beforeSummary}{if strlen($row1.Summary) > 0}
+<div class='tplvar-listitem-summary listSummary'>{$row1.prependSummary}{$row1.Summary}{$row1.appendSummary}</div>
+{/if}{$row1.afterSummary}
+
+                </div>
+              
+{/foreach}
+</div>
+            </div>
+          </div>

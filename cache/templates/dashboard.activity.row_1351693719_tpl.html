@@ -1,0 +1,12 @@
+<li>
+	<div class="ActivityColour ActivityColour-<?php echo $tpl->Get('row','colour'); ?>" title="<?php echo iwp_htmlspecialchars($tpl->Get('row','scope_lang')); ?>"><div><?php echo iwp_htmlspecialchars($tpl->Get('row','scope_lang')); ?></div></div>
+	<div class="ActivityLabel">
+		<?php ob_start(); ?><?php echo iwp_htmlspecialchars($tpl->Get('row','subjecttext')); ?><?php $tpl->Assign("subjecttext", ob_get_contents()); ob_end_clean(); ?>
+		<?php ob_start(); ?><?php echo iwp_htmlspecialchars($tpl->Get('row','usertext')); ?><?php $tpl->Assign("usertext", ob_get_contents()); ob_end_clean(); ?>
+		<?php ob_start(); ?><?php echo iwp_htmlspecialchars($tpl->Get('row','scope_lang')); ?><?php $tpl->Assign("scope_lang", ob_get_contents()); ob_end_clean(); ?>
+		<?php ob_start(); ?><?php echo elipsize($tpl->Get('subjecttext'), 50); ?><?php $tpl->Assign("subjecttext", ob_get_contents()); ob_end_clean(); ?>
+		<?php echo sprintf($tpl->Get('row','action_lang'), $tpl->Get('row','subject_url'), $tpl->Get('row','subjectid'), $tpl->Get('subjecttext'), $tpl->Get('row','user_url'), $tpl->Get('row','userid'), $tpl->Get('usertext'), $tpl->Get('row','source'), $tpl->Get('row','scope'), $tpl->Get('scope_lang'), $tpl->Get('row','colour'), $tpl->Get('row','action'), $tpl->Get('row','activitydate'), $tpl->Get('row','activityid')); ?>
+		<span class="Timeframe" title="<?php echo iwp_htmlspecialchars($tpl->Get('row','activitydate')); ?>">(<?php echo iwp_htmlspecialchars($tpl->Get('row','activitydate_relative')); ?>)</span>
+	</div>
+	<div style="clear:both;"></div>
+</li>

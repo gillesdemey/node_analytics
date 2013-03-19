@@ -1,0 +1,24 @@
+<a name="<?php echo $tpl->Get('comment','anchor'); ?>"></a>
+<div class="CommentItemOutside<?php echo $tpl->Get('comment','extraClasses'); ?>" id="CommentItemOutside_<?php echo $tpl->Get('comment','id'); ?>">
+	<?php echo $tpl->Get('comment','depthOpenTags'); ?>
+	<div class="CommentItem">
+		<div class="permalink"><a href="<?php echo $tpl->Get('comment','permalinkURL'); ?>" title="<?php echo $tpl->Get('comments','lang','PermalinkToThisComment'); ?>"><span class="permalinkanchor"><?php echo $tpl->Get('comments','lang','LinkIcon'); ?></span><span class="permalinkid"><?php echo $tpl->Get('comment','counter'); ?></span></a></div>
+		<?php if($tpl->Get('comment','website')): ?>
+			<div class="name"><a href="<?php echo $tpl->Get('comment','website_html'); ?>" target="_blank" rel="nofollow"><span><?php echo $tpl->Get('comment','fromname_html'); ?></span></a></div>
+		<?php else: ?>
+			<div class="name"><?php echo $tpl->Get('comment','fromname_html'); ?></div>
+		<?php endif; ?>
+		<div class="date"><span class="saidthis"><?php echo $tpl->Get('comments','lang','saidThisOn'); ?> </span><span class="date"><?php echo $tpl->Get('comment','dateString'); ?> </span><span class="timeat"><?php echo GetLang('TimeAt'); ?> </span><span class="time"><?php echo $tpl->Get('comment','timeString'); ?></span></div>
+		<?php if($tpl->Get('comment','parentid')): ?>
+			<div class="inreplyto"><a href="<?php echo $tpl->Get('comment','inReplyToLink'); ?>"><span><?php echo sprintf($tpl->Get('comments','lang','inReplyTo'), $tpl->Get('comments','lang','LinkIcon'), $tpl->Get('comment','parent_counter')); ?></span></a></div>
+		<?php endif; ?>
+		<div class="comment"><?php echo $tpl->Get('comment','comment'); ?></div>
+		
+		<?php if($tpl->Get('comments','newcomments')): ?>
+			<div class="reply"><a href="#replyto_<?php echo $tpl->Get('comment','id'); ?>" class="CommentReplyLink"><span><?php echo $tpl->Get('comments','lang','replyToThisComment'); ?></span></a></div>
+		<?php endif; ?>
+	</div>
+	<?php echo $tpl->Get('comment','depthCloseTags'); ?>
+</div>
+<div class="CommentItemReplyContainer" id="CommentItemReplyContainer_<?php echo $tpl->Get('comment','id'); ?>"></div>
+<a name="<?php echo $tpl->Get('comment','endanchor'); ?>"></a>

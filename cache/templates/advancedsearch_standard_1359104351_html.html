@@ -1,0 +1,41 @@
+<div class='Block tplblock-advancedsearch tplblockstyle-advancedsearch-standard'>
+				<form action='#' method='get' class='tplvar-advancedsearch-pageurl-action' id='advancedSearchForm'>
+					<input type='hidden' name='searchadvanced' id='advancedSearchForm_searchadvanced' value='<?php if($tpl->Get('searchAdvanced')): ?>1<?php endif; ?>' class='tplflag-search-fromadvanced-value' /><fieldset><legend class='tpllang-AdvancedSearch'><?php echo GetLang('AdvancedSearch'); ?></legend>
+					<div class='HorizontalFormContainer'>
+						<div class='tplvar-search-message Required'><?php echo $tpl->Get('searchMessage'); ?></div>
+						<dl><dt><span class='Required'>* </span><span class='tpllang-AdvancedSearch_SearchQuery'><?php echo GetLang('AdvancedSearch_SearchQuery'); ?></span></dt>
+							<dd>
+								<input type='text' name='search_Query' id='search_Query' class='tplvar-search-query-value' value='<?php echo $tpl->Get('searchQuery'); ?>' /><small>(<a href='#' class='tpllang-AdvancedSearch_SearchTips' onclick='launchSearchTips();'><?php echo GetLang('AdvancedSearch_SearchTips'); ?></a>)</small></dd>
+							<dt class='searchToggleOptionsRow'></dt>
+							<dd class='searchToggleOptionsRow'><a id='toggleSearchOptionsLinkShow' class='SearchToggleLinkShow tplvar-search-showadvanced-styleprepend tpllang-AdvancedSearch_ShowAdvancedOptions' onclick='ToggleSearchForm("show")' href='javascript:void(0)' style='<?php if($tpl->Get('searchAdvanced')): ?>display:none;<?php endif; ?>'><?php echo GetLang('AdvancedSearch_ShowAdvancedOptions'); ?></a><a id='toggleSearchOptionsLinkHide' onclick='ToggleSearchForm("hide")' class='SearchToggleLinkHide tplvar-search-hideadvanced-styleprepend tplflag-searchAdvancedOption tpllang-AdvancedSearch_HideAdvancedOptions' href='javascript:void(0)' style='<?php if(!$tpl->Get('searchAdvanced')): ?>display:none;<?php endif; ?>'><?php echo GetLang('AdvancedSearch_HideAdvancedOptions'); ?></a></dd>
+							<dt class='tplvar-search-showadvanced-styleprepend tplflag-searchAdvancedOption tpllang-AdvancedSearch_SearchFields' style='<?php if($tpl->Get('searchAdvanced')): ?>display:none;<?php endif; ?>'><?php echo GetLang('AdvancedSearch_SearchFields'); ?></dt>
+							<dd class='tplvar-search-showadvanced-styleprepend tplflag-searchAdvancedOption' style='<?php if($tpl->Get('searchAdvanced')): ?>display:none;<?php endif; ?>'>
+								<input type='checkbox' id='searchfield_title' name='searchfields[]' value='title' class='tplcond-search-titlecheckbox' <?php if($tpl->Get('searchTitleChecked')): ?>checked='checked'<?php endif; ?> /><label for='searchfield_title' class='tpllang-searchFieldTitle tpllang-AdvancedSearch_Title'><?php echo GetLang('AdvancedSearch_Title'); ?></label>
+								<input type='checkbox' id='searchfield_content' name='searchfields[]' value='content' class='tplcond-search-contentcheckbox' <?php if($tpl->Get('searchContentChecked')): ?>checked='checked'<?php endif; ?> /><label for='searchfield_content' class='tpllang-searchFieldContent tpllang-AdvancedSearch_Content'><?php echo GetLang('AdvancedSearch_Content'); ?></label>
+								<input type='checkbox' id='searchfield_author' name='searchfields[]' value='author' class='tplcond-search-authorcheckbox' <?php if($tpl->Get('searchAuthorChecked')): ?>checked='checked'<?php endif; ?> /><label for='searchfield_author' class='tpllang-searchFieldAuthor tpllang-AdvancedSearch_Author'><?php echo GetLang('AdvancedSearch_Author'); ?></label>
+							</dd>
+							<dt class='tplvar-search-showadvanced-styleprepend tplflag-searchAdvancedOption tpllang-AdvancedSearch_SearchCategories' style='<?php if($tpl->Get('searchAdvanced')): ?>display:none;<?php endif; ?>'><?php echo GetLang('AdvancedSearch_SearchCategories'); ?></dt>
+							<dd class='tplvar-search-showadvanced-styleprepend tplflag-searchAdvancedOption' style='<?php if($tpl->Get('searchAdvanced')): ?>display:none;<?php endif; ?>'>
+								<select name='search_categories[]' id='search_categories' size='5' multiple='multiple' class='tplflag-search-categorylist ISSelectReplacement'><?php echo $tpl->Get('searchableCategoriesOptions'); ?></select><div class='ISelectorClear'></div>
+							</dd>
+							<dt class='tplvar-search-showadvanced-styleprepend tplflag-searchAdvancedOption tpllang-AdvancedSearch_SearchContent' style='<?php if($tpl->Get('searchAdvanced')): ?>display:none;<?php endif; ?>'><?php echo GetLang('AdvancedSearch_SearchContent'); ?></dt>
+							<dd class='tplvar-search-showadvanced-styleprepend tplflag-searchAdvancedOption' style='<?php if($tpl->Get('searchAdvanced')): ?>display:none;<?php endif; ?>'>
+								<select name='search_contenttypes[]' id='search_contenttypes' size='5' multiple='multiple' class='tplflag-search-contenttypelist ISSelectReplacement'><?php echo $tpl->Get('searchableContentTypesOptions'); ?></select><div class='ISelectorClear'></div>
+							</dd>
+							<dt class='tplvar-search-showadvanced-styleprepend tplflag-searchAdvancedOption tpllang-AdvancedSearch_StartSearchFrom' style='<?php if($tpl->Get('searchAdvanced')): ?>display:none;<?php endif; ?>'><?php echo GetLang('AdvancedSearch_StartSearchFrom'); ?></dt>
+							<dd class='tplvar-search-showadvanced-styleprepend tplflag-searchAdvancedOption' style='<?php if($tpl->Get('searchAdvanced')): ?>display:none;<?php endif; ?>'>
+								<input id='search_startdate' class='tplvar-search-startdate-value' type='text' value='<?php echo $tpl->Get('searchStartDate'); ?>' name='search_startdate' /></dd>
+							<dt class='tplvar-search-showadvanced-styleprepend tplflag-searchAdvancedOption tpllang-AdvancedSearch_EndSearchOn' style='<?php if($tpl->Get('searchAdvanced')): ?>display:none;<?php endif; ?>'><?php echo GetLang('AdvancedSearch_EndSearchOn'); ?></dt>
+							<dd class='tplvar-search-showadvanced-styleprepend tplflag-searchAdvancedOption' style='<?php if($tpl->Get('searchAdvanced')): ?>display:none;<?php endif; ?>'>
+								<input id='search_enddate' class='tplvar-search-enddate-value' type='text' value='<?php echo $tpl->Get('searchEndDate'); ?>' name='search_enddate' /></dd>
+						</dl><p class='Submit'>
+							<input type='submit' value='<?php echo GetLang('Search'); ?>' class='Button tplvar-search-submitbuttonaction-onclick SubmitButton tpllang-Search-value' onclick='return CheckSearchForm();' /></p>
+					</div>
+					</fieldset></form>
+				<div id='search_results'>
+					<h2 class='tpllang-SearchResultTitle tplcond-search-showifresults' style=' display: none;'><?php echo GetLang('SearchResultTitle'); ?></h2>
+					<div class='tplflag-search-paging'><?php echo $tpl->Get('searchPaging'); ?></div>
+					<div class='tplflag-search-results'><?php echo $tpl->Get('searchResults'); ?></div>
+					<div class='tplflag-search-paging'><?php echo $tpl->Get('searchPaging'); ?></div>
+				</div>
+			</div>

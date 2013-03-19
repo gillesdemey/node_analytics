@@ -1,0 +1,7 @@
+<li class="layoutListsMenusItem multiMenuItem <?php echo $tpl->Get('type'); ?>_<?php echo $tpl->Get('blockid'); ?> <?php echo $tpl->Get('classes'); ?>" id="<?php echo $tpl->Get('type'); ?>_<?php echo $tpl->Get('blockid'); ?>" >
+	<div id="type_<?php echo $tpl->Get('id'); ?>" class="<?php echo $tpl->Get('typeClass'); ?> typeDiv layoutBlockIconPosition">
+		<div class="layoutDeleteItem"  onclick="DeleteBlock(this);"></div>
+		<div  class="layoutEditItem" onclick="EditBlock(<?php echo $tpl->Get('blockid'); ?>,'<?php echo $tpl->Get('type'); ?>');"></div>
+		<span><?php echo $tpl->Get('name'); ?></span>
+	</div>
+</li>

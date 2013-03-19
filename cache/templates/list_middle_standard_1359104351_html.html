@@ -1,0 +1,37 @@
+<div class='<?php echo $tpl->Get('cssclasses'); ?> Block tplblock-list tplblockstyle-list-middle standard <?php echo $tpl->Get('blockNumberClass'); ?>'>
+            <h2><span class='tplvar-list-title'><?php echo $tpl->Get('blockTitle'); ?></span></h2>
+            <div class='BlockContent'>
+              <div class='tplrepeat-parent'>
+<?php if(!function_exists("foreach_103767")){ function foreach_103767(&$tpl, $array){ if(is_array($array)): foreach($array as $__key=>$row1): $tpl->Assign('__key', $__key, false); $tpl->Assign('row1', $row1, false);  ?>
+
+                <div class='tplrepeat-list listRow'>
+					<h3>
+<?php echo $tpl->Get('row1','beforeTitle'); ?><?php if(strlen($tpl->Get('row1','Title')) > 0): ?><a href='<?php echo $tpl->Get('row1','Url'); ?>' class='tplvar-listitem-url-href tplvar-listitem-title tplvar-listitem-target-target' target='<?php echo $tpl->Get('row1','prependTarget'); ?><?php echo $tpl->Get('row1','Target'); ?><?php echo $tpl->Get('row1','appendTarget'); ?>'><?php echo $tpl->Get('row1','prependTitle'); ?><?php echo $tpl->Get('row1','Title'); ?><?php echo $tpl->Get('row1','appendTitle'); ?></a><?php endif; ?><?php echo $tpl->Get('row1','afterTitle'); ?>
+</h3>
+                  
+<?php if(strlen($tpl->Get('row1','Summary')) > 0 || strlen($tpl->Get('row1','Publishdate')) > 0 || strlen($tpl->Get('row1','Categories')) > 0 || strlen($tpl->Get('row1','Contenttypename')) > 0 || strlen($tpl->Get('row1','Authors')) > 0): ?><ul class='PostDetails tplflag-listitem-contentdetails'><?php echo $tpl->Get('row1','beforeDetails'); ?>
+
+<?php echo $tpl->Get('row1','beforeContenttypename'); ?><?php if(strlen($tpl->Get('row1','Contenttypename')) > 0): ?><li class='ContentType tplvar-listitem-contenttypename'><?php echo $tpl->Get('row1','prependContenttypename'); ?><?php echo $tpl->Get('row1','Contenttypename'); ?><?php echo $tpl->Get('row1','appendContenttypename'); ?></li><?php endif; ?><?php echo $tpl->Get('row1','afterContenttypename'); ?>
+
+                    
+<?php echo $tpl->Get('row1','beforeAuthors'); ?><?php if(strlen($tpl->Get('row1','Authors')) > 0): ?><li class='ContentAuthors tplvar-listitem-authors'><?php echo $tpl->Get('row1','prependAuthors'); ?><?php echo $tpl->Get('row1','Authors'); ?><?php echo $tpl->Get('row1','appendAuthors'); ?></li><?php endif; ?><?php echo $tpl->Get('row1','afterAuthors'); ?>
+
+                    
+<?php echo $tpl->Get('row1','beforePublishdate'); ?><?php if(strlen($tpl->Get('row1','Publishdate')) > 0): ?><li class='ContentPublishDate tplvar-listitem-publishdate'><?php echo $tpl->Get('row1','prependPublishdate'); ?><?php echo $tpl->Get('row1','Publishdate'); ?><?php echo $tpl->Get('row1','appendPublishdate'); ?></li><?php endif; ?><?php echo $tpl->Get('row1','afterPublishdate'); ?>
+
+                    
+<?php echo $tpl->Get('row1','beforeCategories'); ?><?php if(strlen($tpl->Get('row1','Categories')) > 0): ?><li class='ContentCategories tplvar-listitem-categories'><?php echo $tpl->Get('row1','prependCategories'); ?><?php echo $tpl->Get('row1','Categories'); ?><?php echo $tpl->Get('row1','appendCategories'); ?></li><?php endif; ?><?php echo $tpl->Get('row1','afterCategories'); ?>
+
+                  
+<?php echo $tpl->Get('row1','afterDetails'); ?></ul><?php endif; ?>
+
+<?php echo $tpl->Get('row1','beforeSummary'); ?><?php if(strlen($tpl->Get('row1','Summary')) > 0): ?>
+<div class='tplvar-listitem-summary listSummary'><?php echo $tpl->Get('row1','prependSummary'); ?><?php echo $tpl->Get('row1','Summary'); ?><?php echo $tpl->Get('row1','appendSummary'); ?></div>
+<?php endif; ?><?php echo $tpl->Get('row1','afterSummary'); ?>
+
+                </div>
+              
+<?php endforeach; endif;}} foreach_103767($tpl, $tpl->Get('OutputList')); ?>
+</div>
+            </div>
+          </div>

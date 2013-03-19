@@ -1,0 +1,264 @@
+<?php $tmpTplFile = $tpl->GetTemplate();
+			$tmpTplData = $tpl->TemplateData;
+			$tpl->ParseTemplate("header");
+			$tpl->SetTemplate($tmpTplFile);
+			$tpl->TemplateData = $tmpTplData; ?>
+<script type="text/javascript" src="../javascript/jquery.form.js"></script>
+<script type="text/javascript" src="../javascript/jquery.field.js"></script>
+<script type="text/javascript" src="<?php echo $tpl->Get('config','siteURL'); ?>/js.php?f=admin.validator&amp;section=<?php echo $tpl->Get('section'); ?>&amp;a=1"></script>
+<script>
+$(document).ready(function() {
+
+	<?php if($tpl->Get('showEditApprovedContentWarning')): ?>
+		$('#MainMessage').warningMessage(<?php echo iwp_FilterJavascriptString(GetLang('NoPermissionToEditApprovedContent')); ?>);
+	<?php endif; ?>
+
+	$('.CancelButton').click(function(){
+		if (confirm('<?php echo GetLang('ConfirmCancelJS'); ?>')) {
+			<?php if(iwp_HasMultiPerm(IWP_MULTIPERM_MATCHTYPE_ANY, 'content', '*', array('edit', 'approve', 'delete'), '*')): ?>
+				
+				location.href = "index.php?section=content&action=view";
+			<?php else: ?>
+				
+				location.href = "index.php";
+			<?php endif; ?>
+		}
+	});
+
+	$('.SaveAndAddDisabled').disabledBind('click', function(){
+		alert(iwp.lang.get('CreateContentNoPermission'));
+	});
+});
+</script>
+<div id="SavePageFirst" title="Problem Saving <?php echo $tpl->Get('ContentType','name_singular'); ?>" class="iDialog" style="display:none;"></div>
+<form action="remote.php?section=content&amp;action=saveform"  enctype="multipart/form-data" name="frmContent" id="frmContent" method="post">
+<input type="hidden" name="savemethod" id="savemethod" value="" />
+
+<?php $tmpTplFile = $tpl->GetTemplate();
+			$tmpTplData = $tpl->TemplateData;
+			$tpl->ParseTemplate("common.form.top");
+			$tpl->SetTemplate($tmpTplFile);
+			$tpl->TemplateData = $tmpTplData; ?>
+
+
+			<input type="button" name="saveonly" value="<?php echo GetLang('Save'); ?>" class="FormButton"   onClick="$('#savemethod').val('');validateForm();" />
+			<input type="button" name="saveandexit" value="<?php echo GetLang('SaveAndExit'); ?>" class="FormButton"  onClick="$('#savemethod').val('andexit');validateForm();" />
+			<?php if($tpl->Get('canCreateContent')): ?>
+				<input type="button" name="saveandadd" value="<?php echo GetLang('SaveAndAddAnother'); ?>" class="FormButton" onClick="$('#savemethod').val('andadd');validateForm()" />
+			<?php else: ?>
+				<input type="button" value="<?php echo GetLang('SaveAndAddAnother'); ?>" class="FormButton SaveAndAddDisabled" disabled="disbaled" />
+			<?php endif; ?>
+			<input type="button" value="<?php echo GetLang('Cancel'); ?>" class="FormButton CancelButton" />
+
+			</div>
+		</td>
+	  </tr>
+<tr>
+<td>
+<script type="text/javascript">
+
+jQuery(function($) {
+
+    var options = {
+        success  : showResponse,
+        dataType : 'xml'
+    };
+
+    // bind form using 'ajaxForm'
+    $('#frmContent').submit(function(){ RunCallbacks('beforePost'); }).ajaxForm(options);
+
+
+
+	<?php echo $tpl->Get('jsOnLoad'); ?>
+
+
+
+	<?php if(!is_blank($tpl->Get('EmptyFields'))): ?>
+		var emptyFields = <?php echo $tpl->Get('EmptyFields'); ?>;
+
+		EmptyFields(emptyFields);
+	<?php endif; ?>
+
+	$('#title').focus();
+
+
+
+	$('#frmContent').submit(function() {
+		// disable the save buttons so the content can't be saved twice
+		// also a good indicator to the user that the page is working/loading
+		$('input[type="button"][name*="save"]').attr('disabled', 'disabled');
+
+		return true;
+	});
+
+});
+
+
+
+String.prototype.countStr = function(s1) {
+	return (this.length - this.replace(new RegExp(s1,'g'), '').length) / s1.length;
+};
+
+String.prototype.repeat = function(l){
+	return new Array(l + 1).join(this);
+};
+
+
+
+function toggleMeta() {
+	var cb    = $('#metaauto'),
+	    metas = $('#metatitle_row, #metakeywords_row, #metadesc_row');
+
+	cb.bind('click', function() {
+		if (cb.get(0).checked) {
+			metas.hide();
+		} else {
+			metas.show();
+		}
+	});
+
+	cb.triggerHandler('click');
+}
+
+function insertCreateCategory() {
+	$('#categories_row .FieldLabel').append('<br />&nbsp;&nbsp;&nbsp;&nbsp;(<a href="#" onclick="createCategory();"><?php echo GetLang('CreateNewCat'); ?></a>)');
+}
+
+function createCategory(){
+	$.iModal({type: 'ajax', url: 'remote.php?section=content&action=QuickCreateCategoryForm', width: '450', title: '<?php echo GetLang('CreateaCategory'); ?>', buttons: '<input type="submit" value="<?php echo GetLang('SaveCategory'); ?>" class="FormButton" style=" float: right; font-weight:bold;" onClick="saveNewCategory();" /> <input type="button" value="Cancel" onclick="$.iModal.close();" class="FormButton" style="float: left;" />'});
+}
+
+function saveNewCategory(){
+	$.getJSON('remote.php?section=content&action=SaveQuickCreateCategory&popup_parentid=' + escape($('#popup_parentid').val()) + '&popup_catname=' + escape($('#popup_catname').val()), function(json) {
+		if(json.success){
+			$('#MainMessage').successMessage('Category "'+json.catname+'" has been successfully saved and selected.');
+			var reloadISelect = false;
+			if($('#categories').hasClass('ISelector')){
+				reloadISelect = true;
+				$('#categories').remove();
+				$('#categories_old').attr('id', 'categories');
+			}
+
+			if(json.parentid == 0){
+				$('#categories').addOption(json.categoryid, json.catname);
+			}else{
+				var parentCatName = $('#categories option[value='+json.parentid+']').html();
+				var nbspCount = parentCatName.countStr('&nbsp;');
+				$('#categories option[value='+json.parentid+']').after('<option value="'+json.categoryid+'">'+ '&nbsp;'.repeat(nbspCount) +'&nbsp;&nbsp;&nbsp;&nbsp;' + json.catname+'</option>');
+			}
+			$.iModal.close();
+			$('#categories').selectOptions(json.categoryid, true);
+			$('#categories option[value='+json.categoryid+']').attr('selected', 'selected');
+
+			if(reloadISelect){
+				$('#categories').iselector();
+				$('#categories').iselectorScrollTo(json.categoryid);
+			}
+		}else{
+			alert(json.message);
+		}
+	});
+}
+
+function FieldName(field) {
+	var lang = { <?php echo $tpl->Get('fieldLangs'); ?> };
+	return eval('lang.' + field);
+}
+
+// pre-submit callback
+function validateForm() {
+	var result    = false;
+	var errormsgs = [];
+
+	$('.validation_error').remove();
+
+	<?php echo $tpl->Get('formvalidate'); ?>
+
+	if(errormsgs.length == 0){
+		$('#frmContent').submit();
+		$('#MessageTable').hide();
+		return;
+	}
+	$('html').scrollTo( 'body', 500 );
+	$('#MainMessage').errorMessage('<?php echo sprintf(GetLang('ContentSaveErrors'), $tpl->Get('ContentType','name_singular')); ?>', errormsgs);
+
+}
+
+function showResponse(xml, statusText) {
+	RunCallbacks('afterPost');
+
+	// enable the save buttons once the submission is complete
+	$('input[type="button"][name*="save"]').removeAttr('disabled');
+
+	if ($('status', xml).text() == 1) {
+		RunCallbacks('afterPostSuccess');
+
+		$('#contentid').val($('contentid', xml).text());
+
+		if ($('redirect', xml).text() == 1) {
+			<?php if(iwp_HasMultiPerm(IWP_MULTIPERM_MATCHTYPE_ANY, 'content', '*', array('edit', 'approve', 'delete'), '*')): ?>
+				
+				location.href = "index.php?section=content&action=view";
+			<?php else: ?>
+				
+				location.href = "index.php";
+			<?php endif; ?>
+		} else if ($('andadd', xml).text() == 1) {
+			location.href = "index.php?section=content&action=create&typeid=<?php echo $tpl->Get('ContentType','id'); ?>";
+		} else {
+			$('#MainMessage').successMessage(<?php echo iwp_FilterJavascriptString(sprintf(GetLang('ContentItemSaved'), $tpl->Get('ContentType','name_singular'))); ?>);
+		}
+	} else if ($('status', xml).text() == 0) {
+		RunCallbacks('afterPostError');
+		$('html').scrollTo( 'body', 500 );
+		if($('errors', xml).text() == ""){
+			var errors = ["Unknown error. Message received: " + $('message', xml).text()];
+		}else{
+			var errors = $('errors', xml).text();
+			errors = $.evalJSON(errors);
+		}
+
+		setTimeout(function() {
+			$('#MainMessage').errorMessage('<?php echo sprintf(GetLang('ContentSaveErrors'), $tpl->Get('ContentType','name_singular')); ?>', errors);
+		}, 5);
+
+		setTimeout("EmptyFields(" +$('errorfields', xml).text()+ ");", 5);
+	}
+}
+
+</script>
+
+
+<?php echo $tpl->Get('formfields'); ?>
+
+
+<?php if(sizeof($tpl->Get('tpl','JSfiles')) > 0): ?>
+	<?php if(!function_exists("foreach_7193")){ function foreach_7193(&$tpl, $array){ if(is_array($array)): foreach($array as $key=>$file): $tpl->Assign('key', $key, false); $tpl->Assign('file', $file, false);  ?>
+			<?php if($tpl->Get('tpl','JSfilesIF',$tpl->Get("key")) !== false): ?>
+				<!--[if <?php echo $tpl->Get('tpl','JSfilesIF',$tpl->Get("key")); ?>]><script type="text/javascript" src="<?php echo $tpl->Get('file'); ?>"></script><![endif]-->
+			<?php else: ?>
+				<script type="text/javascript" src="<?php echo $tpl->Get('file'); ?>"></script>
+			<?php endif; ?>
+	<?php endforeach; endif;}} foreach_7193($tpl, $tpl->Get('tpl','JSfiles')); ?>
+<?php endif; ?>
+
+
+			</td>
+			</tr>
+			</table><br />
+			<div style="padding-left: 190px;">
+			<input type="button" name="saveonly" value="<?php echo GetLang('Save'); ?>" class="FormButton"   onClick="$('#savemethod').val('');validateForm();" />
+			<input type="button" name="saveandexit" value="<?php echo GetLang('SaveAndExit'); ?>" class="FormButton"  onClick="$('#savemethod').val('andexit');validateForm();" />
+			<?php if($tpl->Get('canCreateContent')): ?>
+				<input type="button" name="saveandadd" value="<?php echo GetLang('SaveAndAddAnother'); ?>" class="FormButton" onClick="$('#savemethod').val('andadd');validateForm()" />
+			<?php else: ?>
+				<input type="button" value="<?php echo GetLang('SaveAndAddAnother'); ?>" class="FormButton SaveAndAddDisabled" disabled="disbaled" />
+			<?php endif; ?>
+			<input type="button" value="<?php echo GetLang('Cancel'); ?>" class="FormButton CancelButton" />
+	</div>
+</div>
+<?php $tmpTplFile = $tpl->GetTemplate();
+			$tmpTplData = $tpl->TemplateData;
+			$tpl->ParseTemplate("footer");
+			$tpl->SetTemplate($tmpTplFile);
+			$tpl->TemplateData = $tmpTplData; ?>

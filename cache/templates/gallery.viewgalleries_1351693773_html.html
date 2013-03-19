@@ -1,0 +1,28 @@
+<div id="galleryBreadcrumbContainer">
+	<?php echo $tpl->Get('galleryBreadcrumb'); ?>
+</div>
+
+<h2><?php echo $tpl->Get('gallery','lang','PhotoGalleries'); ?></h2>
+
+<div class="galleryPaging"><?php echo $tpl->Get('galleryPaging'); ?></div>
+
+<div class='GalleryList' id='GalleryList'>
+	<?php $array = $tpl->Get('galleryList'); if(is_array($array)): foreach($array as $galleryId=>$thisGallery): $tpl->Assign('galleryId', $galleryId, false); $tpl->Assign('thisGallery', $thisGallery, false);  ?>
+		<div class='ListOfGalleries Block'>
+			<div class='GalleryMiddlePreview'>
+				<div class="ListOfGalleriesContainer">
+					<a class="" href="<?php echo $tpl->Get('config','siteURL'); ?><?php echo $tpl->Get('thisGallery','urlpath'); ?>">
+						<img src="<?php echo $tpl->Get('config','siteURL'); ?>/images/gallery/<?php echo $tpl->Get('thisGallery','id'); ?>/gallerythumb_album.jpg" class="GalleryLatestImage" />
+					</a>
+				</div>
+				<h2><span><a href="<?php echo $tpl->Get('config','siteURL'); ?><?php echo $tpl->Get('thisGallery','urlpath'); ?>"><?php echo $tpl->Get('thisGallery','name'); ?></a></span></h2>
+
+				<div class="ListOfGalleriesDesc">
+					<?php echo $tpl->Get('thisGallery','description'); ?><br />
+				</div>
+			</div>
+		</div>
+	<?php endforeach; endif; ?>
+</div>
+
+<div class="galleryPaging"><?php echo $tpl->Get('galleryPaging'); ?></div>

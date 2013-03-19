@@ -1,0 +1,129 @@
+<?php if(!$tpl->Get('comments','newcomments')): ?>
+	<p><?php echo $tpl->Get('comments','lang','repliesAreDisabled'); ?></p>
+<?php else: ?>
+	<?php if($tpl->Get('comments','ipblocked')): ?>
+		<p><?php echo $tpl->Get('comments','lang','yourIpIsBlocked'); ?></p>
+	<?php else: ?>
+		<?php if($tpl->Get('comments','wysiwyg')): ?>
+			<?php if(!$tpl->Get('tinyMCEJSLoaded')): ?>
+	            <?php if($tpl->Get('comments','wysiwyggzip')): ?>
+	                <script type="text/javascript" src="<?php echo $tpl->Get('config','siteURL'); ?>/lib/tiny_mce/tiny_mce_gzip.js"></script>
+	                <script type="text/javascript">
+	                if (typeof IWP_tinyMCE_GZ_init == 'undefined' || !IWP_tinyMCE_GZ_init) {
+	                    tinyMCE_GZ.init({
+	                        plugins : 'paste,fullscreen',
+	                        themes : 'advanced',
+	                        languages : 'en',
+	                        disk_cache : true,
+	                        debug : false
+	                    });
+	
+	                    IWP_tinyMCE_GZ_init = true;
+	                }
+	                </script>
+	            <?php else: ?>
+	                <script type="text/javascript" src="<?php echo $tpl->Get('config','siteURL'); ?>/lib/tiny_mce/tiny_mce.js"></script>
+	            <?php endif; ?>
+	        <?php endif; ?>
+	        <?php ob_start(); ?>1<?php $tpl->Assign("tinyMCEJSLoaded", ob_get_contents()); ob_end_clean(); ?>
+            <script type="text/javascript" language="javascript">
+                tinyMCE.init({
+                    mode: "none",
+                    theme: "advanced",
+                    skin: "o2k7",
+                    skin_variant: "silver",
+                    plugins: "paste,fullscreen",
+                    relative_urls: false,
+                    remove_script_host: false,
+
+                    theme_advanced_buttons1: "undo,redo,|,cut,copy,paste,pastetext,pasteword,cleanup,|,code,|,link,unlink",
+                    theme_advanced_buttons2: "bold,italic,underline,|,bullist,numlist,|,sup,sub,|,blockquote,|,charmap,fullscreen",
+                    theme_advanced_buttons3: "",
+                    theme_advanced_buttons4: "",
+                    theme_advanced_toolbar_location: "top",
+                    theme_advanced_toolbar_align: "left",
+                    theme_advanced_statusbar_location: "bottom",
+                    theme_advanced_resizing: true,
+                    theme_advanced_resize_horizontal: false
+                });
+            </script>
+		<?php endif; ?>
+
+		<script type="text/javascript" language="javascript">
+        $(function(){
+			var moduleScript = IWP_Module_Comments.instances['<?php echo $tpl->Get('comments','uniqueId'); ?>'];
+			moduleScript.initialiseForm();
+
+			<?php if($tpl->Get('comments','wysiwyg')): ?>
+				tinyMCE.execCommand('mceAddControl', false, 'CommentsForm_<?php echo $tpl->Get('comments','uniqueId'); ?>_Message');
+			<?php endif; ?>
+		});
+		</script>
+		<div class="CommentsDialog <?php if($tpl->Get('comments','hideform')): ?>CommentsDialogHidden<?php endif; ?>" id="CommentsDialog_<?php echo $tpl->Get('comments','uniqueId'); ?>">
+			<form id="CommentsForm_<?php echo $tpl->Get('comments','uniqueId'); ?>" action="<?php echo $tpl->Get('comments','formAction'); ?>" method="post">
+				<fieldset>
+					<legend><span class="CommentsDialogHeading"><?php echo $tpl->Get('comments','lang','formHeading'); ?></span> <?php if($tpl->Get('comments','hideform')): ?><span class="Small">(<a href="#" class="CommentsShowLink"><span>show</span></a><a href="#" class="CommentsHideLink"><span>hide</span></a>)</span><?php endif; ?></legend>
+					<div class="CommentsFormContainer" id="CommentsFormContainer_<?php echo $tpl->Get('comments','uniqueId'); ?>">
+						<div class="HorizontalFormContainer">
+							<dl>
+								<dt><span class="Required">*</span> <?php echo $tpl->Get('comments','lang','fromname'); ?>:</dt>
+								<dd><input type="text" name="fromname" maxlength="255" value="<?php echo $tpl->Get('comments','fromname'); ?>" /> <span class="HighlightMessage HighlightMessage_fromname" style="display:none;"></span></dd>
+
+								<dt><span class="Required">*</span> <?php echo $tpl->Get('comments','lang','fromemail'); ?>:</dt>
+								<dd>
+									<div><input type="text" name="fromemail" maxlength="255" value="<?php echo $tpl->Get('comments','fromemail'); ?>" /> <span class="HighlightMessage HighlightMessage_fromemail" style="display:none;"></span></div>
+									<div class="Small"><?php echo $tpl->Get('comments','lang','fromemailnote'); ?></div>
+								</dd>
+
+								<?php if($tpl->Get('comments','allownotifyreply')): ?>
+									<dt><?php echo $tpl->Get('comments','lang','notifyreply'); ?>:</dt>
+									<dd><input type="checkbox" name="notifyreply" <?php echo $tpl->Get('comments','notifyreply_checked'); ?> id="CommentsForm_<?php echo $tpl->Get('comments','uniqueId'); ?>_notifyreply" /> <label for="CommentsForm_<?php echo $tpl->Get('comments','uniqueId'); ?>_notifyreply"><?php echo $tpl->Get('comments','lang','notifyreply_label'); ?></label></dd>
+								<?php endif; ?>
+
+								<?php if($tpl->Get('comments','allownotifymoderate')): ?>
+									<dt><?php echo $tpl->Get('comments','lang','notifymoderate'); ?>:</dt>
+									<dd><input type="checkbox" name="notifymoderate" <?php echo $tpl->Get('comments','notifymoderate_checked'); ?> id="CommentsForm_<?php echo $tpl->Get('comments','uniqueId'); ?>_notifymoderate" /> <label for="CommentsForm_<?php echo $tpl->Get('comments','uniqueId'); ?>_notifymoderate"><?php echo $tpl->Get('comments','lang','notifymoderate_label'); ?></label></dd>
+								<?php endif; ?>
+
+								<dt><?php echo $tpl->Get('comments','lang','website'); ?>:</dt>
+								<dd><input type="text" name="website" maxlength="255" value="<?php echo $tpl->Get('comments','website'); ?>" /> <span class="HighlightMessage HighlightMessage_website" style="display:none;"></span></dd>
+
+								<?php if($tpl->Get('comments','useCaptcha')): ?>
+									<dt><span class="Required">*</span> <?php echo $tpl->Get('comments','lang','formSecurity'); ?>:</dt>
+									<dd><span class="captchaImageContainer"><?php echo $tpl->Get('comments','SecurityImage'); ?></span> <?php echo $tpl->Get('comments','lang','requestNewCaptchaImage'); ?></dd>
+
+									<dt></dt>
+									<dd>
+										<div class="Small"><?php echo $tpl->Get('comments','lang','formCopyCode'); ?>:</div>
+										<div><input type="text" name="captcha" autocomplete="off" /> <span class="HighlightMessage HighlightMessage_captcha" style="display:none;"></span></div>
+									</dd>
+								<?php endif; ?>
+							</dl>
+						</div>
+						<div class="VerticalFormContainer">
+							<dl>
+								<dt><span class="Required">*</span> <?php echo $tpl->Get('comments','lang','message'); ?>:</dt>
+								<dd>
+									<div><textarea rows="10" name="message" id="CommentsForm_<?php echo $tpl->Get('comments','uniqueId'); ?>_Message"></textarea></div>
+									<div class="HighlightMessage HighlightMessage_message" style="display:none;"></div>
+									<?php if($tpl->Get('comments','allowhtml') == 'some'): ?>
+										<div class="CommentsHTMLInfoLink Small"><a href="javascript:;"><?php echo $tpl->Get('comments','htmlAllowed'); ?></a></div>
+									<?php else: ?>
+										<div class="CommentsHTMLInfoLink Small"><?php echo $tpl->Get('comments','htmlAllowed'); ?></div>
+									<?php endif; ?>
+									<div class="CommentsHTMLInfo Small" style="display:none;"><?php echo $tpl->Get('comments','lang','permittedTags'); ?><?php echo $tpl->Get('comments','htmlAllowedTags'); ?></div>
+								</dd>
+							</dl>
+							<p class="Submit">
+								<input type="submit" value="<?php echo GetLang('Submit'); ?>" rel="<?php echo $tpl->Get('comments','lang','PleaseWait'); ?>" class="Button" /> <input type="button" value="<?php echo $tpl->Get('comments','lang','CancelReply'); ?>" class="Button CancelButton" style="display:none;" /> <span class="FormMessage LoadingMessage" style="display:none;"><?php echo $tpl->Get('comments','lang','SubmittingPleaseWait'); ?></span>
+							</p>
+							<p class="FormMessage"></p>
+							<p class="FormError" style="display:none;"></p>
+						</div>
+					</div>
+				</fieldset>
+				<input type="hidden" name="replyto" value="<?php echo $tpl->Get('comments','parent'); ?>" />
+			</form>
+		</div>
+	<?php endif; ?>
+<?php endif; ?>

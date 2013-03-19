@@ -1,0 +1,15 @@
+<div class='Block tplblock-viewcategory tplblockstyle-viewcategory-standard'>
+
+<?php echo $tpl->Get('categoryBreadcrumb'); ?>
+
+            <h2 class='tplvar-category-title'><?php echo $tpl->Get('categoryTitle'); ?></h2>
+            <div class='tplvar-category-description'><?php echo $tpl->Get('categoryDescription'); ?></div>
+            <div class='tplflag-category-subcategories SubCategoriesList'><?php echo $tpl->Get('categorySubCategories'); ?></div>
+            <div class='tplflag-category-paging'><?php echo $tpl->Get('categoryPaging'); ?></div>
+            <div class='tplflag-category-contentlist'><?php if($tpl->Get('hasContent')): ?>
+<?php echo $tpl->Get('categoryContentList'); ?>
+<?php else: ?>
+<?php echo $tpl->Get('noContentMsg'); ?>
+<?php endif; ?></div>
+            <div class='tplflag-category-paging'><?php echo $tpl->Get('categoryPaging'); ?></div>
+          </div>

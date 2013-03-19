@@ -1,0 +1,12 @@
+<div class='tplblock-customimage tplblockstyle-customimage-standard'>
+          
+<?php if(!$tpl->Get('imageIsLinked')): ?>
+<div class='tplcond-ifimagenotlinked'> <img class='tplvar-image-path-src tplvar-image-label-alt tplvar-image-width-width tplvar-image-height-height' src='<?php echo $tpl->Get('imageURI'); ?>' width='<?php echo $tpl->Get('imageWidth'); ?>' height='<?php echo $tpl->Get('imageHeight'); ?>' alt='<?php echo $tpl->Get('imageAlt'); ?>' /></div>
+<?php endif; ?>
+
+          
+<?php if($tpl->Get('imageIsLinked')): ?>
+<div class='tplcond-ifimagelinked'><a href='<?php echo $tpl->Get('imageLinkURI'); ?>' target='<?php echo $tpl->Get('imageLinkTarget'); ?>' class='tplvar-imagelink-url-href tplvar-imagelink-target-target'><img class='tplvar-image-path-src tplvar-image-label-alt tplvar-image-width-width tplvar-image-height-height' src='<?php echo $tpl->Get('imageURI'); ?>' width='<?php echo $tpl->Get('imageWidth'); ?>' height='<?php echo $tpl->Get('imageHeight'); ?>' alt='<?php echo $tpl->Get('imageAlt'); ?>' /></a> </div>
+<?php endif; ?>
+
+        </div>

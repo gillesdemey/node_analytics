@@ -1,4 +1,4 @@
-Node Analytics with Sever-Sent Events
+Node Analytics with Server-Sent Events
 ==============
 
 Node Analytics with Server-Sent Events and d3.

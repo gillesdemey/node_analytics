@@ -1,0 +1,19 @@
+<div class='Block tplblock-rsspage tplblockstyle-rsspage-standard'>
+					<h2 class='tpllang-RSSPageTitle'>{$lang.RSSPageTitle}</h2>
+					<p class='tpllang-RSSPageIntro'>{$lang.RSSPageIntro}</p>
+
+					
+{if $hasCategoryFeeds}
+<h3 class='tplcond-ifhascategoryfeeds tpllang-CategoryFeeds'>{$lang.CategoryFeeds}</h3>
+{/if}
+
+					
+{if $hasCategoryFeeds}<ul class='tplcond-ifhascategoryfeeds CategoryFeedList'>{foreach from=$categoryFeeds item=row}<li class='tplrepeat-categoryfeed FeedLink '><a href='{$row.url}' target='_blank' class='tplvar-feedpage-url-href  tplvar-feedpage-label tplvar-feedpage-indentstyle-styleprepend' style='margin-left: {$row.level|math,"%s*15"}px;'>{$row.name}</a></li>{/foreach}</ul>{/if}
+
+{if $hasOtherFeeds}
+<h3 class='tplcond-ifhasotherfeeds tpllang-OtherFeeds'>{$lang.OtherFeeds}</h3>
+{/if}
+
+					
+{if $hasOtherFeeds}<ul class='tplcond-ifhasotherfeeds OtherFeedList'>{foreach from=$otherFeeds item=row}<li class='tplrepeat-otherfeed FeedLink'><a href='{$row.url}' target='_blank' class='tplvar-feedpage-url-href  tplvar-feedpage-label tplvar-feedpage-indentstyle-styleprepend' style='margin-left: {$row.level|math,"%s*15"}px;'>{$row.name}</a></li>{/foreach}</ul>{/if}
+</div>
